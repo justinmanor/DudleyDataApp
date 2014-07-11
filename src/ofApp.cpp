@@ -2,9 +2,10 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-  string file = "dudley-june23-750results-manuallycollated.json";
+//  string file = "dudley-june23-750results-manuallycollated.json";
 //  string url = "https://mayors24test.cityofboston.gov:6443/open311/v2/requests.json?callback=handledata&page_size=200";   //JSONP doesn't work with ofxJSON
-  citizensData = new dsCitizensData(file);
+  string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=250";
+  citizensData = new dsCitizensData(url);
 }
 
 //--------------------------------------------------------------

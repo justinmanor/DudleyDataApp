@@ -38,8 +38,9 @@ public:
   
 private:
 
+  string jsonUrl;
+  ofxJSONElement jsonResults;
   std::vector<event*> events;
-  ofxJSONElement jsonReader;
 //  ofxHttpUtils httpUtils
 //  ofxJSONElement jsonValueRoot
 //  geoJSON
