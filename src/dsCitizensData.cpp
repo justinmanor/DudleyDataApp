@@ -73,8 +73,9 @@ void dsCitizensData::fetchNewestJson(){
 void dsCitizensData::fetchGeoJson(){
   //  From the ofxGeoJSON example:
   geojsonBoston.setMode(OFX_GEO_JSON_MERCATROE);
-  geojsonBoston.setScale(150000);
-  geojsonBoston.setTranslate(440, 320);     //TODO: find the proper translation to see the map in the canvas.
+  geojsonBoston.setTranslate(-71.07, 42.32);     //TODO: find the proper translation to see the map in the canvas.
+  geojsonBoston.setScale(550);
+
   
   if (geojsonBoston.load("boston_neighborhoods.geojson")) {
     ofLog(OF_LOG_NOTICE, "Succeed to load geojson..");

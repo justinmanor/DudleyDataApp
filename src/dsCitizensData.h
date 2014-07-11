@@ -9,7 +9,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxHttpUtils.h"
 #include "ofxJSONElement.h"
 #include "ofxGeoJSON.h"
 
