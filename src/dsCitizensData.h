@@ -11,36 +11,47 @@
 #include "ofMain.h"
 #include "ofxHttpUtils.h"
 #include "ofxJSONElement.h"
+#include "ofxGeoJSON.h"
+
 #include "Poco/LocalDateTime.h"
 #include "Poco/DateTime.h"
 #include "Poco/DateTimeFormatter.h"
 #include "Poco/DateTimeParser.h"
 #include "Poco/DateTimeFormat.h"
 
-typedef struct{
+struct event{
   int id;
-  Poco::LocalDateTime time;
+//  Poco::LocalDateTime time;
+  string time;
   string status;
-  std::vector<float> latLong;
+  float lat;
+  float lon;
   string neighborhood;
   string category;
-} event;
+};
 
 class dsCitizensData{
 
 public:
   dsCitizensData(string url);
   ~dsCitizensData();
+
+  void fetchNewestJson();
+  void fetchGeoJson();
+  ofxGeoJSON getGeoJson();
   
 //  updateSubscribers()
-//  getNewestJSON()
 //  addEventSubscriber()
   
 private:
 
   string jsonUrl;
   ofxJSONElement jsonResults;
-  std::vector<event*> events;
+  std::vector<event> events;
+  
+  // For geojson
+  ofxGeoJSON geojsonBoston;
+  
 //  ofxHttpUtils httpUtils
 //  ofxJSONElement jsonValueRoot
 //  geoJSON

@@ -22,4 +22,7 @@ class ofApp : public ofBaseApp{
 
   protected:
     dsCitizensData *citizensData;
+  
+  // For drawing geoJSON map.
+    ofEasyCam cam;
 };
