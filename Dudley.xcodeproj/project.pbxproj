@@ -34,6 +34,12 @@
 		E0384CEC196F3DBB0098E489 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0384CEB196F3DBB0098E489 /* AVFoundation.framework */; };
 		E0384CEE196F3DD20098E489 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0384CED196F3DD20098E489 /* QuartzCore.framework */; };
 		E0384CF0196F3DDF0098E489 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0384CEF196F3DDF0098E489 /* CoreMedia.framework */; };
+		E0384CF91970321B0098E489 /* dsCitizensData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384CF71970321B0098E489 /* dsCitizensData.cpp */; };
+		E0384D1819705D010098E489 /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D0F19705D010098E489 /* json_reader.cpp */; };
+		E0384D1919705D010098E489 /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D1119705D010098E489 /* json_value.cpp */; };
+		E0384D1A19705D010098E489 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D1319705D010098E489 /* json_writer.cpp */; };
+		E0384D1B19705D010098E489 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D1619705D010098E489 /* ofxJSONElement.cpp */; };
+		E0384D24197064380098E489 /* ofxHttpUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D22197064380098E489 /* ofxHttpUtils.cpp */; };
 		E110B2F7DD0801265DDDB9DC /* ofxAVFVideoPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4DEA54B98B862847263B807 /* ofxAVFVideoPlayer.mm */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -137,6 +143,30 @@
 		E0384CEB196F3DBB0098E489 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = ../../../../../../../../System/Library/Frameworks/AVFoundation.framework; sourceTree = "<group>"; };
 		E0384CED196F3DD20098E489 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		E0384CEF196F3DDF0098E489 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
+		E0384CF71970321B0098E489 /* dsCitizensData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsCitizensData.cpp; sourceTree = "<group>"; };
+		E0384CFA197033F80098E489 /* dsCitizensData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsCitizensData.h; sourceTree = "<group>"; };
+		E0384D0319705D010098E489 /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
+		E0384D0419705D010098E489 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		E0384D0519705D010098E489 /* features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = features.h; sourceTree = "<group>"; };
+		E0384D0619705D010098E489 /* forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = forwards.h; sourceTree = "<group>"; };
+		E0384D0719705D010098E489 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		E0384D0819705D010098E489 /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reader.h; sourceTree = "<group>"; };
+		E0384D0919705D010098E489 /* value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = value.h; sourceTree = "<group>"; };
+		E0384D0A19705D010098E489 /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
+		E0384D0C19705D010098E489 /* json_batchallocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json_batchallocator.h; sourceTree = "<group>"; };
+		E0384D0D19705D010098E489 /* json_internalarray.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalarray.inl; sourceTree = "<group>"; };
+		E0384D0E19705D010098E489 /* json_internalmap.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalmap.inl; sourceTree = "<group>"; };
+		E0384D0F19705D010098E489 /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_reader.cpp; sourceTree = "<group>"; };
+		E0384D1019705D010098E489 /* json_tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json_tool.h; sourceTree = "<group>"; };
+		E0384D1119705D010098E489 /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_value.cpp; sourceTree = "<group>"; };
+		E0384D1219705D010098E489 /* json_valueiterator.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_valueiterator.inl; sourceTree = "<group>"; };
+		E0384D1319705D010098E489 /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_writer.cpp; sourceTree = "<group>"; };
+		E0384D1419705D010098E489 /* sconscript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sconscript; sourceTree = "<group>"; };
+		E0384D1619705D010098E489 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxJSONElement.cpp; sourceTree = "<group>"; };
+		E0384D1719705D010098E489 /* ofxJSONElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxJSONElement.h; sourceTree = "<group>"; };
+		E0384D21197064380098E489 /* ofxHttpTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHttpTypes.h; sourceTree = "<group>"; };
+		E0384D22197064380098E489 /* ofxHttpUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxHttpUtils.cpp; sourceTree = "<group>"; };
+		E0384D23197064380098E489 /* ofxHttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHttpUtils.h; sourceTree = "<group>"; };
 		E2413011F1A523DC723DFA74 /* ofxAnimation.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAnimation.h; path = ../../../addons/ofxSoso/src/ofxAnimation.h; sourceTree = SOURCE_ROOT; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -217,6 +247,8 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				E0384D1F197064250098E489 /* ofxHttpUtils */,
+				E0384CFE19705D010098E489 /* ofxJSON */,
 				01902DDCFD44B38772AD0C6F /* ofxAVFVideoPlayer */,
 				1A36ADDAF544F1D230A4DE59 /* ofxSoso */,
 			);
@@ -321,6 +353,109 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		E0384CF6197031F30098E489 /* Dudley */ = {
+			isa = PBXGroup;
+			children = (
+				E0384CF71970321B0098E489 /* dsCitizensData.cpp */,
+				E0384CFA197033F80098E489 /* dsCitizensData.h */,
+			);
+			name = Dudley;
+			sourceTree = "<group>";
+		};
+		E0384CFE19705D010098E489 /* ofxJSON */ = {
+			isa = PBXGroup;
+			children = (
+				E0384CFF19705D010098E489 /* libs */,
+				E0384D1519705D010098E489 /* src */,
+			);
+			name = ofxJSON;
+			path = addons/ofxJSON;
+			sourceTree = "<group>";
+		};
+		E0384CFF19705D010098E489 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D0019705D010098E489 /* jsoncpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		E0384D0019705D010098E489 /* jsoncpp */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D0119705D010098E489 /* include */,
+				E0384D0B19705D010098E489 /* src */,
+			);
+			path = jsoncpp;
+			sourceTree = "<group>";
+		};
+		E0384D0119705D010098E489 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D0219705D010098E489 /* json */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		E0384D0219705D010098E489 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D0319705D010098E489 /* autolink.h */,
+				E0384D0419705D010098E489 /* config.h */,
+				E0384D0519705D010098E489 /* features.h */,
+				E0384D0619705D010098E489 /* forwards.h */,
+				E0384D0719705D010098E489 /* json.h */,
+				E0384D0819705D010098E489 /* reader.h */,
+				E0384D0919705D010098E489 /* value.h */,
+				E0384D0A19705D010098E489 /* writer.h */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
+		E0384D0B19705D010098E489 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D0C19705D010098E489 /* json_batchallocator.h */,
+				E0384D0D19705D010098E489 /* json_internalarray.inl */,
+				E0384D0E19705D010098E489 /* json_internalmap.inl */,
+				E0384D0F19705D010098E489 /* json_reader.cpp */,
+				E0384D1019705D010098E489 /* json_tool.h */,
+				E0384D1119705D010098E489 /* json_value.cpp */,
+				E0384D1219705D010098E489 /* json_valueiterator.inl */,
+				E0384D1319705D010098E489 /* json_writer.cpp */,
+				E0384D1419705D010098E489 /* sconscript */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E0384D1519705D010098E489 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D1619705D010098E489 /* ofxJSONElement.cpp */,
+				E0384D1719705D010098E489 /* ofxJSONElement.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E0384D1F197064250098E489 /* ofxHttpUtils */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D20197064380098E489 /* src */,
+			);
+			name = ofxHttpUtils;
+			sourceTree = "<group>";
+		};
+		E0384D20197064380098E489 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E0384D21197064380098E489 /* ofxHttpTypes.h */,
+				E0384D22197064380098E489 /* ofxHttpUtils.cpp */,
+				E0384D23197064380098E489 /* ofxHttpUtils.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxHttpUtils/src;
+			sourceTree = "<group>";
+		};
 		E4328144138ABC890047C5CB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +489,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E0384CF6197031F30098E489 /* Dudley */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
@@ -465,8 +601,11 @@
 				E5C6A4E5B928524FBEF125DF /* ofxArcObject.cpp in Sources */,
 				A58FEB1D912079D117E75407 /* ofxCircleObject.cpp in Sources */,
 				404BF57A5B50E03E174CFB1C /* ofxDynamicPolygonObject.cpp in Sources */,
+				E0384CF91970321B0098E489 /* dsCitizensData.cpp in Sources */,
 				D40DC81F5244E6A1B6F8E2E8 /* ofxFboObject.cpp in Sources */,
+				E0384D1819705D010098E489 /* json_reader.cpp in Sources */,
 				0BC1F0D4EA29002EA6B18D9E /* ofxGridSystem.cpp in Sources */,
+				E0384D1919705D010098E489 /* json_value.cpp in Sources */,
 				B3846C86F3D2850390A622A9 /* ofxImageObject.cpp in Sources */,
 				6AA77BD162B345F4D73E6A76 /* ofxLetterTextObject.cpp in Sources */,
 				CF4E356A67C08055ED6AADFE /* ofxLineSegmentObject.cpp in Sources */,
@@ -476,13 +615,16 @@
 				082528782FB65D5EF4B0A04D /* ofxPolygonObject.cpp in Sources */,
 				55D2103B1B041FE28CE75CB6 /* ofxQuadStripObject.cpp in Sources */,
 				089ADEB3781631D6AE8DFABA /* ofxRectangleObject.cpp in Sources */,
+				E0384D1A19705D010098E489 /* json_writer.cpp in Sources */,
 				2AB0BF4D0BAA3AA51BDB63F2 /* ofxRoundedArcObject.cpp in Sources */,
 				83469190215CCE8EDE111ACD /* ofxScene.cpp in Sources */,
 				57E0BB5D87B65CA786F6EC3C /* ofxScroller.cpp in Sources */,
 				2E431A558E275FEF7F84E1D3 /* ofxSosoRenderer.cpp in Sources */,
 				5D04709153840DD47890BD38 /* ofxSosoTrueTypeFont.cpp in Sources */,
 				22A492C7ECE9639317C8CA31 /* ofxStateMachine.cpp in Sources */,
+				E0384D1B19705D010098E489 /* ofxJSONElement.cpp in Sources */,
 				A329829FDD1F8CB9A0D9BA3B /* ofxTextObject.cpp in Sources */,
+				E0384D24197064380098E489 /* ofxHttpUtils.cpp in Sources */,
 				39E75597F37EAAFA16256958 /* ofxTextureObject.cpp in Sources */,
 				69777FA0857947FD813C3075 /* ofxVideoPlayerObject.cpp in Sources */,
 			);
@@ -587,6 +729,16 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxAVFVideoPlayer/libs,
+					../../../addons/ofxAVFVideoPlayer/src,
+					../../../addons/ofxSoso/libs,
+					../../../addons/ofxSoso/src,
+					./addons/ofxJSON/libs/jsoncpp/include,
+					./addons/ofxJSON/libs/jsoncpp/src,
+					./addons/ofxJSON/src,
+				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -672,6 +824,16 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxAVFVideoPlayer/libs,
+					../../../addons/ofxAVFVideoPlayer/src,
+					../../../addons/ofxSoso/libs,
+					../../../addons/ofxSoso/src,
+					./addons/ofxJSON/libs/jsoncpp/include,
+					./addons/ofxJSON/libs/jsoncpp/src,
+					./addons/ofxJSON/src,
+				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
