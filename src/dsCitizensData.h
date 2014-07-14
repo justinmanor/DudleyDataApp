@@ -38,7 +38,10 @@ public:
   void fetchNewestJson();
   void fetchGeoJson();
   ofxGeoJSON getGeoJson();
-  
+  int getNumEvents( ) {return events.size(); }
+  ofVec3f getEventCoords(int index);
+  ofVec3f getCentroid();
+  void draw();
 //  updateSubscribers()
 //  addEventSubscriber()
   

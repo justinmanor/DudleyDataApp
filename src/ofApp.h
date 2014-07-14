@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "dsCitizensData.h"
+#include "ofxScene.h"
+#include "ofxCircleObject.h"
 
 class ofApp : public ofBaseApp{
 
@@ -25,4 +27,8 @@ class ofApp : public ofBaseApp{
   
   // For drawing geoJSON map.
     ofEasyCam cam;
+    ofxScene *scene;
+    ofxObject *canvas;
+    vector <ofxCircleObject *> events;
+
 };

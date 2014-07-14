@@ -87,5 +87,42 @@ void dsCitizensData::fetchGeoJson(){
 
 // Return the geojson.
 ofxGeoJSON dsCitizensData::getGeoJson(){
+
   return geojsonBoston;
+
+}
+
+ofVec3f dsCitizensData::getEventCoords(int index) {
+  
+  if (index < events.size()) {
+    ofVec3f xyz(events[index].lat, events[index].lon, 0);
+    return xyz;
+  }
+  else
+    return ofVec3f(0,0,0);
+  
+}
+
+ofVec3f dsCitizensData::getCentroid() {
+  
+  ofVec3f centroid;
+  
+  for (auto e : events ) {
+    centroid.x += e.lat/((float)events.size());
+    centroid.y += e.lon/((float)events.size());
+    
+  }
+  return centroid;
+}
+
+//debug function for making sure there is data, uses basic oF drawing tools
+void dsCitizensData::draw() {
+  
+  //ofLogNotice("drawing");
+  ofSetColor(250, 0, 0);
+  for (int i = 0 ; i < events.size() ; i++) {
+    
+    ofCircle(400 + 400.0*(events[i].lat - 42.34), 500 -400.0*(events[i].lon + 72.06), 2);
+    //ofLogNotice(ofToString(i));
+  }
 }
