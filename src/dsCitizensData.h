@@ -44,16 +44,11 @@ public:
   
 private:
 
-  string jsonUrl;
-  ofxJSONElement jsonResults;
-  std::vector<event> events;
+  string jsonUrl;                 // Contains the Open311 JSON query string originally passed to this class.
+  std::vector<event> events;      // Contains the Open311 data transformed into objects.
+  ofxJSONElement jsonResults;     // Contains the raw Open311 data
+  ofxGeoJSON geojsonBoston;       // Contains the raw GeoJSON data of Boston.
   
-  // For geojson
-  ofxGeoJSON geojsonBoston;
-  
-//  ofxHttpUtils httpUtils
-//  ofxJSONElement jsonValueRoot
-//  geoJSON
 //  std::vector<event*> neighborhoods;
 //  std::vector<event*> categories;
 //  std::vector<...*> eventSuscribers;

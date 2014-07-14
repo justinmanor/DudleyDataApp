@@ -18,6 +18,14 @@ typedef struct Coodinate {
     float longtitude;
 } COORDINATE;
 
+struct neighborhoodBoundingBox {
+  string name;
+  float left;
+  float right;
+  float bottom;
+  float top;
+};
+
 enum ofx_geo_json_mode {
     OFX_GEO_JSON_MERCATROE = 0,
     OFX_GEO_JSON_EQUIRECTANGULAR = 1,
@@ -39,6 +47,11 @@ public:
     void draw();
     ofMesh* getMesh();
   
+  // DEV_soso : JN
+  string getNeighborhoodForPoint(float testX, float testY);
+  bool isInNeighborhoodBoundingBox(float testX, float testY, string iNeighborhoodName);
+  void setupNeighborhoodBoundingBoxes();
+  
 private:
     ofx_geo_json_mode mode;
     float scale;
@@ -47,6 +60,9 @@ private:
     float pvRadians(float degrees);
     vector<ofMesh> meshes;
     ofxJSONElement result;
+  
+  // DEV_soso : JN
+  std::vector<neighborhoodBoundingBox> neighborhoodBoundingBoxes;      // Stores the coords for each neighborhood's bounding boxes.
 };
 
 #endif

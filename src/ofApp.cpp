@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-  string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=5";
+  string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=20";
   citizensData = new dsCitizensData(url);
   
   // NOT WORKING YET : For seeing the Boston map. Set the camera

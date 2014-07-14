@@ -11,9 +11,8 @@
 dsCitizensData::dsCitizensData(string url){
   
   jsonUrl = url;
-  
-  fetchNewestJson();
-  fetchGeoJson();
+
+  fetchGeoJson();       // Get neighborhood data first.
   
 }
 
@@ -24,8 +23,8 @@ void dsCitizensData::fetchNewestJson(){
   
   bool parsingSuccessful = jsonResults.open(jsonUrl);
   if (parsingSuccessful) {
-    //    cout  << "---------------- Successfully parsed JSON" << endl;
-    //		cout << jsonResults.getRawString() << endl;
+    cout  << "---------------- Successfully parsed JSON" << endl;
+    cout << jsonResults.getRawString() << endl;
     
     // Save to file : pretty print
     if(!jsonResults.save("example_output_pretty.json",true)) {
@@ -53,18 +52,18 @@ void dsCitizensData::fetchNewestJson(){
     e.status = jsonResults[i]["status"].asString();
     e.lat = jsonResults[i]["lat"].asFloat();
     e.lon = jsonResults[i]["long"].asFloat();
-    e.neighborhood = "unkown";
+    e.neighborhood = geojsonBoston.getNeighborhoodForPoint(e.lat, e.lon);
     e.category = jsonResults[i]["service_name"].asString();
     events.push_back(e);
     
-    //    cout << "---- event["<< i <<"]" << endl;
-    //    cout << e.id << endl;
-    //    cout << e.time << endl;
-    //    cout << e.status << endl;
-    //    cout << e.lat << endl;
-    //    cout << e.lon << endl;
-    //    cout << e.neighborhood << endl;
-    //    cout << e.category << endl;
+//    cout << "---------------------------------------------- event["<< i <<"]" << endl;
+//    cout << e.id << endl;
+//    cout << e.time << endl;
+//    cout << e.status << endl;
+//    cout << e.lat << endl;
+//    cout << e.lon << endl;
+//    cout << e.neighborhood << endl;
+//    cout << e.category << endl;
 	}
 
 }
@@ -79,6 +78,9 @@ void dsCitizensData::fetchGeoJson(){
   
   if (geojsonBoston.load("boston_neighborhoods.geojson")) {
     ofLog(OF_LOG_NOTICE, "Succeed to load geojson..");
+    
+//    fetchNewestJson();    // Secondly, get Open311 data once we have neighborhoods.
+    
   } else {
     ofLog(OF_LOG_NOTICE, "Failed to load geojson..");
   };

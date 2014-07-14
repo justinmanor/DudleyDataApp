@@ -21,13 +21,15 @@ bool ofxGeoJSON::load(string _path) {
     
     if (parsingSuccessful) {
         cout  << "parsingSuccessful to parse JSON" << endl;
-        
+        result.save("boston_output_pretty.json",true);
+      
+        // --- Create meshes to draw the map contained in the geoJSON.
         for (int i = 0; i<result["features"].size(); i++) {
             ofxJSONElement type = result["features"][i]["geometry"]["type"];
             string name = result["features"][i]["properties"]["name"].asString();
             ofxJSONElement coordinates = result["features"][i]["geometry"]["coordinates"];
-            ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
-            
+//            ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
+          
             if ("Polygon" == type.asString()) {
                 ofMesh newMesh = ofMesh();
                 newMesh.setMode(OF_PRIMITIVE_LINE_STRIP);
@@ -49,6 +51,8 @@ bool ofxGeoJSON::load(string _path) {
                         Coodinate coord;
                         coord.latitude = coordinates[j][0][k][1].asFloat();
                         coord.longtitude = coordinates[j][0][k][0].asFloat();
+                      cout<< "latitude = "<< coord.latitude <<endl;
+                      cout<< "longitude = "<< coord.longtitude <<endl;
                         ofPoint pos = convertToProject(coord);
                         newMesh.addVertex(ofVec3f(pos.x, pos.y, 0));
                         newMesh.addColor(ofFloatColor(0.0, 0.0, 0.0));
@@ -58,13 +62,226 @@ bool ofxGeoJSON::load(string _path) {
                 }
             }
         }
-        return true;
+      
+      // --- Setup the bounding boxes.
+      setupNeighborhoodBoundingBoxes();
+      
+      // --- Return true if loading was a success.
+      return true;
     } else {
         ofLog(OF_LOG_WARNING, "Failed to parse JSON");
         return false;
     }
     return false;
 };
+
+// Calculate the bouding boxes for each neighborhood.
+void ofxGeoJSON::setupNeighborhoodBoundingBoxes(){
+  
+  // For each neighborhood...
+  for (int i = 0; i<result["features"].size(); i++) {
+    ofxJSONElement type = result["features"][i]["geometry"]["type"];
+    string name = result["features"][i]["properties"]["name"].asString();
+    ofxJSONElement coordinates = result["features"][i]["geometry"]["coordinates"];
+    ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
+    
+    if ("Polygon" == type.asString()) {
+      
+      // Setup starting min's & max's.
+      float minX=100000000.0,
+        maxX=-100000000.0,
+        minY=100000000.0,
+        maxY=-100000000.0;
+      
+      for (int j = 0; j<coordinates[0].size(); j++) {
+        
+        float curX = coordinates[0][j][1].asFloat();
+        float curY = coordinates[0][j][0].asFloat();
+        
+        if (curX < minX){
+          minX = curX;
+        }
+        if (curX > maxX){
+          maxX = curX;
+        }
+        if (curY < minY){
+          minY = curY;
+        }
+        if (curY > maxY){
+          maxY = curY;
+        }
+        
+        // Store the coords.
+        neighborhoodBoundingBox nBB;
+        nBB.name = name;
+        nBB.left = minX;
+        nBB.right = maxX;
+        nBB.bottom = minY;
+        nBB.top = maxY;
+        neighborhoodBoundingBoxes.push_back(nBB);
+      }
+      
+    } else if ("MultiPolygon" == type.asString()) {
+      
+      // Setup starting min's & max's.
+      float minX=100000000.0,
+        maxX=-100000000.0,
+        minY=100000000.0,
+        maxY=-100000000.0;
+      
+      // Find the boxs' coords for each neighborhood.
+      for (int j = 0; j<coordinates.size(); j++) {
+        for (int k = 0; k<coordinates[j][0].size(); k++) {
+          
+          float curX = coordinates[j][0][k][1].asFloat();
+          float curY = coordinates[j][0][k][0].asFloat();
+          
+          if (curX < minX){
+            minX = curX;
+          }
+          if (curX > maxX){
+            maxX = curX;
+          }
+          if (curY < minY){
+            minY = curY;
+          }
+          if (curY > maxY){
+            maxY = curY;
+          }
+        }
+      }
+      
+      // Store the coords.
+      neighborhoodBoundingBox nBB;
+      nBB.name = name;
+      nBB.left = minX;
+      nBB.right = maxX;
+      nBB.bottom = minY;
+      nBB.top = maxY;
+      neighborhoodBoundingBoxes.push_back(nBB);
+    }
+    
+    //DEV
+    cout << "****************************************** neighborhoodBoundingBoxes["<< i <<"]" << endl;
+    cout << neighborhoodBoundingBoxes[i].name << endl;
+    cout << neighborhoodBoundingBoxes[i].left << endl;
+    cout << neighborhoodBoundingBoxes[i].right << endl;
+    cout << neighborhoodBoundingBoxes[i].bottom << endl;
+    cout << neighborhoodBoundingBoxes[i].top << endl;
+    
+  }
+  
+}
+
+// For a given point, return which Boston neighborhood it is part of.
+// DEV : for now, just check if point is within BOUDING BOX of a neighborhood (easier).
+string ofxGeoJSON::getNeighborhoodForPoint(float testX, float testY){
+  
+  for (int i = 0; i<result["features"].size(); i++) {
+    ofxJSONElement type = result["features"][i]["geometry"]["type"];
+    string name = result["features"][i]["properties"]["name"].asString();
+    ofxJSONElement coordinates = result["features"][i]["geometry"]["coordinates"];
+    ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
+    
+    if ("Polygon" == type.asString()) {
+
+//      cout << "coordinates[0][0][1] : " << coordinates[0][0][1].asFloat() <<endl;
+//      cout << "coordinates[0][0][0] : " << coordinates[0][0][0].asFloat() <<endl;
+      
+      float minX=coordinates[0][0][1].asFloat(),
+        maxX=0,
+        minY=coordinates[0][0][0].asFloat(),
+        maxY=0;
+      
+      for (int j = 0; j<coordinates[0].size(); j++) {
+
+        float curX = coordinates[0][j][1].asFloat();
+        float curY = coordinates[0][j][0].asFloat();
+        
+        // Create bounding box for cur polygon.
+        if (curX < minX){
+          minX = curX;
+        }
+        if (curX > maxX){
+          maxX = curX;
+        }
+        if (curY < minY){
+          minY = curY;
+        }
+        if (curY > maxY){
+          maxY = curY;
+        }
+        
+        // Check if point is in bounding box.
+        if (testX >= minX || testX <= maxX || testY >= minY || testY <= maxY) {
+          return name;
+        }
+      }
+      
+    } else if ("MultiPolygon" == type.asString()) {
+      
+      // Setup starting min's & max's.
+      float minX=100000000.0,
+        maxX=-100000000.0,
+        minY=100000000.0,
+        maxY=-100000000.0;
+
+      
+      for (int j = 0; j<coordinates.size(); j++) {
+        
+//        cout << "coordinates[j][0][k][1] : " << coordinates[0][0][0][1].asFloat() <<endl;
+//        cout << "coordinates[j][0][k][0] : " << coordinates[0][0][0][0].asFloat() <<endl;
+        
+        for (int k = 0; k<coordinates[j][0].size(); k++) {
+          
+          float curX = coordinates[j][0][k][1].asFloat();
+          float curY = coordinates[j][0][k][0].asFloat();
+          
+          // Create bounding box for cur polygon.
+          if (curX < minX){
+            minX = curX;
+          }
+          if (curX > maxX){
+            maxX = curX;
+          }
+          if (curY < minY){
+            minY = curY;
+          }
+          if (curY > maxY){
+            maxY = curY;
+          }
+        }
+      }
+      
+      // Check if point is in bounding box.
+      if (testX >= minX && testX <= maxX && testY >= minY && testY <= maxY) {
+        return name;
+      }
+    }
+  }
+
+  return "unknown";
+  
+}
+
+bool ofxGeoJSON::isInNeighborhoodBoundingBox(float testX, float testY, string iNeighborhoodName){
+  /*
+  switch(iNeighborhoodName){
+    case "Roslindale":
+      // code
+      break;
+    default:
+      ofLogNotice("ERROR: No such nieghborhood!");
+      break;
+  }
+  
+  
+//  if (testX >= minX || testX <= maxX || testY >= minY || testY <= maxY) {
+//    return true;
+   
+   */
+  
+}
 
 void ofxGeoJSON::setMode(ofx_geo_json_mode _mode) {
     mode = _mode;
