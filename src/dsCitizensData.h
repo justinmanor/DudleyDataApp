@@ -10,7 +10,8 @@
 
 #include "ofMain.h"
 #include "ofxJSONElement.h"
-#include "ofxGeoJSON.h"
+#include "dsNeighborhoodFactory.h"
+//#include "ofxGeoJSON.h"
 
 #include "Poco/LocalDateTime.h"
 #include "Poco/DateTime.h"
@@ -37,7 +38,7 @@ public:
 
   void fetchNewestJson();
   void fetchGeoJson();
-  ofxGeoJSON getGeoJson();
+  dsNeighborhoodFactory getGeoJson();
   
 //  updateSubscribers()
 //  addEventSubscriber()
@@ -47,7 +48,8 @@ private:
   string jsonUrl;                 // Contains the Open311 JSON query string originally passed to this class.
   std::vector<event> events;      // Contains the Open311 data transformed into objects.
   ofxJSONElement jsonResults;     // Contains the raw Open311 data
-  ofxGeoJSON geojsonBoston;       // Contains the raw GeoJSON data of Boston.
+  dsNeighborhoodFactory geojsonBoston;      // Creates neighborhood objects from geojson of Boston.
+  //  ofxGeoJSON bostonMap;         // Contains the raw GeoJSON data of Boston for drawing a map.
   
 //  std::vector<event*> neighborhoods;
 //  std::vector<event*> categories;

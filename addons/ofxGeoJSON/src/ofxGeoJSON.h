@@ -14,55 +14,39 @@
 #include "ofxJSONElement.h"
 
 typedef struct Coodinate {
-    float latitude;
-    float longtitude;
+  float latitude;
+  float longtitude;
 } COORDINATE;
 
-struct neighborhoodBoundingBox {
-  string name;
-  float left;
-  float right;
-  float bottom;
-  float top;
-};
-
 enum ofx_geo_json_mode {
-    OFX_GEO_JSON_MERCATROE = 0,
-    OFX_GEO_JSON_EQUIRECTANGULAR = 1,
-    OFX_GEO_JSON_AZIMUTHAL_EQUALAREA = 2,
-    OFX_GEO_JSON_STEREOGRAPHIC = 3
+  OFX_GEO_JSON_MERCATROE = 0,
+  OFX_GEO_JSON_EQUIRECTANGULAR = 1,
+  OFX_GEO_JSON_AZIMUTHAL_EQUALAREA = 2,
+  OFX_GEO_JSON_STEREOGRAPHIC = 3
 };
 
 class ofxGeoJSON {
 public:
-    ofxGeoJSON();
-    bool load(string _path);
-    ofPoint convertToProject(Coodinate _coordinate);
-    ofPoint mercator(Coodinate _coordinate);
-    ofPoint equirectangular(Coodinate _coordinate);
-    ofPoint azimuthal(Coodinate _coordinate);
-    void setMode(ofx_geo_json_mode _mode);
-    void setScale(float scale);
-    void setTranslate(float _transelateX, float _transelateY);
-    void draw();
-    ofMesh* getMesh();
-  
-  // DEV_soso : JN
-  string getNeighborhoodForPoint(float testX, float testY);
-  bool isInNeighborhoodBoundingBox(float testX, float testY, string iNeighborhoodName);
-  void setupNeighborhoodBoundingBoxes();
+  ofxGeoJSON();
+  bool load(string _path);
+  ofPoint convertToProject(Coodinate _coordinate);
+  ofPoint mercator(Coodinate _coordinate);
+  ofPoint equirectangular(Coodinate _coordinate);
+  ofPoint azimuthal(Coodinate _coordinate);
+  void setMode(ofx_geo_json_mode _mode);
+  void setScale(float scale);
+  void setTranslate(float _transelateX, float _transelateY);
+  void draw();
+  ofMesh* getMesh();
   
 private:
-    ofx_geo_json_mode mode;
-    float scale;
-    float translateX;
-    float translateY;
-    float pvRadians(float degrees);
-    vector<ofMesh> meshes;
-    ofxJSONElement result;
-  
-  // DEV_soso : JN
-  std::vector<neighborhoodBoundingBox> neighborhoodBoundingBoxes;      // Stores the coords for each neighborhood's bounding boxes.
+  ofx_geo_json_mode mode;
+  float scale;
+  float translateX;
+  float translateY;
+  float pvRadians(float degrees);
+  vector<ofMesh> meshes;
+  ofxJSONElement result;
 };
 
 #endif

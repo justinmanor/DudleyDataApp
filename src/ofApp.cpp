@@ -4,26 +4,16 @@
 void ofApp::setup(){
   string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=20";
   citizensData = new dsCitizensData(url);
-  
-  // NOT WORKING YET : For seeing the Boston map. Set the camera
-  cam.setAutoDistance(true);
-  cam.setNearClip(0.01);
-  cam.setFarClip(100000);
-  cam.setFov(45);
-  cam.setDistance(500);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-  cam.lookAt(ofVec3f(0,0,0));
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
   ofBackground(255, 255, 255);
-  cam.begin();
-  citizensData->getGeoJson().draw();
-  cam.end();
 }
 
 //--------------------------------------------------------------
