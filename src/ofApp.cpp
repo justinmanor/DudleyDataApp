@@ -42,7 +42,7 @@ void ofApp::setup(){
 void ofApp::update(){
   
   scene->update(ofGetElapsedTimef());
-  //cam.lookAt(ofVec3f(0,0,0));
+
 }
 
 //--------------------------------------------------------------
@@ -51,11 +51,7 @@ void ofApp::draw(){
   ofSetColor(250,0,0);
   //citizensData->draw();
   scene->draw();
-  /*
-  cam.begin();
-  citizensData->getGeoJson().draw();
-  cam.end();
-   */
+
 }
 
 //--------------------------------------------------------------
