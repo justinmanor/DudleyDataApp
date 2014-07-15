@@ -28,7 +28,9 @@ class ofApp : public ofBaseApp{
   // For drawing geoJSON map.
     ofEasyCam cam;
     ofxScene *scene;
-    ofxObject *canvas;
+    ofxObject *realtimeLayer;
+    ofxObject *historicLayer;
     vector <ofxCircleObject *> events;
-
+    vector <ofxCircleObject *> neighborhoodCircles;
+    //vector <ofxLineObject *> neighborhoodCircles;
 };

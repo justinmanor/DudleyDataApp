@@ -88,6 +88,7 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
       nBB.right = maxX;
       nBB.bottom = minY;
       nBB.top = maxY;
+      nBB.centroid = ofVec3f((minX+maxX)/2.0, (minY+maxY)/2.0, 0);
       neighborhoodBoundingBoxes.push_back(nBB);
       
     } else if ("MultiPolygon" == type.asString()) {
@@ -141,6 +142,7 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
       nBB.right = maxX;
       nBB.bottom = minY;
       nBB.top = maxY;
+      nBB.centroid = ofVec3f((minX+maxX)/2.0, (minY+maxY)/2.0, 0);      
       neighborhoodBoundingBoxes.push_back(nBB);
     }
     
@@ -181,6 +183,20 @@ string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
   }
   return "unknown";
   
+}
+
+ofVec3f dsNeighborhoodFactory::getNeighborhoodCentroid(int index) {
+  
+  if (index >= 0 && index < neighborhoodBoundingBoxes.size()) {
+
+    ofLogNotice( "neighborhood X value = " + ofToString(neighborhoodBoundingBoxes[index].centroid[0]));
+    
+    return neighborhoodBoundingBoxes[index].centroid;
+
+  } else
+    
+    return ofVec3f(0,0,0);
+
 }
 
 // Point-in-polygon algorithm.

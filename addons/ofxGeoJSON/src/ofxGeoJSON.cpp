@@ -154,4 +154,3 @@ void ofxGeoJSON::draw() {
 ofMesh* ofxGeoJSON::getMesh() {
   return &meshes[0];
 };
-

@@ -39,6 +39,7 @@ public:
   void fetchNewestJson();
   void fetchGeoJson();
   int getNumEvents( ) {return events.size(); }
+  int getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
   ofVec3f getEventCoords(int index);
   ofVec3f getCentroid();
   void draw();

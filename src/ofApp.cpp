@@ -7,34 +7,30 @@ void ofApp::setup(){
   
   // Disable the of setupScreen because now each scene has a custom renderer.
   ofDisableSetupScreen();
-  /*
-  // NOT WORKING YET : For seeing the Boston map. Set the camera
-  cam.setAutoDistance(true);
-  cam.setNearClip(0.01);
-  cam.setFarClip(100000);
-  cam.setFov(45);
-  cam.setDistance(500);
-  */
   
   scene = new ofxScene(ofGetWidth(), ofGetHeight());
   scene->setBackgroundColor(10, 10, 10);
   
-  canvas = new ofxObject();
-  //canvas->setScale(2);
-  scene->getRoot()->addChild(canvas);
+  realtimeLayer = new ofxObject();
+  scene->getRoot()->addChild(realtimeLayer);
   
   for (int i = 0 ; i < citizensData->getNumEvents() ; i ++){
     ofxCircleObject *c = new ofxCircleObject(20, 2);
-    c->setTrans(2000*(citizensData->getEventCoords(i) - citizensData->getCentroid()));
+    c->setTrans(2000.0*(citizensData->getEventCoords(i) - citizensData->getCentroid()));
     events.push_back(c);
-    canvas->addChild(c);
+    realtimeLayer->addChild(c);
   }
   
-  ofxCircleObject *d = new ofxCircleObject(10,5);
-  d->setColor(200,0,0);
-  //d->setTrans(900, -500,0);
-  scene->getRoot()->addChild(d);
+  historicLayer = new ofxObject();
+  scene->getRoot()->addChild(historicLayer);
   
+  for (int i = 0 ; i < citizensData->getNumNeighborhoods() ; i ++){
+    ofxCircleObject *c = new ofxCircleObject(20, 20, 18);
+    c->setColor(0, 200, 200);
+    c->setTrans(2000.0*(citizensData->getGeoJson().getNeighborhoodCentroid(i)  - citizensData->getCentroid()));
+    events.push_back(c);
+    historicLayer->addChild(c);
+  }
   
 }
 
@@ -47,9 +43,9 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+  
   ofBackground(255, 255, 255);
   ofSetColor(250,0,0);
-  //citizensData->draw();
   scene->draw();
 
 }
