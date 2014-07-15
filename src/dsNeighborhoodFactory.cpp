@@ -105,8 +105,17 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
       for (int j = 0; j<coordinates.size(); j++) {
         for (int k = 0; k<coordinates[j][0].size(); k++) {
           
+          cout << "* * * * * * curX = " << coordinates[j][0][k][1] << endl;
+          cout << "* * * curY = " << coordinates[j][0][k][0] << endl;
+
+//          string s = std::stof(coordinates[j][0][k][1]);
+//          cout<< s << endl;
+
           float curX = coordinates[j][0][k][1].asFloat();
           float curY = coordinates[j][0][k][0].asFloat();
+
+          cout << "curX = " << curX << endl;
+          cout << "curY = " << curY << endl;
           
           if (curX < minX){
             minX = curX;
@@ -136,14 +145,14 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
     }
     
     //DEV
-    cout << "****************************************** neighborhoodBoundingBoxes["<< i <<"]" << endl;
-    cout << neighborhoodBoundingBoxes[i].name << endl;
-    cout << neighborhoodBoundingBoxes[i].left << endl;
-    cout << neighborhoodBoundingBoxes[i].right << endl;
-    cout << neighborhoodBoundingBoxes[i].bottom << endl;
-    cout << neighborhoodBoundingBoxes[i].top << endl;
-    cout << neighborhoodBoundingBoxes[i].vertsX.size() << endl;
-    cout << neighborhoodBoundingBoxes[i].vertsY.size() << endl;
+//    cout << "****************************************** neighborhoodBoundingBoxes["<< i <<"]" << endl;
+//    cout << neighborhoodBoundingBoxes[i].name << endl;
+//    cout << neighborhoodBoundingBoxes[i].left << endl;
+//    cout << neighborhoodBoundingBoxes[i].right << endl;
+//    cout << neighborhoodBoundingBoxes[i].bottom << endl;
+//    cout << neighborhoodBoundingBoxes[i].top << endl;
+//    cout << neighborhoodBoundingBoxes[i].vertsX.size() << endl;
+//    cout << neighborhoodBoundingBoxes[i].vertsY.size() << endl;
     
   }
   
@@ -161,9 +170,13 @@ string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
         testY >= neighborhoodBoundingBoxes[i].bottom &&
         testY <= neighborhoodBoundingBoxes[i].top) {
       
-      //      int test = pnpoly(neighborhoodBoundingBoxes[i].vertsX.size(), neighborhoodBoundingBoxes[i].vertsX, neighborhoodBoundingBoxes[i].vertsY, testX, testY);
-      
-      return neighborhoodBoundingBoxes[i].name;
+      bool isInNeighborhood = isPointInPolygon(neighborhoodBoundingBoxes[i].vertsX.size(), neighborhoodBoundingBoxes[i].vertsX, neighborhoodBoundingBoxes[i].vertsY, testX, testY);
+//      cout << "% % % % % % % isInNeighborhood = " << isInNeighborhood <<endl;
+
+      if (isInNeighborhood){
+        return neighborhoodBoundingBoxes[i].name;
+      }
+
     }
   }
   return "unknown";
@@ -173,14 +186,16 @@ string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
 // Point-in-polygon algorithm.
 // http://stackoverflow.com/questions/217578/point-in-polygon-aka-hit-test/
 // http://www.codeproject.com/Tips/84226/Is-a-Point-inside-a-Polygon
-int pnpoly(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy)
+bool dsNeighborhoodFactory::isPointInPolygon(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy)
 {
-  int i, j, c = 0;
-  //  for (i = 0, j = nvert-1; i < nvert; j = i++) {
-  //    if ( ((verty[i]>testy) != (verty[j]>testy)) &&
-  //        (testx < (vertx[j]-vertx[i]) * (testy-verty[i]) / (verty[j]-verty[i]) + vertx[i]) )
-  //      c = !c;
-  //  }
+  int i, j;
+  bool c = false;
+  
+  for (i = 0, j = nvert-1; i < nvert; j = i++) {
+    if ( ((verty[i]>testy) != (verty[j]>testy)) &&
+        (testx < (vertx[j]-vertx[i]) * (testy-verty[i]) / (verty[j]-verty[i]) + vertx[i]) )
+      c = !c;
+  }
   return c;
 }
 

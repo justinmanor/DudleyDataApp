@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofUtils.h"
 #include "ofxJSONElement.h"
 
 class dsNeighborhoodFactory{
@@ -29,7 +30,7 @@ public:
   bool load(string _path);
   void setupNeighborhoodBoundingBoxes();
   string getNeighborhoodForPoint(float testX, float testY);
-  int pnpoly(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy);
+  bool isPointInPolygon(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy);
   
 private:
   ofxJSONElement result;

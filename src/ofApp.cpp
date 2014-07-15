@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-  string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=20";
+  string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=250";
   citizensData = new dsCitizensData(url);
 }
 
