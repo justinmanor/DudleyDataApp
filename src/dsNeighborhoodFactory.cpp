@@ -190,6 +190,20 @@ string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
   
 }
 
+ofVec3f dsNeighborhoodFactory::getNeighborhoodCentroid(int index) {
+  
+  if (index >= 0 && index < neighborhoods.size()) {
+
+    ofLogNotice( "neighborhood X value = " + ofToString(neighborhoods[index].getCentroid()[0]));
+    
+    return neighborhoods[index].getCentroid();
+
+  } else
+    
+    return ofVec3f(0,0,0);
+
+}
+
 // Point-in-polygon algorithm.
 // http://stackoverflow.com/questions/217578/point-in-polygon-aka-hit-test/
 // http://www.codeproject.com/Tips/84226/Is-a-Point-inside-a-Polygon

@@ -1,5 +1,34 @@
 [
    {
+      "address" : "22–80 Rowe St, Boston",
+      "description" : "Street blocked by roadwork. No signs indicating road closure until there is no option but to turn around in someone's driveway. No detail (civilian, BPD or otherwise) directing traffic.",
+      "lat" : 42.28392808223340,
+      "long" : -71.12038002649210,
+      "requested_datetime" : "2014-07-15T08:54:23-04:00",
+      "service_code" : "4e658b2821ecf3e0a900003e",
+      "service_name" : "Other",
+      "service_request_id" : "101001128951",
+      "status" : "closed",
+      "status_notes" : "Case Noted. Roadway way was being paved with police detail.",
+      "token" : "53c5247f0882cf0304009eb1",
+      "updated_datetime" : "2014-07-15T14:41:59-04:00"
+   },
+   {
+      "address" : "120 Kenrick St, Boston",
+      "description" : "Which contractor or city official is responsible for managing this temporary fence? It has been here for months. The grass it was protecting is now sufficiently established. The fence needs to be removed, and the grass needs to be cut so that people in the park don't get ticks.",
+      "lat" : 42.34603525453210,
+      "long" : -71.16766300066890,
+      "media_url" : "https://mayors24.cityofboston.gov/attachments/report/53adfb1e0882cf0304003d22/photo/report.jpg",
+      "requested_datetime" : "2014-06-27T19:15:42-04:00",
+      "service_code" : "4e658b2821ecf3e0a900003e",
+      "service_name" : "Other",
+      "service_request_id" : "101001117645",
+      "status" : "closed",
+      "status_notes" : "Case Resolved. Grass cut july 15, 2014.",
+      "token" : "53adfb1e0882cf0304003d22",
+      "updated_datetime" : "2014-07-15T14:41:21-04:00"
+   },
+   {
       "address" : "1–35 Margo Rd, Boston",
       "description" : "1 Margo Rd trash/construction debris still here. It's the SAME debris that was in the report sent 7/6/14.",
       "lat" : 42.34785693873920,
@@ -703,19 +732,6 @@
       "status" : "open",
       "token" : "53c524eb0882cf0304009eb4",
       "updated_datetime" : "2014-07-15T08:56:17-04:00"
-   },
-   {
-      "address" : "22–80 Rowe St, Boston",
-      "description" : "Street blocked by roadwork. No signs indicating road closure until there is no option but to turn around in someone's driveway. No detail (civilian, BPD or otherwise) directing traffic.",
-      "lat" : 42.28392808223340,
-      "long" : -71.12038002649210,
-      "requested_datetime" : "2014-07-15T08:54:23-04:00",
-      "service_code" : "4e658b2821ecf3e0a900003e",
-      "service_name" : "Other",
-      "service_request_id" : "101001128951",
-      "status" : "open",
-      "token" : "53c5247f0882cf0304009eb1",
-      "updated_datetime" : "2014-07-15T08:54:30-04:00"
    },
    {
       "address" : "349 Bunker Hill St, Boston",
@@ -3568,21 +3584,6 @@
       "status_notes" : "Case Resolved. Above address has been serviced.",
       "token" : "53c121c20882cf0304008cd8",
       "updated_datetime" : "2014-07-14T10:43:50-04:00"
-   },
-   {
-      "address" : "209 Roxbury St, Boston",
-      "description" : "More litter from event at Jeep Jones Park. Clean please.",
-      "lat" : 42.33019008305140,
-      "long" : -71.09201372607710,
-      "media_url" : "https://mayors24.cityofboston.gov/attachments/report/53c3b21e0882cf03040095fd/photo/report.jpg",
-      "requested_datetime" : "2014-07-14T06:34:06-04:00",
-      "service_code" : "4e658b2821ecf3e0a900003e",
-      "service_name" : "Other",
-      "service_request_id" : "101001127724",
-      "status" : "closed",
-      "status_notes" : "Case Noted. Street will be swept for tommorrow street cleaning routes.",
-      "token" : "53c3b21e0882cf03040095fd",
-      "updated_datetime" : "2014-07-14T10:39:39-04:00"
    }
 ]
 

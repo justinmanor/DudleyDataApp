@@ -4,16 +4,50 @@
 void ofApp::setup(){
   string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=250";
   citizensData = new dsCitizensData(url);
+  
+  // Disable the of setupScreen because now each scene has a custom renderer.
+  ofDisableSetupScreen();
+  
+  scene = new ofxScene(ofGetWidth(), ofGetHeight());
+  scene->setBackgroundColor(10, 10, 10);
+  
+  realtimeLayer = new ofxObject();
+  scene->getRoot()->addChild(realtimeLayer);
+  
+  for (int i = 0 ; i < citizensData->getNumEvents() ; i ++){
+    ofxCircleObject *c = new ofxCircleObject(20, 2);
+    c->setTrans(2000.0*(citizensData->getEventCoords(i) - citizensData->getCentroid()));
+    events.push_back(c);
+    realtimeLayer->addChild(c);
+  }
+  
+  historicLayer = new ofxObject();
+  scene->getRoot()->addChild(historicLayer);
+  
+  for (int i = 0 ; i < citizensData->getNumNeighborhoods() ; i ++){
+    ofxCircleObject *c = new ofxCircleObject(20, 20, 18);
+    c->setColor(0, 200, 200);
+    c->setTrans(2000.0*(citizensData->getGeoJson().getNeighborhoodCentroid(i)  - citizensData->getCentroid()));
+    events.push_back(c);
+    historicLayer->addChild(c);
+  }
+  
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+  
+  scene->update(ofGetElapsedTimef());
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+  
   ofBackground(255, 255, 255);
+  ofSetColor(250,0,0);
+  scene->draw();
+
 }
 
 //--------------------------------------------------------------

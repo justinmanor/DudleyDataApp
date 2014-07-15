@@ -11,6 +11,7 @@
 #include "ofMain.h"
 #include "ofxJSONElement.h"
 #include "dsNeighborhood.h"
+#include "ofxPolygonObject.h"
 
 class dsNeighborhoodFactory{
 
@@ -21,6 +22,9 @@ public:
   void setupNeighborhoods();
   string getNeighborhoodForPoint(float testX, float testY);
   bool isPointInPolygon(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy);
+  int getNeighborhoodCount() { return neighborhoods.size(); }
+  ofVec3f getNeighborhoodCentroid(int index);
+  //void generatePolygons();
   
 private:
   ofxJSONElement result;
