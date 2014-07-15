@@ -22,18 +22,21 @@ public:
   vector<float> getVertsX();
   void addVertY(float iVertY);
   vector<float> getVertsY();
-  void addBounds(float iLeft, float iRight, float iBottom, float iUp);
+  void addBounds(float iLeftBound, float iRightBound, float iBottomBound, float iUpBound);
   float getBound(string iBound);
+  void calculateCentroid();
+  ofVec3f getCentroid();
   
 private:
   
   string name;
   vector<float> vertsX;
   vector<float> vertsY;
-  float left;
-  float right;
-  float bottom;
-  float top;
+  float leftBound;
+  float rightBound;
+  float bottomBound;
+  float topBound;
+  ofVec3f centroid;
   
   //TODO
   //centroid

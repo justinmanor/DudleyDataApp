@@ -35,16 +35,34 @@ vector<float> dsNeighborhood::getVertsY(){
   return vertsY;
 }
 
-void dsNeighborhood::addBounds(float iLeft, float iRight, float iBottom, float iTop){
-  left = iLeft;
-  right = iRight;
-  bottom = iBottom;
-  top = iTop;
+void dsNeighborhood::addBounds(float iLeftBound, float iRightBound, float iBottomBound, float iTopBound){
+  leftBound = iLeftBound;
+  rightBound = iRightBound;
+  bottomBound = iBottomBound;
+  topBound = iTopBound;
+  
+  // Now that we have the bounds, calculate the centroid/center of the neighborhood.
+  calculateCentroid();
 }
 
 float dsNeighborhood::getBound(string iBound){
-  if (iBound == "left") { return left; }
-  else if (iBound == "right") { return right; }
-  else if (iBound == "bottom") { return bottom; }
-  else if (iBound == "top") { return top; }
+  if (iBound == "left") { return leftBound; }
+  else if (iBound == "right") { return rightBound; }
+  else if (iBound == "bottom") { return bottomBound; }
+  else if (iBound == "top") { return topBound; }
 }
+
+void dsNeighborhood::calculateCentroid(){
+  if (leftBound && rightBound && bottomBound && topBound){
+    centroid.x = (leftBound + rightBound)/2;
+    centroid.y = (bottomBound + topBound)/2;
+    centroid.z = 0;
+  } else {
+    ofLog() << "dsNeighborhood- ERROR : Cannot calculate centroid!";
+  }
+}
+
+ofVec3f dsNeighborhood::getCentroid(){
+  return centroid;
+}
+

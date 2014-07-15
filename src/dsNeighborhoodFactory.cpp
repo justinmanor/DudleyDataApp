@@ -151,13 +151,15 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
     
     //DEV
     cout << "****************************************** neighborhoods["<< i <<"]" << endl;
-    cout << neighborhoods[i].getName() << endl;
-    cout << neighborhoods[i].getBound("left") << endl;
-    cout << neighborhoods[i].getBound("right") << endl;
-    cout << neighborhoods[i].getBound("bottom") << endl;
-    cout << neighborhoods[i].getBound("top") << endl;
-    cout << neighborhoods[i].getVertsX().size() << endl;
-    cout << neighborhoods[i].getVertsY().size() << endl;
+    cout << "name : " << neighborhoods[i].getName() << endl;
+    cout << "leftBound : "  << neighborhoods[i].getBound("left") << endl;
+    cout << "rightBound : "  << neighborhoods[i].getBound("right") << endl;
+    cout << "bottomBound : "  << neighborhoods[i].getBound("bottom") << endl;
+    cout << "topBound : "  << neighborhoods[i].getBound("top") << endl;
+    cout << "vertsX.size() : "  << neighborhoods[i].getVertsX().size() << endl;
+    cout << "vertsY.size() : "  << neighborhoods[i].getVertsY().size() << endl;
+    cout << "centroid.x : "  << neighborhoods[i].getCentroid().x << endl;
+    cout << "centroid.y : "  << neighborhoods[i].getCentroid().y << endl;
     
   }
   
