@@ -9,30 +9,20 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofUtils.h"
 #include "ofxJSONElement.h"
+#include "dsNeighborhood.h"
 
 class dsNeighborhoodFactory{
-
-struct neighborhoodBoundingBox {
-  string name;
-  float left;
-  float right;
-  float bottom;
-  float top;
-  vector<float> vertsX;
-  vector<float> vertsY;
-};
 
 public:
   dsNeighborhoodFactory();
   ~dsNeighborhoodFactory();
   bool load(string _path);
-  void setupNeighborhoodBoundingBoxes();
+  void setupNeighborhoods();
   string getNeighborhoodForPoint(float testX, float testY);
   bool isPointInPolygon(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy);
   
 private:
   ofxJSONElement result;
-  std::vector<neighborhoodBoundingBox> neighborhoodBoundingBoxes;      // Stores the coords for each neighborhood's bounding boxes.
+  std::vector<dsNeighborhood> neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
 };

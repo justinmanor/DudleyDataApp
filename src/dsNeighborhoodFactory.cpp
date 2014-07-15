@@ -25,8 +25,8 @@ bool dsNeighborhoodFactory::load(string _path) {
     cout  << "parsingSuccessful to parse JSON" << endl;
     result.save("boston_output_pretty.json",true);
     
-    // --- Setup the bounding boxes.
-    setupNeighborhoodBoundingBoxes();
+    // --- Setup the neighborhoods & their bounding boxes.
+    setupNeighborhoods();
     
     // --- Return true if loading was a success.
     return true;
@@ -38,8 +38,8 @@ bool dsNeighborhoodFactory::load(string _path) {
   return false;
 };
 
-// Calculate the bouding boxes for each neighborhood.
-void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
+// Calculate the bounding boxes for each neighborhood.
+void dsNeighborhoodFactory::setupNeighborhoods(){
   
   // For each neighborhood...
   for (int i = 0; i<result["features"].size(); i++) {
@@ -50,8 +50,8 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
     
     if ("Polygon" == type.asString()) {
       
-      neighborhoodBoundingBox nBB;
-      nBB.name = name;
+      dsNeighborhood n;
+      n.setName(name);
       
       // Setup starting min's & max's.
       float minX=100000000.0,
@@ -78,22 +78,23 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
         }
         
         // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-        nBB.vertsX.push_back(curX);
-        nBB.vertsY.push_back(curY);
+        n.addVertX(curX);
+        n.addVertY(curY);
         
       }
       
       // Store the box coords.
-      nBB.left = minX;
-      nBB.right = maxX;
-      nBB.bottom = minY;
-      nBB.top = maxY;
-      neighborhoodBoundingBoxes.push_back(nBB);
+      n.addBounds(minX, maxX, minY, maxY);
+//      n.left = minX;
+//      n.right = maxX;
+//      n.bottom = minY;
+//      n.top = maxY;
+      neighborhoods.push_back(n);
       
     } else if ("MultiPolygon" == type.asString()) {
       
-      neighborhoodBoundingBox nBB;
-      nBB.name = name;
+      dsNeighborhood n;
+      n.setName(name);
       
       // Setup starting min's & max's.
       float minX=100000000.0,
@@ -105,17 +106,20 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
       for (int j = 0; j<coordinates.size(); j++) {
         for (int k = 0; k<coordinates[j][0].size(); k++) {
           
-          cout << "* * * * * * curX = " << coordinates[j][0][k][1] << endl;
-          cout << "* * * curY = " << coordinates[j][0][k][0] << endl;
+          //DEV
+//          cout << "* * * * * * curX = " << coordinates[j][0][k][1] << endl;
+//          cout << "* * * curY = " << coordinates[j][0][k][0] << endl;
 
+          //DEV
 //          string s = std::stof(coordinates[j][0][k][1]);
 //          cout<< s << endl;
 
           float curX = coordinates[j][0][k][1].asFloat();
           float curY = coordinates[j][0][k][0].asFloat();
 
-          cout << "curX = " << curX << endl;
-          cout << "curY = " << curY << endl;
+          //DEV
+//          cout << "curX = " << curX << endl;
+//          cout << "curY = " << curY << endl;
           
           if (curX < minX){
             minX = curX;
@@ -131,28 +135,29 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
           }
           
           // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-          nBB.vertsX.push_back(curX);
-          nBB.vertsY.push_back(curY);
+          n.addVertX(curX);
+          n.addVertY(curY);
         }
       }
       
       // Store the box coords.
-      nBB.left = minX;
-      nBB.right = maxX;
-      nBB.bottom = minY;
-      nBB.top = maxY;
-      neighborhoodBoundingBoxes.push_back(nBB);
+      n.addBounds(minX, maxX, minY, maxY);
+//      n.left = minX;
+//      n.right = maxX;
+//      n.bottom = minY;
+//      n.top = maxY;
+      neighborhoods.push_back(n);
     }
     
     //DEV
-//    cout << "****************************************** neighborhoodBoundingBoxes["<< i <<"]" << endl;
-//    cout << neighborhoodBoundingBoxes[i].name << endl;
-//    cout << neighborhoodBoundingBoxes[i].left << endl;
-//    cout << neighborhoodBoundingBoxes[i].right << endl;
-//    cout << neighborhoodBoundingBoxes[i].bottom << endl;
-//    cout << neighborhoodBoundingBoxes[i].top << endl;
-//    cout << neighborhoodBoundingBoxes[i].vertsX.size() << endl;
-//    cout << neighborhoodBoundingBoxes[i].vertsY.size() << endl;
+    cout << "****************************************** neighborhoods["<< i <<"]" << endl;
+    cout << neighborhoods[i].getName() << endl;
+    cout << neighborhoods[i].getBound("left") << endl;
+    cout << neighborhoods[i].getBound("right") << endl;
+    cout << neighborhoods[i].getBound("bottom") << endl;
+    cout << neighborhoods[i].getBound("top") << endl;
+    cout << neighborhoods[i].getVertsX().size() << endl;
+    cout << neighborhoods[i].getVertsY().size() << endl;
     
   }
   
@@ -162,19 +167,19 @@ void dsNeighborhoodFactory::setupNeighborhoodBoundingBoxes(){
 // DEV : for now, just check if point is within BOUDING BOX of a neighborhood (easier).
 string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
   
-  for (int i = 0; i<neighborhoodBoundingBoxes.size(); i++) {
+  for (int i = 0; i<neighborhoods.size(); i++) {
     
     // If the point is in the neighborhood's bounding box, perform the point-in-polygon algorith.
-    if (testX >= neighborhoodBoundingBoxes[i].left &&
-        testX <= neighborhoodBoundingBoxes[i].right &&
-        testY >= neighborhoodBoundingBoxes[i].bottom &&
-        testY <= neighborhoodBoundingBoxes[i].top) {
+    if (testX >= neighborhoods[i].getBound("left") &&
+        testX <= neighborhoods[i].getBound("right") &&
+        testY >= neighborhoods[i].getBound("bottom") &&
+        testY <= neighborhoods[i].getBound("top")) {
       
-      bool isInNeighborhood = isPointInPolygon(neighborhoodBoundingBoxes[i].vertsX.size(), neighborhoodBoundingBoxes[i].vertsX, neighborhoodBoundingBoxes[i].vertsY, testX, testY);
+      bool isInNeighborhood = isPointInPolygon(neighborhoods[i].getVertsX().size(), neighborhoods[i].getVertsX(), neighborhoods[i].getVertsY(), testX, testY);
 //      cout << "% % % % % % % isInNeighborhood = " << isInNeighborhood <<endl;
 
       if (isInNeighborhood){
-        return neighborhoodBoundingBoxes[i].name;
+        return neighborhoods[i].getName();
       }
 
     }
