@@ -21,3 +21,5 @@
 
 # Settings file
 bin/data/settings.xml
+bin/data/example_output_fast.json
+bin/data/example_output_pretty.json
