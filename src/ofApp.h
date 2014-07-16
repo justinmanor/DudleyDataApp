@@ -31,11 +31,13 @@ class ofApp : public ofBaseApp{
   dsCitizensData              *citizensData;
   
   // For drawing geoJSON map.
-  ofEasyCam                   cam;
-  ofxScene                    *scene;
-  ofxObject                   *realtimeLayer;
-  ofxObject                   *historicLayer;
-  dsNeighborhoodLayer         *neighborhoodLayer;
-  vector <ofxCircleObject *>  events;
+
+  ofEasyCam cam;
+  ofxScene *scene;
+  ofxObject *realtimeLayer;
+  dsNeighborhoodLayer *neighborhoodLayer;
+  vector <ofxCircleObject *> events;
+	vector <ofxPolygonObject *> categories;
+
 
 };
