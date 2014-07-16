@@ -190,6 +190,13 @@ string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
   
 }
 
+dsNeighborhood dsNeighborhoodFactory::getNeighborhood(int index) {
+  
+  if(index >= 0 && index < neighborhoods.size())
+    return neighborhoods[index];
+  
+}
+
 ofVec3f dsNeighborhoodFactory::getNeighborhoodCentroid(int index) {
   
   if (index >= 0 && index < neighborhoods.size()) {

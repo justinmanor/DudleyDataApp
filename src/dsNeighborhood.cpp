@@ -9,10 +9,13 @@
 #include "dsNeighborhood.h"
 
 dsNeighborhood::dsNeighborhood(){
-  
+  polygon = NULL;
 }
 
-dsNeighborhood::~dsNeighborhood(){}
+dsNeighborhood::~dsNeighborhood(){
+  if (polygon != NULL)
+    delete(polygon);
+}
 
 void dsNeighborhood::setName(string iName){
   name = iName;
@@ -54,8 +57,8 @@ float dsNeighborhood::getBound(string iBound){
 
 void dsNeighborhood::calculateCentroid(){
   if (leftBound && rightBound && bottomBound && topBound){
-    centroid.x = (leftBound + rightBound)/2;
-    centroid.y = (bottomBound + topBound)/2;
+    centroid.x = (leftBound + rightBound)/2.0;
+    centroid.y = (bottomBound + topBound)/2.0;
     centroid.z = 0;
   } else {
     ofLog() << "dsNeighborhood- ERROR : Cannot calculate centroid!";
@@ -64,5 +67,24 @@ void dsNeighborhood::calculateCentroid(){
 
 ofVec3f dsNeighborhood::getCentroid(){
   return centroid;
+}
+
+ofxPolygonObject* dsNeighborhood::getPolygon(){
+
+  if (polygon == NULL) {
+    ofLogNotice("polygon getting created of size " + ofToString(vertsX.size()));
+    polygon = new ofxPolygonObject(vertsX.size());
+    polygon->setDrawMode(OF_OUTLINE);
+    
+    for (int i = 0 ; i < vertsX.size() ; i ++) {
+      polygon->setVertexPos(i, ofVec3f(vertsX[i], vertsY[i], 0));
+    }
+    
+  } else {
+    ofLogNotice("NO DATA MADE");
+
+  }
+  
+  return polygon;
 }
 

@@ -23,6 +23,7 @@ public:
   string getNeighborhoodForPoint(float testX, float testY);
   bool isPointInPolygon(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy);
   int getNeighborhoodCount() { return neighborhoods.size(); }
+  dsNeighborhood getNeighborhood(int index);
   ofVec3f getNeighborhoodCentroid(int index);
   //void generatePolygons();
   

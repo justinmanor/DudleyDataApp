@@ -26,9 +26,6 @@ struct event{
 	int ageInSeconds;
   Poco::DateTime time;
 	int age;
-	Poco::Timestamp current;
-	Poco::DateTime currentTime;
-	
   string timeString;
   string status;
   float lat;
@@ -53,6 +50,7 @@ public:
   ofVec3f getEventCoords(int index);
   ofVec3f getCentroid();
   void draw();
+	string getEventCategory(int index) {return events[index].category;}
 	
 	Poco::DateTime dateParser(string iTime);
 	int timeFromCurrent(Poco::DateTime iPocoTime);
