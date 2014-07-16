@@ -17,6 +17,7 @@ void ofApp::setup(){
   for (int i = 0 ; i < citizensData->getNumEvents() ; i ++){
     ofxCircleObject *c = new ofxCircleObject(20, 2);
     c->setTrans(2000.0*(citizensData->getEventCoords(i) - citizensData->getCentroid()));
+		c->setAlpha(0);
     events.push_back(c);
     realtimeLayer->addChild(c);
   }
@@ -28,7 +29,7 @@ void ofApp::setup(){
     ofxCircleObject *c = new ofxCircleObject(20, 20, 18);
     c->setColor(0, 200, 200);
     c->setTrans(2000.0*(citizensData->getGeoJson().getNeighborhoodCentroid(i)  - citizensData->getCentroid()));
-    events.push_back(c);
+    neighborhoodCircles.push_back(c);
     historicLayer->addChild(c);
   }
   
@@ -52,6 +53,13 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+	//animate events in relative to their time
+	if (key == 'a') {
+		for (int i = 0 ; i < events.size() ; i++){
+			
+			events[i]->doMessage1f(OF_SETALPHA, i/100.0, 0.5, OF_LINEAR, 255);
+		}
+	}
 
 }
 

@@ -5,38 +5,46 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>F3836F51-B9EF-427F-A652-9D4F17CAC2DF</string>
+	<string>F73B062F-5875-46C5-BEB5-1C292E0C670C</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Dudley</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>9ABD2305-8741-4DDF-81EC-A08A40682F69</key>
-		<string>ssh://github.com/justinmanor/openFrameworks.git</string>
-		<key>D869A704-3645-425F-9B5D-A4E45AA5802A</key>
-		<string>ssh://github.com/justinmanor/DudleyDataApp.git</string>
+		<key>326F96A5-3B3C-4A4A-867D-751267897E32</key>
+		<string>https://github.com/Surfincolin/ofxSoso.git</string>
+		<key>4B7EF1A8-8186-4799-824A-94CC65C274FC</key>
+		<string>https://github.com/Surfincolin/openFrameworks.git</string>
+		<key>8846E2CD-456D-4BC9-B178-1F800B9871C6</key>
+		<string>https://github.com/Surfincolin/DudleyDataApp.git</string>
+		<key>B95BA5A1-D960-4650-9DA8-E9C4DD9CD8CE</key>
+		<string>https://github.com/kronick/ofxAVFVideoPlayer.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>apps/sosoApps/DudleyDataApp/Dudley.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>9ABD2305-8741-4DDF-81EC-A08A40682F69</key>
+		<key>326F96A5-3B3C-4A4A-867D-751267897E32</key>
+		<string>../../../../../addons/ofxSoso</string>
+		<key>4B7EF1A8-8186-4799-824A-94CC65C274FC</key>
 		<string>../../../../..</string>
-		<key>D869A704-3645-425F-9B5D-A4E45AA5802A</key>
+		<key>8846E2CD-456D-4BC9-B178-1F800B9871C6</key>
 		<string>../..</string>
+		<key>B95BA5A1-D960-4650-9DA8-E9C4DD9CD8CE</key>
+		<string>../../../../../addons/ofxAVFVideoPlayer</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/justinmanor/DudleyDataApp.git</string>
+	<string>https://github.com/Surfincolin/DudleyDataApp.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>9ABD2305-8741-4DDF-81EC-A08A40682F69</string>
+	<string>4B7EF1A8-8186-4799-824A-94CC65C274FC</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D869A704-3645-425F-9B5D-A4E45AA5802A</string>
+			<string>8846E2CD-456D-4BC9-B178-1F800B9871C6</string>
 			<key>IDESourceControlWCCName</key>
 			<string>DudleyDataApp</string>
 		</dict>
@@ -44,7 +52,23 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9ABD2305-8741-4DDF-81EC-A08A40682F69</string>
+			<string>B95BA5A1-D960-4650-9DA8-E9C4DD9CD8CE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxAVFVideoPlayer</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>326F96A5-3B3C-4A4A-867D-751267897E32</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxSoso</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4B7EF1A8-8186-4799-824A-94CC65C274FC</string>
 			<key>IDESourceControlWCCName</key>
 			<string>openFrameworks</string>
 		</dict>
