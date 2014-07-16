@@ -25,7 +25,7 @@ struct event{
   int id;
 	int ageInSeconds;
   Poco::DateTime time;
-	Poco::DateTime age;
+	int age;
 	Poco::Timestamp current;
 	Poco::DateTime currentTime;
 	
@@ -55,7 +55,8 @@ public:
   void draw();
 	
 	Poco::DateTime dateParser(string iTime);
-	string timeFromCurrent(Poco::DateTime iPocoTime);
+	int timeFromCurrent(Poco::DateTime iPocoTime);
+	float getAgeInSeconds(int index) {return events[index].age; }
 
   dsNeighborhoodFactory getGeoJson();
   

@@ -30,7 +30,7 @@ void ofApp::setup(){
     c->setColor(0, 200, 200);
     c->setTrans(2000.0*(citizensData->getGeoJson().getNeighborhoodCentroid(i)  - citizensData->getCentroid()));
     neighborhoodCircles.push_back(c);
-    historicLayer->addChild(c);
+    //historicLayer->addChild(c);
   }
   
 }
@@ -56,8 +56,10 @@ void ofApp::keyPressed(int key){
 	//animate events in relative to their time
 	if (key == 'a') {
 		for (int i = 0 ; i < events.size() ; i++){
+			cout << citizensData->getAgeInSeconds(i)/10800 << endl;
+			events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
+			events[i]->doMessage1f(OF_SETALPHA, citizensData->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
 			
-			events[i]->doMessage1f(OF_SETALPHA, i/100.0, 0.5, OF_LINEAR, 255);
 		}
 	}
 

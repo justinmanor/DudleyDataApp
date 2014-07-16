@@ -53,7 +53,7 @@ void dsCitizensData::fetchNewestJson(){
     e.id = i;
 		//e.ageInSeconds;
 		e.time = dateParser(jsonResults[i]["updated_datetime"].asString());
-		e.age = timeFromCurrent(e.time).asString();
+		e.age = timeFromCurrent(e.time);
     e.timeString = jsonResults[i]["updated_datetime"].asString();
     e.status = jsonResults[i]["status"].asString();
     e.lat = jsonResults[i]["lat"].asFloat();
@@ -95,17 +95,19 @@ Poco::DateTime dsCitizensData::dateParser(string iTime) {
 }
 
 // Time From this current moment in time.
-string dsCitizensData::timeFromCurrent(Poco::DateTime iPocoTime) {
+int dsCitizensData::timeFromCurrent(Poco::DateTime iPocoTime) {
 	
-	Poco::DateTime time = iPocoTime;
+	
+	Poco::Timespan age;
 	Poco::Timestamp current;
+	Poco::DateTime currentTime = Poco::DateTime(current);
 	
-	std::time_t t1 = current.epochTime(); // convert to time_t ...
-	Poco::Timestamp ts1(Poco::Timestamp::fromEpochTime(t1)); // ... and back again
 	
-	int ageFromCurrent = 0;
+	age = currentTime - iPocoTime;
+	
+	int ageInSeconds = age.totalSeconds() - 14400;
 	//cout << current << endl;
-	return (ofToString(42));
+	return (ageInSeconds);
 
 	
 }
