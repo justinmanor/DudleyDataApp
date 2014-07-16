@@ -43,18 +43,18 @@ void ofApp::setup(){
     realtimeLayer->addChild(c);
   }
 	
-	//vector catNames = {"Graffiti", "Other", "Pothole", "Sidewalk Patch", "Damage Sign", "Streetlight"};
-	for (int i = 0; i < 6; i++) {
-		ofxPolygonObject *square = new ofxPolygonObject(4);
-		square->setVertexPos(0, ofVec3f(ofGetWidth()*.7/2, ofGetHeight()*.8/2-20*i));
-
-		square->setVertexPos(1, ofVec3f(ofGetWidth()*.7/2+10, ofGetHeight()*.8/2-20*i));
-
-		square->setVertexPos(2, ofVec3f(ofGetWidth()*.7/2+10, ofGetHeight()*.8/2-10-20*i));
-
-		square->setVertexPos(3, ofVec3f(ofGetWidth()*.7/2, ofGetHeight()*.8/2-10-20*i));
-		realtimeLayer->addChild(square);
-	}
+	//vector<string> catNames = {"Graffiti", "Other", "Pothole", "Sidewalk Patch", "Damage Sign", "Streetlight"};
+//	for (int i = 0; i < catNames.size(); i++) {
+//		ofxPolygonObject *square = new ofxPolygonObject(4);
+//		square->setVertexPos(0, ofVec3f(ofGetWidth()*.7/2, ofGetHeight()*.8/2-20*i));
+//
+//		square->setVertexPos(1, ofVec3f(ofGetWidth()*.7/2+10, ofGetHeight()*.8/2-20*i));
+//
+//		square->setVertexPos(2, ofVec3f(ofGetWidth()*.7/2+10, ofGetHeight()*.8/2-10-20*i));
+//
+//		square->setVertexPos(3, ofVec3f(ofGetWidth()*.7/2, ofGetHeight()*.8/2-10-20*i));
+//		realtimeLayer->addChild(square);
+//	}
   
   neighborhoodLayer = new dsNeighborhoodLayer();
   neighborhoodLayer->buildNeighborhoods(citizensData);
