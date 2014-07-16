@@ -21,16 +21,13 @@ void ofApp::setup(){
     realtimeLayer->addChild(c);
   }
   
-  historicLayer = new ofxObject();
-  scene->getRoot()->addChild(historicLayer);
+  neighborhoodLayer = new dsNeighborhoodLayer();
+  neighborhoodLayer->buildNeighborhoods(citizensData);
+  scene->getRoot()->addChild(neighborhoodLayer);
   
-  for (int i = 0 ; i < citizensData->getNumNeighborhoods() ; i ++){
-    ofxCircleObject *c = new ofxCircleObject(20, 20, 18);
-    c->setColor(0, 200, 200);
-    c->setTrans(2000.0*(citizensData->getGeoJson().getNeighborhoodCentroid(i)  - citizensData->getCentroid()));
-    events.push_back(c);
-    historicLayer->addChild(c);
-  }
+
+  
+
   
 }
 

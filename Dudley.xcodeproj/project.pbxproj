@@ -22,6 +22,7 @@
 		69777FA0857947FD813C3075 /* ofxVideoPlayerObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D143F7DC3AF735AD2FF905A9 /* ofxVideoPlayerObject.cpp */; };
 		6AA77BD162B345F4D73E6A76 /* ofxLetterTextObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B58EC6183F5CCCA2820601F4 /* ofxLetterTextObject.cpp */; };
 		83469190215CCE8EDE111ACD /* ofxScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E467CC16CA2B259955D4988 /* ofxScene.cpp */; };
+		847D9C5D1976DB0A009E40ED /* dsNeighborhoodLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 847D9C5C1976DB0A009E40ED /* dsNeighborhoodLayer.cpp */; };
 		96327463F5BF168FAF29907C /* ofxAVFVideoRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB7AF5744D8A65EE9D4780 /* ofxAVFVideoRenderer.m */; };
 		A329829FDD1F8CB9A0D9BA3B /* ofxTextObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1867EDA0520FC2BC49D340C3 /* ofxTextObject.cpp */; };
 		A58FEB1D912079D117E75407 /* ofxCircleObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69EDA5D1CEF553AE63C3A512 /* ofxCircleObject.cpp */; };
@@ -118,6 +119,8 @@
 		791D36F9013EC1AACDE84AE5 /* ofxRectangleObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxRectangleObject.h; path = ../../../addons/ofxSoso/src/ofxRectangleObject.h; sourceTree = SOURCE_ROOT; };
 		7AB14A61E6A54E3288CB3576 /* ofxTextObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxTextObject.h; path = ../../../addons/ofxSoso/src/ofxTextObject.h; sourceTree = SOURCE_ROOT; };
 		7E537112E4664C5C037BC5EC /* ofxAVFVideoRenderer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAVFVideoRenderer.h; path = ../../../addons/ofxAVFVideoPlayer/src/ofxAVFVideoRenderer.h; sourceTree = SOURCE_ROOT; };
+		847D9C5A1976D9CB009E40ED /* dsNeighborhoodLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dsNeighborhoodLayer.h; path = Graphics/dsNeighborhoodLayer.h; sourceTree = "<group>"; };
+		847D9C5C1976DB0A009E40ED /* dsNeighborhoodLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dsNeighborhoodLayer.cpp; path = Graphics/dsNeighborhoodLayer.cpp; sourceTree = "<group>"; };
 		8713DC60AEF7EE8D8040796C /* ofxGridSystem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGridSystem.h; path = ../../../addons/ofxSoso/src/ofxGridSystem.h; sourceTree = SOURCE_ROOT; };
 		877AD38F5C3114689BBF52B6 /* ofxDynamicPolygonObject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDynamicPolygonObject.cpp; path = ../../../addons/ofxSoso/src/ofxDynamicPolygonObject.cpp; sourceTree = SOURCE_ROOT; };
 		8DCB7AF5744D8A65EE9D4780 /* ofxAVFVideoRenderer.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = ofxAVFVideoRenderer.m; path = ../../../addons/ofxAVFVideoPlayer/src/ofxAVFVideoRenderer.m; sourceTree = SOURCE_ROOT; };
@@ -249,6 +252,15 @@
 			name = ofxSoso;
 			sourceTree = "<group>";
 		};
+		847D9C5B1976DACF009E40ED /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				847D9C5C1976DB0A009E40ED /* dsNeighborhoodLayer.cpp */,
+				847D9C5A1976D9CB009E40ED /* dsNeighborhoodLayer.h */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,7 +370,7 @@
 			name = src;
 			sourceTree = "<group>";
 		};
-		E0384CF6197031F30098E489 /* Dudley */ = {
+		E0384CF6197031F30098E489 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				E0384CF71970321B0098E489 /* dsCitizensData.cpp */,
@@ -368,7 +380,7 @@
 				E0384D3319759E090098E489 /* dsNeighborhood.cpp */,
 				E0384D3419759E090098E489 /* dsNeighborhood.h */,
 			);
-			name = Dudley;
+			name = Data;
 			sourceTree = "<group>";
 		};
 		E0384CFE19705D010098E489 /* ofxJSON */ = {
@@ -497,7 +509,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				E0384CF6197031F30098E489 /* Dudley */,
+				847D9C5B1976DACF009E40ED /* Graphics */,
+				E0384CF6197031F30098E489 /* Data */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
@@ -617,6 +630,7 @@
 				B3846C86F3D2850390A622A9 /* ofxImageObject.cpp in Sources */,
 				6AA77BD162B345F4D73E6A76 /* ofxLetterTextObject.cpp in Sources */,
 				CF4E356A67C08055ED6AADFE /* ofxLineSegmentObject.cpp in Sources */,
+				847D9C5D1976DB0A009E40ED /* dsNeighborhoodLayer.cpp in Sources */,
 				ED7586ABB7E49515C6E46F91 /* ofxLineStripObject.cpp in Sources */,
 				D75B00A224EDE9C92F2C1E19 /* ofxMessage.cpp in Sources */,
 				411E380E38067EA20CF508DD /* ofxObject.cpp in Sources */,

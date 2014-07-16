@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxPolygonObject.h"
 
 class dsNeighborhood {
 
@@ -26,6 +27,8 @@ public:
   float getBound(string iBound);
   void calculateCentroid();
   ofVec3f getCentroid();
+  ofxPolygonObject* getPolygon();
+  
   
 private:
   
@@ -37,6 +40,7 @@ private:
   float bottomBound;
   float topBound;
   ofVec3f centroid;
+  ofxPolygonObject *polygon;
   
   //TODO
   //centroid
