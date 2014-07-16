@@ -4,8 +4,8 @@
 #include "dsCitizensData.h"
 #include "ofxScene.h"
 #include "ofxCircleObject.h"
+#include "dsGraphicsRef.h"
 #include "dsNeighborhoodLayer.h"
-#include "ofxPolygonObject.h"
 
 class ofApp : public ofBaseApp{
 
@@ -27,14 +27,15 @@ class ofApp : public ofBaseApp{
 
   protected:
   
-  dsCitizensData *citizensData;
+  dsGraphicsRef               *ref;
+  dsCitizensData              *citizensData;
   
   // For drawing geoJSON map.
-  ofEasyCam cam;
-  ofxScene *scene;
-  ofxObject *realtimeLayer;
-  ofxObject *historicLayer;
-  dsNeighborhoodLayer *neighborhoodLayer;
-  vector <ofxCircleObject *> events;
+  ofEasyCam                   cam;
+  ofxScene                    *scene;
+  ofxObject                   *realtimeLayer;
+  ofxObject                   *historicLayer;
+  dsNeighborhoodLayer         *neighborhoodLayer;
+  vector <ofxCircleObject *>  events;
 
 };

@@ -2,6 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+  
+  ref = dsGraphicsRef::instance();
+  
   string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=250";
   citizensData = new dsCitizensData(url);
   
@@ -17,6 +20,7 @@ void ofApp::setup(){
   for (int i = 0 ; i < citizensData->getNumEvents() ; i ++){
     ofxCircleObject *c = new ofxCircleObject(20, 2);
     c->setTrans(2000.0*(citizensData->getEventCoords(i) - citizensData->getCentroid()));
+		c->setAlpha(0);
     events.push_back(c);
     realtimeLayer->addChild(c);
   }
@@ -25,9 +29,6 @@ void ofApp::setup(){
   neighborhoodLayer->buildNeighborhoods(citizensData);
   scene->getRoot()->addChild(neighborhoodLayer);
   
-
-  
-
   
 }
 
@@ -49,6 +50,15 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+	//animate events in relative to their time
+	if (key == 'a') {
+		for (int i = 0 ; i < events.size() ; i++){
+			cout << citizensData->getAgeInSeconds(i)/10800 << endl;
+			events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
+			events[i]->doMessage1f(OF_SETALPHA, citizensData->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
+			
+		}
+	}
 
 }
 

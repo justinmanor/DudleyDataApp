@@ -8,6 +8,7 @@
 
 #include "dsCitizensData.h"
 
+
 dsCitizensData::dsCitizensData(string url){
   
   jsonUrl = url;
@@ -43,12 +44,17 @@ void dsCitizensData::fetchNewestJson(){
     //		cout  << "---------------- Failed to parse JSON" << endl;
 	}
   
+	//create
+	
   //  Store it in an object.
   for(int i=0; i<jsonResults.size(); i++)
 	{
     event e;
     e.id = i;
-    e.time = jsonResults[i]["updated_datetime"].asString();
+		//e.ageInSeconds;
+		e.time = dateParser(jsonResults[i]["updated_datetime"].asString());
+		e.age = timeFromCurrent(e.time);
+    e.timeString = jsonResults[i]["updated_datetime"].asString();
     e.status = jsonResults[i]["status"].asString();
     e.lat = jsonResults[i]["lat"].asFloat();
     e.lon = jsonResults[i]["long"].asFloat();
@@ -59,7 +65,8 @@ void dsCitizensData::fetchNewestJson(){
     // DEV
     cout << "---------------------------------------------- event["<< i <<"]" << endl;
     cout << e.id << endl;
-    cout << e.time << endl;
+		cout << e.timeString << endl;
+    cout << e.age << endl;
     cout << e.status << endl;
     cout << e.lat << endl;
     cout << e.lon << endl;
@@ -67,6 +74,42 @@ void dsCitizensData::fetchNewestJson(){
     cout << e.category << endl;
 	}
 
+}
+
+// Parse event time.
+Poco::DateTime dsCitizensData::dateParser(string iTime) {
+	
+	Poco::DateTimeParser parser;
+	Poco::DateTime time;
+	int GMT = 5;
+	time = parser.parse(iTime, GMT);
+  
+//	int year = time.year();
+//	int month = time.month();
+//	int day = time.day();
+//	int hour = time.hour();
+//	int minute = time.minute();
+//	int second = time.second();
+	
+	return (time);
+}
+
+// Time From this current moment in time.
+int dsCitizensData::timeFromCurrent(Poco::DateTime iPocoTime) {
+	
+	
+	Poco::Timespan age;
+	Poco::Timestamp current;
+	Poco::DateTime currentTime = Poco::DateTime(current);
+	
+	
+	age = currentTime - iPocoTime;
+	
+	int ageInSeconds = age.totalSeconds() - 14400;
+	//cout << current << endl;
+	return (ageInSeconds);
+
+	
 }
 
 // Get geojson file of Boston neighborhoods.

@@ -23,6 +23,7 @@
 		6AA77BD162B345F4D73E6A76 /* ofxLetterTextObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B58EC6183F5CCCA2820601F4 /* ofxLetterTextObject.cpp */; };
 		83469190215CCE8EDE111ACD /* ofxScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E467CC16CA2B259955D4988 /* ofxScene.cpp */; };
 		847D9C5D1976DB0A009E40ED /* dsNeighborhoodLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 847D9C5C1976DB0A009E40ED /* dsNeighborhoodLayer.cpp */; };
+		847D9C621977038A009E40ED /* dsGraphicsRef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 847D9C611977038A009E40ED /* dsGraphicsRef.cpp */; };
 		96327463F5BF168FAF29907C /* ofxAVFVideoRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB7AF5744D8A65EE9D4780 /* ofxAVFVideoRenderer.m */; };
 		A329829FDD1F8CB9A0D9BA3B /* ofxTextObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1867EDA0520FC2BC49D340C3 /* ofxTextObject.cpp */; };
 		A58FEB1D912079D117E75407 /* ofxCircleObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69EDA5D1CEF553AE63C3A512 /* ofxCircleObject.cpp */; };
@@ -121,6 +122,8 @@
 		7E537112E4664C5C037BC5EC /* ofxAVFVideoRenderer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAVFVideoRenderer.h; path = ../../../addons/ofxAVFVideoPlayer/src/ofxAVFVideoRenderer.h; sourceTree = SOURCE_ROOT; };
 		847D9C5A1976D9CB009E40ED /* dsNeighborhoodLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dsNeighborhoodLayer.h; path = Graphics/dsNeighborhoodLayer.h; sourceTree = "<group>"; };
 		847D9C5C1976DB0A009E40ED /* dsNeighborhoodLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dsNeighborhoodLayer.cpp; path = Graphics/dsNeighborhoodLayer.cpp; sourceTree = "<group>"; };
+		847D9C5F197701A6009E40ED /* dsGraphicsRef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dsGraphicsRef.h; path = Graphics/dsGraphicsRef.h; sourceTree = "<group>"; };
+		847D9C611977038A009E40ED /* dsGraphicsRef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dsGraphicsRef.cpp; path = Graphics/dsGraphicsRef.cpp; sourceTree = "<group>"; };
 		8713DC60AEF7EE8D8040796C /* ofxGridSystem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGridSystem.h; path = ../../../addons/ofxSoso/src/ofxGridSystem.h; sourceTree = SOURCE_ROOT; };
 		877AD38F5C3114689BBF52B6 /* ofxDynamicPolygonObject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDynamicPolygonObject.cpp; path = ../../../addons/ofxSoso/src/ofxDynamicPolygonObject.cpp; sourceTree = SOURCE_ROOT; };
 		8DCB7AF5744D8A65EE9D4780 /* ofxAVFVideoRenderer.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = ofxAVFVideoRenderer.m; path = ../../../addons/ofxAVFVideoPlayer/src/ofxAVFVideoRenderer.m; sourceTree = SOURCE_ROOT; };
@@ -255,6 +258,8 @@
 		847D9C5B1976DACF009E40ED /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				847D9C611977038A009E40ED /* dsGraphicsRef.cpp */,
+				847D9C5F197701A6009E40ED /* dsGraphicsRef.h */,
 				847D9C5C1976DB0A009E40ED /* dsNeighborhoodLayer.cpp */,
 				847D9C5A1976D9CB009E40ED /* dsNeighborhoodLayer.h */,
 			);
@@ -641,6 +646,7 @@
 				E0384D1A19705D010098E489 /* json_writer.cpp in Sources */,
 				2AB0BF4D0BAA3AA51BDB63F2 /* ofxRoundedArcObject.cpp in Sources */,
 				83469190215CCE8EDE111ACD /* ofxScene.cpp in Sources */,
+				847D9C621977038A009E40ED /* dsGraphicsRef.cpp in Sources */,
 				57E0BB5D87B65CA786F6EC3C /* ofxScroller.cpp in Sources */,
 				2E431A558E275FEF7F84E1D3 /* ofxSosoRenderer.cpp in Sources */,
 				E0384D32197583240098E489 /* dsNeighborhoodFactory.cpp in Sources */,
@@ -744,6 +750,7 @@
 		E4B69B600A3A1757003C02F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -840,6 +847,7 @@
 		E4B69B610A3A1757003C02F2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (

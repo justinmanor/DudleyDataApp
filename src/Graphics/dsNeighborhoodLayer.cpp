@@ -8,7 +8,11 @@
 
 #include "dsNeighborhoodLayer.h"
 
-dsNeighborhoodLayer::dsNeighborhoodLayer() {}
+dsNeighborhoodLayer::dsNeighborhoodLayer() {
+
+  ref = dsGraphicsRef::instance();
+  
+}
 
 dsNeighborhoodLayer::~dsNeighborhoodLayer() {}
 

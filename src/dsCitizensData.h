@@ -18,11 +18,18 @@
 #include "Poco/DateTimeFormatter.h"
 #include "Poco/DateTimeParser.h"
 #include "Poco/DateTimeFormat.h"
+#include "Poco/Timestamp.h"
+#include <ctime>
 
 struct event{
   int id;
-//  Poco::LocalDateTime time;
-  string time;
+	int ageInSeconds;
+  Poco::DateTime time;
+	int age;
+	Poco::Timestamp current;
+	Poco::DateTime currentTime;
+	
+  string timeString;
   string status;
   float lat;
   float lon;
@@ -33,6 +40,9 @@ struct event{
 class dsCitizensData{
 
 public:
+
+	int day, month, year;
+	
   dsCitizensData(string url);
   ~dsCitizensData();
 
@@ -43,6 +53,10 @@ public:
   ofVec3f getEventCoords(int index);
   ofVec3f getCentroid();
   void draw();
+	
+	Poco::DateTime dateParser(string iTime);
+	int timeFromCurrent(Poco::DateTime iPocoTime);
+	float getAgeInSeconds(int index) {return events[index].age; }
 
   dsNeighborhoodFactory getGeoJson();
   

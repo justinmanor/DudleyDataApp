@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofxObject.h"
+#include "dsGraphicsRef.h"
 #include "dsCitizensData.h"
 
 class dsNeighborhoodLayer : public ofxObject {
@@ -23,6 +24,7 @@ public:
   
 public:
   
+  dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
   vector <ofxPolygonObject *> neighborhoods;
   
