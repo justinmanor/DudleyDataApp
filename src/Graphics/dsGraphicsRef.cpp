@@ -26,7 +26,7 @@ vector<dsGraphicsRefColor *> dsGraphicsRef::colors;
 //private constructor enforces single instance of ref object
 dsGraphicsRef::dsGraphicsRef()
 {
-  
+	
   vector <string> categories;
   
   categories.push_back("Sidewalk Patch");
@@ -34,10 +34,16 @@ dsGraphicsRef::dsGraphicsRef()
   categories.push_back("Pothole");
   categories.push_back("Streetlight");
   categories.push_back("Damaged Sign");
-  categories.push_back("other");
+  categories.push_back("Other");
   
-  for (auto c : categories)
-    colors.push_back(new dsGraphicsRefColor(c, ofRandom(0,255), ofRandom(0,255), ofRandom(0,255) ));
+  //for (auto c : categories)
+    colors.push_back(new dsGraphicsRefColor("Sidewalk Patch", 43, 76, 243 ));
+		colors.push_back(new dsGraphicsRefColor("Graffiti", 227, 162, 85 ));
+		colors.push_back(new dsGraphicsRefColor("Pothole", 58, 175, 87 ));
+		colors.push_back(new dsGraphicsRefColor("Streetlight", 222, 121, 92 ));
+		colors.push_back(new dsGraphicsRefColor("Damaged Sign", 204, 112, 170 ));
+		colors.push_back(new dsGraphicsRefColor("Other", 190, 190, 230 ));
+	
   
 }
 

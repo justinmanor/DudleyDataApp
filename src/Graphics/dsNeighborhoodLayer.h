@@ -19,7 +19,7 @@ public:
 	
   dsNeighborhoodLayer();
 	~dsNeighborhoodLayer();
-  
+  //void doIdle(float iTime) { circle[i]->setRadius(sin(numEvents/pi)); }
 	void                        buildNeighborhoods(dsCitizensData *data);
   
 public:

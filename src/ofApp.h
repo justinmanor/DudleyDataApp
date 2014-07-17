@@ -6,6 +6,7 @@
 #include "ofxCircleObject.h"
 #include "dsGraphicsRef.h"
 #include "dsNeighborhoodLayer.h"
+#include "dsEventLayer.h"
 
 class ofApp : public ofBaseApp{
 
@@ -34,9 +35,8 @@ class ofApp : public ofBaseApp{
 
   ofEasyCam cam;
   ofxScene *scene;
-  ofxObject *realtimeLayer;
   dsNeighborhoodLayer *neighborhoodLayer;
-  vector <ofxCircleObject *> events;
+  dsEventLayer *eventLayer;
 	vector <ofxPolygonObject *> categories;
 
 

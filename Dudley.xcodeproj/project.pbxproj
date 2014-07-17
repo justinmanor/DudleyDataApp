@@ -11,6 +11,7 @@
 		089ADEB3781631D6AE8DFABA /* ofxRectangleObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F952025A692B023C0A280DE /* ofxRectangleObject.cpp */; };
 		0BC1F0D4EA29002EA6B18D9E /* ofxGridSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE3D8B86F9BFB1A428B846F1 /* ofxGridSystem.cpp */; };
 		22A492C7ECE9639317C8CA31 /* ofxStateMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4B1DD94A85840B9835871E /* ofxStateMachine.cpp */; };
+		2493105C19772ED900D38CF3 /* dsEventLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2493105A19772ED900D38CF3 /* dsEventLayer.cpp */; };
 		2AB0BF4D0BAA3AA51BDB63F2 /* ofxRoundedArcObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EEB16A57D6EF00FF41CC2C0D /* ofxRoundedArcObject.cpp */; };
 		2E431A558E275FEF7F84E1D3 /* ofxSosoRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD901B8A7A73F88A916BD483 /* ofxSosoRenderer.cpp */; };
 		39E75597F37EAAFA16256958 /* ofxTextureObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2F39D6E31C3666BA05DF19 /* ofxTextureObject.cpp */; };
@@ -102,6 +103,8 @@
 		16A7C828FC5C0350940D1098 /* ofxArcObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxArcObject.h; path = ../../../addons/ofxSoso/src/ofxArcObject.h; sourceTree = SOURCE_ROOT; };
 		1867EDA0520FC2BC49D340C3 /* ofxTextObject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxTextObject.cpp; path = ../../../addons/ofxSoso/src/ofxTextObject.cpp; sourceTree = SOURCE_ROOT; };
 		18DB839A0F8EA581C6AB6539 /* ofxSosoTrueTypeFont.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSosoTrueTypeFont.h; path = ../../../addons/ofxSoso/src/ofxSosoTrueTypeFont.h; sourceTree = SOURCE_ROOT; };
+		2493105A19772ED900D38CF3 /* dsEventLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsEventLayer.cpp; sourceTree = "<group>"; };
+		2493105B19772ED900D38CF3 /* dsEventLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsEventLayer.h; sourceTree = "<group>"; };
 		25962179A27E7955FD51750C /* ofxScroller.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxScroller.cpp; path = ../../../addons/ofxSoso/src/ofxScroller.cpp; sourceTree = SOURCE_ROOT; };
 		289310C1EAB9146B77A7CBE0 /* ofxLineSegmentObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxLineSegmentObject.h; path = ../../../addons/ofxSoso/src/ofxLineSegmentObject.h; sourceTree = SOURCE_ROOT; };
 		2A4B1DD94A85840B9835871E /* ofxStateMachine.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxStateMachine.cpp; path = ../../../addons/ofxSoso/src/ofxStateMachine.cpp; sourceTree = SOURCE_ROOT; };
@@ -262,6 +265,8 @@
 				847D9C5F197701A6009E40ED /* dsGraphicsRef.h */,
 				847D9C5C1976DB0A009E40ED /* dsNeighborhoodLayer.cpp */,
 				847D9C5A1976D9CB009E40ED /* dsNeighborhoodLayer.h */,
+				2493105A19772ED900D38CF3 /* dsEventLayer.cpp */,
+				2493105B19772ED900D38CF3 /* dsEventLayer.h */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -639,6 +644,7 @@
 				ED7586ABB7E49515C6E46F91 /* ofxLineStripObject.cpp in Sources */,
 				D75B00A224EDE9C92F2C1E19 /* ofxMessage.cpp in Sources */,
 				411E380E38067EA20CF508DD /* ofxObject.cpp in Sources */,
+				2493105C19772ED900D38CF3 /* dsEventLayer.cpp in Sources */,
 				082528782FB65D5EF4B0A04D /* ofxPolygonObject.cpp in Sources */,
 				55D2103B1B041FE28CE75CB6 /* ofxQuadStripObject.cpp in Sources */,
 				089ADEB3781631D6AE8DFABA /* ofxRectangleObject.cpp in Sources */,
