@@ -72,6 +72,21 @@ void dsEventLayer::buildEventLegend()
   
 }
 
+void dsEventLayer::getNeighborhoodEventCounts(dsCitizensData *data) {
+//	int count_array[];
+//	
+//	for (int i = 0; i < events.size(); i++) {
+//		string theName = data->getNeighborhoodName(i);
+//		count_array[theName]++;
+//		neighborhoodEventCount n;
+//		n.name = "test";
+//		n.count = n.count++;
+//		neighborhoodEventCounts.push_back(n);
+//	}
+
+
+}
+
 void dsEventLayer::animateEvent(dsCitizensData *data) {
 	
 	for (int i = 0 ; i < events.size() ; i++){

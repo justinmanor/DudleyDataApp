@@ -15,6 +15,11 @@
 #include "ofxRectangleObject.h"
 #include "ofxTextObject.h"
 
+struct neighborhoodEventCount{
+  string name;
+	int count = 0;
+};
+
 class dsEventLayer : public ofxObject {
   
 public:
@@ -23,10 +28,12 @@ public:
   dsEventLayer();
 	~dsEventLayer();
   
-	void                        buildEvents(dsCitizensData *data);
-	void                        buildEventLegend();
-	void												animateEvent(dsCitizensData *data);
-	void												animateByEventRate(dsCitizensData *data);
+	void	buildEvents(dsCitizensData *data);
+	void	buildEventLegend();
+	void	animateEvent(dsCitizensData *data);
+	void	animateByEventRate(dsCitizensData *data);
+	
+	void getNeighborhoodEventCounts(dsCitizensData *data);
   
 public:
   
@@ -39,5 +46,8 @@ public:
 	
 	ofxSosoTrueTypeFont				*font16;
 
+private:
+	
+	vector<neighborhoodEventCount> neighborhoodEventCounts;
   
 };
