@@ -43,7 +43,6 @@ private:
   ofxPolygonObject *polygon;
   
   //TODO
-  //centroid
   //polygon
   //events
 };

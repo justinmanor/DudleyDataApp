@@ -118,7 +118,7 @@ void dsCitizensData::fetchGeoJson(){
   if (geojsonBoston.load("boston_neighborhoods.geojson")) {
     ofLog(OF_LOG_NOTICE, "Succeed to load geojson..");
     
-    fetchNewestJson();    // Secondly, get Open311 data once we have neighborhoods.
+    fetchNewestJson();    // Secondly, get Open311 "event" data once we have neighborhoods.
     
   } else {
     ofLog(OF_LOG_NOTICE, "Failed to load geojson..");
