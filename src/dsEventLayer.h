@@ -15,11 +15,6 @@
 #include "ofxRectangleObject.h"
 #include "ofxTextObject.h"
 
-struct neighborhoodEventCount{
-  string name;
-	int count = 0;
-};
-
 class dsEventLayer : public ofxObject {
   
 public:
@@ -29,17 +24,16 @@ public:
 	~dsEventLayer();
   
 	void	buildEvents(dsCitizensData *data);
-	void	buildEventLegend();
 	void	animateEvent(dsCitizensData *data);
 	void	animateByEventRate(dsCitizensData *data);
 	
-	void getNeighborhoodEventCounts(dsCitizensData *data);
   
 public:
   
   dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
   vector <ofxCircleObject *> events;
+	vector <ofxCircleObject *> centroids;
 	vector <ofxRectangleObject *> boxes;
 	vector <ofxTextObject *>	labels;
 	vector <ofxObject *>			elements;
@@ -48,6 +42,6 @@ public:
 
 private:
 	
-	vector<neighborhoodEventCount> neighborhoodEventCounts;
+	map<string, int> neighborhoodEventCounts;
   
 };

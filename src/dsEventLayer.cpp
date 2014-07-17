@@ -29,12 +29,11 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
     events.push_back(c);
     addChild(c);
   }
-  
-}
-
-void dsEventLayer::buildEventLegend()
-{
-  vector <string> categories;
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// Build Event Legend
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	vector <string> categories;
   
   categories.push_back("Sidewalk Patch");
   categories.push_back("Graffiti");
@@ -67,24 +66,22 @@ void dsEventLayer::buildEventLegend()
 		element->setTrans(ofGetWidth()*.65/2, ofGetHeight()*.8/2-20*i, 0);
 		addChild(element);
 		
-		
+	}
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// Create the neighborhood event counts
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	for (int i = 0; i < events.size(); i++) {
+		string theName = data->getNeighborhoodName(i);
+		++neighborhoodEventCounts[theName];
+	}
+	
+	// print out the counts
+	for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
+			 it != neighborhoodEventCounts.end(); ++it) {
+		cout << it->first << "\t" << it->second << endl;
 	}
   
-}
-
-void dsEventLayer::getNeighborhoodEventCounts(dsCitizensData *data) {
-//	int count_array[];
-//	
-//	for (int i = 0; i < events.size(); i++) {
-//		string theName = data->getNeighborhoodName(i);
-//		count_array[theName]++;
-//		neighborhoodEventCount n;
-//		n.name = "test";
-//		n.count = n.count++;
-//		neighborhoodEventCounts.push_back(n);
-//	}
-
-
 }
 
 void dsEventLayer::animateEvent(dsCitizensData *data) {

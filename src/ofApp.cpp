@@ -18,7 +18,7 @@ void ofApp::setup(){
   
 	eventLayer = new dsEventLayer();
   eventLayer->buildEvents(citizensData);
-	eventLayer->buildEventLegend();
+	//eventLayer->buildEventLegend();
   scene->getRoot()->addChild(eventLayer);
 
 	
@@ -63,6 +63,7 @@ void ofApp::keyPressed(int key){
 	//animate events in relative to their time
 	if (key == 'a') {
 		eventLayer->animateEvent(citizensData);
+
 	}
 
 }
