@@ -25,7 +25,8 @@ public:
   
 	void                        buildEvents(dsCitizensData *data);
 	void                        buildEventLegend();
-	void												animateEvent();
+	void												animateEvent(dsCitizensData *data);
+	void												animateByEventRate(dsCitizensData *data);
   
 public:
   

@@ -51,7 +51,6 @@ void dsCitizensData::fetchNewestJson(){
 	{
     event e;
     e.id = i;
-		//e.ageInSeconds;
 		e.time = dateParser(jsonResults[i]["updated_datetime"].asString());
 		e.age = timeFromCurrent(e.time);
     e.timeString = jsonResults[i]["updated_datetime"].asString();

@@ -72,13 +72,29 @@ void dsEventLayer::buildEventLegend()
   
 }
 
-void animateEvent() {
+void dsEventLayer::animateEvent(dsCitizensData *data) {
 	
-//	for (int i = 0 ; i < dsEventLayer::events.size() ; i++){
-//
-//		events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
-//		events[i]->doMessage1f(OF_SETALPHA, citizensData->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
-//		
-//	}
+	for (int i = 0 ; i < events.size() ; i++){
+
+		events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
+		events[i]->doMessage1f(OF_SETALPHA, data->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
+		
+	}
 	
 }
+
+void dsEventLayer::animateByEventRate(dsCitizensData *data) {
+
+	for (int i = 0 ; i < events.size() ; i++){
+		
+		events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
+		events[i]->doMessage1f(OF_SETALPHA, data->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
+		
+	}
+
+}
+
+
+
+
+
