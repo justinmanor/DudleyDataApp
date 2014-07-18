@@ -48,19 +48,23 @@ public:
   void fetchGeoJson();
   int getNumEvents( ) {return events.size(); }
   int getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
-	string getNeighborhoodName(int index) { return events[index].neighborhood; }
-  ofVec3f getEventCoords(int index);
   ofVec3f getCentroid();
   void draw();
-	string getEventCategory(int index) {return events[index].category;}
 	void addCategory(string iCategoryName);
   void printCategories();
     
 	Poco::DateTime dateParser(string iTime);
 	int timeFromCurrent(Poco::DateTime iPocoTime);
-	float getAgeInSeconds(int index) {return events[index].age; }
 
-  dsNeighborhoodFactory getGeoJson();
+	dsNeighborhoodFactory getGeoJson();
+  
+  
+  // DEV - events
+  float getAgeInSeconds(int index) {return events[index].age; }
+	string getEventCategory(int index) {return events[index].category;}
+  string getNeighborhoodName(int index) { return events[index].neighborhood; }
+  ofVec3f getEventCoords(int index);
+  
   
 //  updateSubscribers()
 //  addEventSubscriber()
