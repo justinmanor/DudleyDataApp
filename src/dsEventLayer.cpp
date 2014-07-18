@@ -79,7 +79,7 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
 	// print out the counts
 	for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
 			 it != neighborhoodEventCounts.end(); ++it) {
-		cout << it->first << "\t" << it->second << endl;
+//		cout << it->first << "\t" << it->second << endl;
 	}
   
 }

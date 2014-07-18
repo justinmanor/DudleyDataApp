@@ -53,7 +53,9 @@ public:
   ofVec3f getCentroid();
   void draw();
 	string getEventCategory(int index) {return events[index].category;}
-	
+	void addCategory(string iCategoryName);
+  void printCategories();
+    
 	Poco::DateTime dateParser(string iTime);
 	int timeFromCurrent(Poco::DateTime iPocoTime);
 	float getAgeInSeconds(int index) {return events[index].age; }
@@ -72,6 +74,7 @@ private:
   //  ofxGeoJSON bostonMap;         // Contains the raw GeoJSON data of Boston for drawing a map.
   
   std::vector<dsCategory*> categories;
+  map<string, int> categoryCounter;
 //  std::vector<event*> neighborhoods;
 //  std::vector<...*> eventSuscribers;
   

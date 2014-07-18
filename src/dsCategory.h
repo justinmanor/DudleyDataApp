@@ -22,6 +22,8 @@ public:
 //  void addEvent(event* iEvent);
   float getNeighborhoodCount(string iNeighborhoodName);
   
+  string getName();
+  
 private:
   
   string id;

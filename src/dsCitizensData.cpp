@@ -60,7 +60,7 @@ void dsCitizensData::fetchNewestJson(){
     e.neighborhood = geojsonBoston.getNeighborhoodForPoint(e.lat, e.lon);
 		//neighborhoods[e.neighborhood].push_back(*e);
     e.category = jsonResults[i]["service_name"].asString();
-    
+    addCategory(e.category);
     events.push_back(e);
     
     // DEV
@@ -74,7 +74,28 @@ void dsCitizensData::fetchNewestJson(){
     cout << "Neighborhood: "<< e.neighborhood << endl;
     cout << "    Category: "<< e.category << endl;
 	}
+  
+  //DEV
+  printCategories();
+}
 
+// Adds the provided category to the categories vector if we haven't seen it already.
+void dsCitizensData::addCategory(string iCategoryName){
+
+  if(!categoryCounter[iCategoryName]){
+    dsCategory *cat = new dsCategory(iCategoryName);
+    categories.push_back(cat);
+  }
+  
+  ++categoryCounter[iCategoryName];
+}
+
+// FOR DEV: Prints out the categories.
+void dsCitizensData::printCategories(){
+  cout<< "* * * * * * * * * * * * * * * * * * * * * * * * * PRINTING CATEGORIES" <<endl;
+  for(map<string, int>::const_iterator it = categoryCounter.begin(); it != categoryCounter.end(); it++){
+    cout<< it->first <<"\t"<< it->second <<endl;
+  }
 }
 
 // Parse event time.

@@ -13,3 +13,7 @@ dsCategory::dsCategory(string iName){
 }
 
 dsCategory::~dsCategory(){}
+
+string dsCategory::getName(){
+  return name;
+}
