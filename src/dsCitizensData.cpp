@@ -49,30 +49,41 @@ void dsCitizensData::fetchNewestJson(){
   //  Store it in an object.
   for(int i=0; i<jsonResults.size(); i++)
 	{
-    dsEvent* e = new dsEvent();
-    e->id = i;
-		e->time = dateParser(jsonResults[i]["updated_datetime"].asString());
-		e->age = timeFromCurrent(e->time);
-    e->timeString = jsonResults[i]["updated_datetime"].asString();
-    e->status = jsonResults[i]["status"].asString();
-    e->lat = jsonResults[i]["lat"].asFloat();
-    e->lon = jsonResults[i]["long"].asFloat();
-    e->neighborhood = geojsonBoston.getNeighborhoodForPoint(e->lat, e->lon);
-		//neighborhoods[e.neighborhood].push_back(*e);
-    e->category = jsonResults[i]["service_name"].asString();
-    addCategory(e->category);
+    dsEvent* e = new dsEvent(
+      i,
+      jsonResults[i]["updated_datetime"].asString(),
+      jsonResults[i]["status"].asString(),
+      jsonResults[i]["lat"].asFloat(),
+      jsonResults[i]["long"].asFloat(),
+      jsonResults[i]["service_name"].asString()
+    );
+    e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
+    e->setAge(timeFromCurrent(e->getTime()));
+    e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
+    
+//    e->id = i;
+//		e->time = dateParser(jsonResults[i]["updated_datetime"].asString());
+//		e->age = timeFromCurrent(e->time);
+//    e->timeString = jsonResults[i]["updated_datetime"].asString();
+//    e->status = jsonResults[i]["status"].asString();
+//    e->lat = jsonResults[i]["lat"].asFloat();
+//    e->lon = jsonResults[i]["long"].asFloat();
+//    e->neighborhood = geojsonBoston.getNeighborhoodForPoint(e->lat, e->lon);
+//		//neighborhoods[e.neighborhood].push_back(*e);
+//    e->category = jsonResults[i]["service_name"].asString();
+    addCategory(e->getCategory());
     events.push_back(e);
     
     // DEV
     cout << "---------------------------------------------- events["<< i <<"]" << endl;
-    cout << "          id: "<< e->id << endl;
-		cout << "        Time: "<< e->timeString << endl;
-    cout << "    Age(sec): "<< e->age << endl;
-    cout << "      Status: "<< e->status << endl;
-    cout << "         Lat: "<< e->lat << endl;
-    cout << "         Lon: "<< e->lon << endl;
-    cout << "Neighborhood: "<< e->neighborhood << endl;
-    cout << "    Category: "<< e->category << endl;
+    cout << "          id: "<< e->getId() << endl;
+		cout << "        Time: "<< e->getTimeString() << endl;
+    cout << "    Age(sec): "<< e->getAge() << endl;
+    cout << "      Status: "<< e->getStatus() << endl;
+    cout << "         Lat: "<< e->getLat() << endl;
+    cout << "         Lon: "<< e->getLon() << endl;
+    cout << "Neighborhood: "<< e->getNeighborhood() << endl;
+    cout << "    Category: "<< e->getCategory() << endl;
 	}
   
   //DEV
@@ -159,7 +170,7 @@ dsNeighborhoodFactory dsCitizensData::getGeoJson(){
 ofVec3f dsCitizensData::getEventCoords(int index) {
   
   if (index < events.size()) {
-    ofVec3f xyz(events[index]->lat, events[index]->lon, 0);
+    ofVec3f xyz(events[index]->getLat(), events[index]->getLon(), 0);
     return xyz;
   }
   else
@@ -172,8 +183,8 @@ ofVec3f dsCitizensData::getCentroid() {
   ofVec3f centroid;
   
   for (auto e : events ) {
-    centroid.x += e->lat/((float)events.size());
-    centroid.y += e->lon/((float)events.size());
+    centroid.x += e->getLat()/((float)events.size());
+    centroid.y += e->getLon()/((float)events.size());
     
   }
   return centroid;
@@ -186,7 +197,7 @@ void dsCitizensData::draw() {
   ofSetColor(250, 0, 0);
   for (int i = 0 ; i < events.size() ; i++) {
     
-    ofCircle(400 + 400.0*(events[i]->lat - 42.34), 500 -400.0*(events[i]->lon + 72.06), 2);
+    ofCircle(400 + 400.0*(events[i]->getLat() - 42.34), 500 -400.0*(events[i]->getLon() + 72.06), 2);
     //ofLogNotice(ofToString(i));
   }
 }

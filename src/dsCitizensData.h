@@ -62,9 +62,9 @@ public:
   
   
   // DEV - events
-  float getAgeInSeconds(int index) {return events[index]->age; }
-	string getEventCategory(int index) {return events[index]->category;}
-  string getNeighborhoodName(int index) { return events[index]->neighborhood; }
+  float getAgeInSeconds(int index) {return events[index]->getAge(); }
+	string getEventCategory(int index) {return events[index]->getCategory();}
+  string getNeighborhoodName(int index) { return events[index]->getNeighborhood(); }
   ofVec3f getEventCoords(int index);
   
   

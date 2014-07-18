@@ -8,9 +8,17 @@
 
 #include "dsEvent.h"
 
-dsEvent::dsEvent(){
+// Constructor params are only the default event attributes of the Open311 data.
+dsEvent::dsEvent(int iId, string iTimestring, string iStatus, float iLat, float iLon, string iCategory){
   
+  id = iId;
+  timeString = iTimestring;
+  status = iStatus;
+  lat = iLat;
+  lon = iLon;
+  category = iCategory;
 }
 
 dsEvent::~dsEvent(){}
+
 
