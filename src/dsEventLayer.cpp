@@ -79,6 +79,15 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
 	// print out the counts
 	for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
 			 it != neighborhoodEventCounts.end(); ++it) {
+		ofxCircleObject *centerCircle = new ofxCircleObject(20, 20);
+		//centerCircle->setTrans(dsNeighborhoodFactory::getNeighborhoodCentroid(int index)());
+		centerCircle->setAlpha(255);
+	
+		centerCircle->setColor(255, 255, 255);
+		
+    centroids.push_back(centerCircle);
+    addChild(centerCircle);
+
 		cout << it->first << "\t" << it->second << endl;
 	}
   

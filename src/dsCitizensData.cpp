@@ -58,7 +58,11 @@ void dsCitizensData::fetchNewestJson(){
     e.lat = jsonResults[i]["lat"].asFloat();
     e.lon = jsonResults[i]["long"].asFloat();
     e.neighborhood = geojsonBoston.getNeighborhoodForPoint(e.lat, e.lon);
-		//neighborhoods[e.neighborhood].push_back(*e);
+		for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
+			if (e.neighborhood == geojsonBoston.getNeighborhood(i).getName()) {
+				geojsonBoston.getNeighborhood(i).addToEventCount();
+			}
+		}
     e.category = jsonResults[i]["service_name"].asString();
     events.push_back(e);
     
@@ -72,6 +76,12 @@ void dsCitizensData::fetchNewestJson(){
     cout << "         Lon: "<< e.lon << endl;
     cout << "Neighborhood: "<< e.neighborhood << endl;
     cout << "    Category: "<< e.category << endl;
+	}
+	
+	for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
+		
+		cout << "neighborhood events " << geojsonBoston.getNeighborhood(i).getEventCount() << endl;
+		
 	}
 
 }
