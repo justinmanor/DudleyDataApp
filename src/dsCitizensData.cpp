@@ -27,6 +27,42 @@ void dsCitizensData::fetchNewestJson(){
     cout  << "---------------- Successfully parsed JSON" << endl;
 //    cout << jsonResults.getRawString() << endl;
     
+    //  Store it in an object.
+    for(int i=0; i<jsonResults.size(); i++)
+    {
+      // Create event object based on default Open311 data attributes.
+      dsEvent* e = new dsEvent(
+                               i,
+                               jsonResults[i]["updated_datetime"].asString(),
+                               jsonResults[i]["status"].asString(),
+                               jsonResults[i]["lat"].asFloat(),
+                               jsonResults[i]["long"].asFloat(),
+                               jsonResults[i]["service_name"].asString()
+                               );
+      // Add a few custom attributes of our own.
+      e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
+      e->setAge(timeFromCurrent(e->getTime()));
+      e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
+      // Add this event's category to the category vector.
+      addCategory(e->getCategory());
+      // Store this event to the events vector.
+      events.push_back(e);
+      
+      // DEV
+      cout << "---------------------------------------------- events["<< i <<"]" << endl;
+      cout << "          id: "<< e->getId() << endl;
+      cout << "        Time: "<< e->getTimeString() << endl;
+      cout << "    Age(sec): "<< e->getAge() << endl;
+      cout << "      Status: "<< e->getStatus() << endl;
+      cout << "         Lat: "<< e->getLat() << endl;
+      cout << "         Lon: "<< e->getLon() << endl;
+      cout << "Neighborhood: "<< e->getNeighborhood() << endl;
+      cout << "    Category: "<< e->getCategory() << endl;
+    }
+    
+    //DEV
+    printCategories();
+    
     // Save to file : pretty print
     if(!jsonResults.save("example_output_pretty.json",true)) {
       //      cout << "example_output_pretty.json written unsuccessfully." << endl;
@@ -44,50 +80,6 @@ void dsCitizensData::fetchNewestJson(){
     //		cout  << "---------------- Failed to parse JSON" << endl;
 	}
   
-	//create
-	
-  //  Store it in an object.
-  for(int i=0; i<jsonResults.size(); i++)
-	{
-    dsEvent* e = new dsEvent(
-      i,
-      jsonResults[i]["updated_datetime"].asString(),
-      jsonResults[i]["status"].asString(),
-      jsonResults[i]["lat"].asFloat(),
-      jsonResults[i]["long"].asFloat(),
-      jsonResults[i]["service_name"].asString()
-    );
-    e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
-    e->setAge(timeFromCurrent(e->getTime()));
-    e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
-    
-//    e->id = i;
-//		e->time = dateParser(jsonResults[i]["updated_datetime"].asString());
-//		e->age = timeFromCurrent(e->time);
-//    e->timeString = jsonResults[i]["updated_datetime"].asString();
-//    e->status = jsonResults[i]["status"].asString();
-//    e->lat = jsonResults[i]["lat"].asFloat();
-//    e->lon = jsonResults[i]["long"].asFloat();
-//    e->neighborhood = geojsonBoston.getNeighborhoodForPoint(e->lat, e->lon);
-//		//neighborhoods[e.neighborhood].push_back(*e);
-//    e->category = jsonResults[i]["service_name"].asString();
-    addCategory(e->getCategory());
-    events.push_back(e);
-    
-    // DEV
-    cout << "---------------------------------------------- events["<< i <<"]" << endl;
-    cout << "          id: "<< e->getId() << endl;
-		cout << "        Time: "<< e->getTimeString() << endl;
-    cout << "    Age(sec): "<< e->getAge() << endl;
-    cout << "      Status: "<< e->getStatus() << endl;
-    cout << "         Lat: "<< e->getLat() << endl;
-    cout << "         Lon: "<< e->getLon() << endl;
-    cout << "Neighborhood: "<< e->getNeighborhood() << endl;
-    cout << "    Category: "<< e->getCategory() << endl;
-	}
-  
-  //DEV
-  printCategories();
 }
 
 // Adds the provided category to the categories vector if we haven't seen it already.
