@@ -69,6 +69,8 @@ private:
   ofxJSONElement jsonResults;     // Contains the raw Open311 data
   dsNeighborhoodFactory geojsonBoston;      // Creates neighborhood objects from geojson of Boston.
   //  ofxGeoJSON bostonMap;         // Contains the raw GeoJSON data of Boston for drawing a map.
+	
+	map<string, int> neighborhoodEventCounts; // For counting events in the neighborhoods.
   
 //  std::vector<event*> neighborhoods;
 //  std::vector<event*> categories;

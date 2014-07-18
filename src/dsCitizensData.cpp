@@ -58,11 +58,7 @@ void dsCitizensData::fetchNewestJson(){
     e.lat = jsonResults[i]["lat"].asFloat();
     e.lon = jsonResults[i]["long"].asFloat();
     e.neighborhood = geojsonBoston.getNeighborhoodForPoint(e.lat, e.lon);
-		for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
-			if (e.neighborhood == geojsonBoston.getNeighborhood(i).getName()) {
-				geojsonBoston.getNeighborhood(i).addToEventCount();
-			}
-		}
+		++neighborhoodEventCounts[e.neighborhood];  // add to neighborhood event count.
     e.category = jsonResults[i]["service_name"].asString();
     events.push_back(e);
     
@@ -78,10 +74,16 @@ void dsCitizensData::fetchNewestJson(){
     cout << "    Category: "<< e.category << endl;
 	}
 	
-	for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
-		
-		cout << "neighborhood events " << geojsonBoston.getNeighborhood(i).getEventCount() << endl;
-		
+	// send event counts to neighborhood objects.
+	for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
+			 it != neighborhoodEventCounts.end(); ++it) {
+		cout << "MAP: " << it->first << " : " << it->second << endl;
+				for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
+					if (it->first == geojsonBoston.getNeighborhood(i)->getName()) {
+						dsNeighborhood* n = geojsonBoston.getNeighborhood(i);
+						n->addToEventCount(it->second);
+					}
+				}
 	}
 
 }

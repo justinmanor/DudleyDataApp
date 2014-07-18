@@ -71,16 +71,14 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// Create the neighborhood event counts
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -
-	for (int i = 0; i < events.size(); i++) {
-		string theName = data->getNeighborhoodName(i);
-		++neighborhoodEventCounts[theName];
-	}
-	
-	// print out the counts
-	for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
-			 it != neighborhoodEventCounts.end(); ++it) {
+	for (int i = 0; i < data->getNumNeighborhoods(); i++) {
+		int theCount = data->getGeoJson().getNeighborhood(i)->getEventCount();
+		//++neighborhoodEventCounts[theName];
+		float xPos = data->getGeoJson().getNeighborhood(i)->getCentroid().x;
+		cout << xPos << endl;
 		ofxCircleObject *centerCircle = new ofxCircleObject(20, 20);
-		//centerCircle->setTrans(dsNeighborhoodFactory::getNeighborhoodCentroid(int index)());
+		//cout << setTrans(data->getGeoJson().getNeighborhood(i)->getCentroid() << endl;
+		centerCircle->setTrans(data->getGeoJson().getNeighborhood(i)->getCentroid().x, 10*i, 0);
 		centerCircle->setAlpha(255);
 	
 		centerCircle->setColor(255, 255, 255);
@@ -88,7 +86,6 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
     centroids.push_back(centerCircle);
     addChild(centerCircle);
 
-		cout << it->first << "\t" << it->second << endl;
 	}
   
 }

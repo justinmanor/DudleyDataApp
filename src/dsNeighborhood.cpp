@@ -88,3 +88,12 @@ ofxPolygonObject* dsNeighborhood::getPolygon(){
   return polygon;
 }
 
+void dsNeighborhood::addToEventCount(int iCount) {
+	eventCount = iCount;
+}
+int dsNeighborhood::getEventCount() {
+	return eventCount;
+}
+
+
+

@@ -50,8 +50,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
     
     if ("Polygon" == type.asString()) {
       
-      dsNeighborhood n;
-      n.setName(name);
+      dsNeighborhood *n = new dsNeighborhood();
+      n->setName(name);
       
       // Setup starting min's & max's.
       float minX=100000000.0,
@@ -78,13 +78,13 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
         }
         
         // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-        n.addVertX(curX);
-        n.addVertY(curY);
+        n->addVertX(curX);
+        n->addVertY(curY);
         
       }
       
       // Store the box coords.
-      n.addBounds(minX, maxX, minY, maxY);
+      n->addBounds(minX, maxX, minY, maxY);
 //      n.left = minX;
 //      n.right = maxX;
 //      n.bottom = minY;
@@ -93,8 +93,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
       
     } else if ("MultiPolygon" == type.asString()) {
       
-      dsNeighborhood n;
-      n.setName(name);
+      dsNeighborhood *n = new dsNeighborhood();
+      n->setName(name);
       
       // Setup starting min's & max's.
       float minX=100000000.0,
@@ -135,13 +135,13 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
           }
           
           // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-          n.addVertX(curX);
-          n.addVertY(curY);
+          n->addVertX(curX);
+          n->addVertY(curY);
         }
       }
       
       // Store the box coords.
-      n.addBounds(minX, maxX, minY, maxY);
+      n->addBounds(minX, maxX, minY, maxY);
 //      n.left = minX;
 //      n.right = maxX;
 //      n.bottom = minY;
@@ -150,16 +150,16 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
     }
     
     //DEV
-    cout << "****************************************** neighborhoods["<< i <<"]" << endl;
-    cout << "name : " << neighborhoods[i].getName() << endl;
-    cout << "leftBound : "  << neighborhoods[i].getBound("left") << endl;
-    cout << "rightBound : "  << neighborhoods[i].getBound("right") << endl;
-    cout << "bottomBound : "  << neighborhoods[i].getBound("bottom") << endl;
-    cout << "topBound : "  << neighborhoods[i].getBound("top") << endl;
-    cout << "vertsX.size() : "  << neighborhoods[i].getVertsX().size() << endl;
-    cout << "vertsY.size() : "  << neighborhoods[i].getVertsY().size() << endl;
-    cout << "centroid.x : "  << neighborhoods[i].getCentroid().x << endl;
-    cout << "centroid.y : "  << neighborhoods[i].getCentroid().y << endl;
+//    cout << "****************************************** neighborhoods["<< i <<"]" << endl;
+//    cout << "name : " << neighborhoods[i]->getName() << endl;
+//    cout << "leftBound : "  << neighborhoods[i]->getBound("left") << endl;
+//    cout << "rightBound : "  << neighborhoods[i]->getBound("right") << endl;
+//    cout << "bottomBound : "  << neighborhoods[i]->getBound("bottom") << endl;
+//    cout << "topBound : "  << neighborhoods[i]->getBound("top") << endl;
+//    cout << "vertsX.size() : "  << neighborhoods[i]->getVertsX().size() << endl;
+//    cout << "vertsY.size() : "  << neighborhoods[i]->getVertsY().size() << endl;
+//    cout << "centroid.x : "  << neighborhoods[i]->getCentroid().x << endl;
+//    cout << "centroid.y : "  << neighborhoods[i]->getCentroid().y << endl;
     
   }
   
@@ -172,16 +172,16 @@ string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
   for (int i = 0; i<neighborhoods.size(); i++) {
     
     // If the point is in the neighborhood's bounding box, perform the point-in-polygon algorith.
-    if (testX >= neighborhoods[i].getBound("left") &&
-        testX <= neighborhoods[i].getBound("right") &&
-        testY >= neighborhoods[i].getBound("bottom") &&
-        testY <= neighborhoods[i].getBound("top")) {
+    if (testX >= neighborhoods[i]->getBound("left") &&
+        testX <= neighborhoods[i]->getBound("right") &&
+        testY >= neighborhoods[i]->getBound("bottom") &&
+        testY <= neighborhoods[i]->getBound("top")) {
       
-      bool isInNeighborhood = isPointInPolygon(neighborhoods[i].getVertsX().size(), neighborhoods[i].getVertsX(), neighborhoods[i].getVertsY(), testX, testY);
+      bool isInNeighborhood = isPointInPolygon(neighborhoods[i]->getVertsX().size(), neighborhoods[i]->getVertsX(), neighborhoods[i]->getVertsY(), testX, testY);
 //      cout << "% % % % % % % isInNeighborhood = " << isInNeighborhood <<endl;
 
       if (isInNeighborhood){
-        return neighborhoods[i].getName();
+        return neighborhoods[i]->getName();
       }
 
     }
@@ -190,7 +190,7 @@ string dsNeighborhoodFactory::getNeighborhoodForPoint(float testX, float testY){
   
 }
 
-dsNeighborhood dsNeighborhoodFactory::getNeighborhood(int index) {
+dsNeighborhood* dsNeighborhoodFactory::getNeighborhood(int index) {
   
   if(index >= 0 && index < neighborhoods.size())
     return neighborhoods[index];
@@ -201,9 +201,9 @@ ofVec3f dsNeighborhoodFactory::getNeighborhoodCentroid(int index) {
   
   if (index >= 0 && index < neighborhoods.size()) {
 
-    ofLogNotice( "neighborhood X value = " + ofToString(neighborhoods[index].getCentroid()[0]));
+    ofLogNotice( "neighborhood X value = " + ofToString(neighborhoods[index]->getCentroid()[0]));
     
-    return neighborhoods[index].getCentroid();
+    return neighborhoods[index]->getCentroid();
 
   } else
     

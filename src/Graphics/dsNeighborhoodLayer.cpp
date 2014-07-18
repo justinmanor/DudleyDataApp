@@ -23,8 +23,8 @@ void dsNeighborhoodLayer::buildNeighborhoods(dsCitizensData *data)
   
   for (int i = 0 ; i < data->getNumNeighborhoods() ; i ++){
     
-    vector<float> vX = data->getGeoJson().getNeighborhood(i).getVertsX();
-    vector<float> vY = data->getGeoJson().getNeighborhood(i).getVertsY();
+    vector<float> vX = data->getGeoJson().getNeighborhood(i)->getVertsX();
+    vector<float> vY = data->getGeoJson().getNeighborhood(i)->getVertsY();
     
     
     ofxPolygonObject *poly = new ofxPolygonObject(vX.size());

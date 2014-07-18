@@ -28,13 +28,13 @@ public:
   void calculateCentroid();
   ofVec3f getCentroid();
   ofxPolygonObject* getPolygon();
-  int addToEventCount() { eventCount = eventCount + 1 + 0; };
-	int getEventCount() { return eventCount; };
-  
+	void addToEventCount(int iCount);
+	int getEventCount();
+	
 private:
   
   string name;
-	int eventCount;
+	int eventCount = 0;
   vector<float> vertsX;
   vector<float> vertsY;
   float leftBound;

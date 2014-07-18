@@ -23,11 +23,12 @@ public:
   string getNeighborhoodForPoint(float testX, float testY);
   bool isPointInPolygon(int nvert, vector<float> vertx, vector<float> verty, float testx, float testy);
   int getNeighborhoodCount() { return neighborhoods.size(); }
-  dsNeighborhood getNeighborhood(int index);
+  dsNeighborhood* getNeighborhood(int index);
   ofVec3f getNeighborhoodCentroid(int index);
   //void generatePolygons();
   
 private:
   ofxJSONElement result;
-  std::vector<dsNeighborhood> neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
+//  std::vector<dsNeighborhood> neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
+	  std::vector<dsNeighborhood*> neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
 };
