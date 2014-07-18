@@ -27,10 +27,10 @@ void dsCitizensData::fetchNewestJson(){
     cout  << "---------------- Successfully parsed JSON" << endl;
 //    cout << jsonResults.getRawString() << endl;
     
-    //  Store it in an object.
+    //  Create an event for each piece of data.
     for(int i=0; i<jsonResults.size(); i++)
     {
-      // Create event object based on default Open311 data attributes.
+      // Event attributes based on default Open311 data attributes.
       dsEvent* e = new dsEvent(
                                i,
                                jsonResults[i]["updated_datetime"].asString(),
@@ -39,14 +39,20 @@ void dsCitizensData::fetchNewestJson(){
                                jsonResults[i]["long"].asFloat(),
                                jsonResults[i]["service_name"].asString()
                                );
+      events.push_back(e);
       // Add a few custom attributes of our own.
       e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
       e->setAge(timeFromCurrent(e->getTime()));
       e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
-      // Add this event's category to the category vector.
-      addCategory(e->getCategory());
-      // Store this event to the events vector.
-      events.push_back(e);
+      // Add current category to the category vector.
+      dsCategory* c = addCategoryToVector(e->getCategory());
+      // Add reference to this event in the category object.
+      c->addEvent(e);
+      // Add reference to this event in the neighborhood object.
+      dsNeighborhood* n = getNeighborhoodByName(e->getNeighborhood());
+      if (e->getNeighborhood() != "unknown"){
+        n->addEvent(e);
+      }
       
       // DEV
       cout << "---------------------------------------------- events["<< i <<"]" << endl;
@@ -58,23 +64,14 @@ void dsCitizensData::fetchNewestJson(){
       cout << "         Lon: "<< e->getLon() << endl;
       cout << "Neighborhood: "<< e->getNeighborhood() << endl;
       cout << "    Category: "<< e->getCategory() << endl;
+      
     }
     
     //DEV
-    printCategories();
+    printCategoryCounter();
+    printCategoryContents();
+    printNeighborhoodContents();
 		
-		// send event counts to neighborhood objects.
-		for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
-				 it != neighborhoodEventCounts.end(); ++it) {
-			cout << "MAP: " << it->first << " : " << it->second << endl;
-			for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
-				if (it->first == geojsonBoston.getNeighborhood(i)->getName()) {
-					dsNeighborhood* n = geojsonBoston.getNeighborhood(i);
-					n->addToEventCount(it->second);
-				}
-			}
-		}
-    
     // Save to file : pretty print
     if(!jsonResults.save("example_output_pretty.json",true)) {
       //      cout << "example_output_pretty.json written unsuccessfully." << endl;
@@ -94,22 +91,59 @@ void dsCitizensData::fetchNewestJson(){
   
 }
 
-// Adds the provided category to the categories vector if we haven't seen it already.
-void dsCitizensData::addCategory(string iCategoryName){
+dsNeighborhood* dsCitizensData::getNeighborhoodByName(string iNeighborhoodName){
+  for (auto neighborhood : neighborhoods){
+    if(neighborhood->getName() == iNeighborhoodName){
+      return neighborhood;
+    }
+  }
+}
 
+dsCategory* dsCitizensData::getCategoryByName(string iCategoryName){
+  for (auto category : categories){
+    if(category->getName() == iCategoryName){
+      return category;
+    }
+  }
+}
+
+// Adds the provided category to the categories vector if we haven't seen it already, and returns the category object.
+dsCategory* dsCitizensData::addCategoryToVector(string iCategoryName){
+  
+  dsCategory* cat;
   if(!categoryCounter[iCategoryName]){
-    dsCategory *cat = new dsCategory(iCategoryName);
+    cat = new dsCategory(iCategoryName);
     categories.push_back(cat);
+  } else {
+    cat = getCategoryByName(iCategoryName);
   }
   
   ++categoryCounter[iCategoryName];
+  
+  return cat;
 }
 
 // FOR DEV: Prints out the categories.
-void dsCitizensData::printCategories(){
-  cout<< "* * * * * * * * * * * * * * * * * * * * * * * * * PRINTING CATEGORIES" <<endl;
+void dsCitizensData::printCategoryCounter(){
+//  cout<< "* * * * * * * * * * * * * * * * * * * * * * * * * PRINTING CATEGORY COUNTER" <<endl;
   for(map<string, int>::const_iterator it = categoryCounter.begin(); it != categoryCounter.end(); it++){
     cout<< it->first <<"\t"<< it->second <<endl;
+  }
+}
+
+void dsCitizensData::printCategoryContents(){
+//  cout<< "* * * * * * * * * * * * * * * * * * * * * * * * * PRINTING CATEGORY CONTENTS" <<endl;
+  for(auto category : categories){
+    cout<< "name : " << category->getName() <<endl;
+    cout<< "#events : " << category->getEvents().size() <<endl;
+  }
+}
+
+void dsCitizensData::printNeighborhoodContents(){
+//  cout<< "* * * * * * * * * * * * * * * * * * * * * * * * * PRINTING NEIGHBORHOOD CONTENTS" <<endl;
+  for(auto neighborhood : neighborhoods){
+    cout<< "name : " << neighborhood->getName() <<endl;
+    cout<< "#events : " << neighborhood->getEvents().size() <<endl;
   }
 }
 
@@ -154,8 +188,12 @@ void dsCitizensData::fetchGeoJson(){
   
   if (geojsonBoston.load("boston_neighborhoods.geojson")) {
     ofLog(OF_LOG_NOTICE, "Succeed to load geojson..");
+
+    // Copy the neighborhoods from the factory so it also resides here, in this main data object.
+    neighborhoods = geojsonBoston.getNeighborhoods();
     
-    fetchNewestJson();    // Secondly, get Open311 "event" data once we have neighborhoods.
+    // Get Open311 "event" data once we have neighborhoods.
+    fetchNewestJson();
     
   } else {
     ofLog(OF_LOG_NOTICE, "Failed to load geojson..");
@@ -164,11 +202,8 @@ void dsCitizensData::fetchGeoJson(){
 }
 
 // Return the geojson.
-
 dsNeighborhoodFactory dsCitizensData::getGeoJson(){
-
   return geojsonBoston;
-
 }
 
 ofVec3f dsCitizensData::getEventCoords(int index) {

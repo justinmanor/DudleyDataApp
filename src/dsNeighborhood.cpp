@@ -91,9 +91,7 @@ ofxPolygonObject* dsNeighborhood::getPolygon(){
 void dsNeighborhood::addToEventCount(int iCount) {
 	eventCount = iCount;
 }
-int dsNeighborhood::getEventCount() {
-	return eventCount;
+
+void dsNeighborhood::addEvent(dsEvent* iEvent){
+  events.push_back(iEvent);
 }
-
-
-

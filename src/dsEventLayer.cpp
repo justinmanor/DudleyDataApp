@@ -73,6 +73,7 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -
 	for (int i = 0; i < data->getNumNeighborhoods(); i++) {
 		int theCount = data->getGeoJson().getNeighborhood(i)->getEventCount();
+      cout<< "* * * * * * * * * * * * * * * * * * * * * * * * * COUNT : "<< theCount <<endl;
 		//++neighborhoodEventCounts[theName];
 		float xPos = data->getGeoJson().getNeighborhood(i)->getCentroid().x;
 		cout << xPos << endl;

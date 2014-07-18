@@ -25,10 +25,12 @@ public:
   int getNeighborhoodCount() { return neighborhoods.size(); }
   dsNeighborhood* getNeighborhood(int index);
   ofVec3f getNeighborhoodCentroid(int index);
+  std::vector<dsNeighborhood*> getNeighborhoods(){ return neighborhoods; }
   //void generatePolygons();
   
 private:
   ofxJSONElement result;
 //  std::vector<dsNeighborhood> neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
-	  std::vector<dsNeighborhood*> neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
+  std::vector<dsNeighborhood*> neighborhoods;       // Stores the coords for each neighborhood's bounding boxes.
+  
 };

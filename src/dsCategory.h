@@ -8,9 +8,7 @@
 
 #pragma once
 #include "ofMain.h"
-//#include "dsCitizensData.h"
-
-//class dsCitizensData;   // forward-declaration.
+#include "dsEvent.h"
 
 class dsCategory {
   
@@ -19,15 +17,20 @@ public:
   dsCategory(string iName);
   ~dsCategory();
   
-//  void addEvent(event* iEvent);
-  float getNeighborhoodCount(string iNeighborhoodName);
+  int getId(){ return id; }
+  string getName(){ return name; }
+  std::vector<dsEvent*> getEvents(){ return events; }
+  int getEventCount(){ return events.size(); }
   
-  string getName();
+  void addEvent(dsEvent* iEvent);
+  
+  //TODO
+  float getNeighborhoodCount(string iNeighborhoodName);
   
 private:
   
-  string id;
+  int id;
   string name;
-//  vector<event*> events;
+  std::vector<dsEvent*> events;
   
 };

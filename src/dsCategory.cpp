@@ -14,6 +14,6 @@ dsCategory::dsCategory(string iName){
 
 dsCategory::~dsCategory(){}
 
-string dsCategory::getName(){
-  return name;
+void dsCategory::addEvent(dsEvent* iEvent){
+  events.push_back(iEvent);
 }

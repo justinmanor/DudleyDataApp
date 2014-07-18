@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "dsEvent.h"
 #include "ofxPolygonObject.h"
 
 class dsNeighborhood {
@@ -16,6 +17,8 @@ class dsNeighborhood {
 public:
   dsNeighborhood();
   ~dsNeighborhood();
+  
+  int getEventCount(){ return events.size(); }
   
   void setName(string iName);
   string getName();
@@ -29,12 +32,12 @@ public:
   ofVec3f getCentroid();
   ofxPolygonObject* getPolygon();
 	void addToEventCount(int iCount);
-	int getEventCount();
-	
+  void addEvent(dsEvent* iEvent);
+  std::vector<dsEvent*> getEvents(){ return events; }
+  
 private:
   
   string name;
-	int eventCount = 0;
   vector<float> vertsX;
   vector<float> vertsY;
   float leftBound;
@@ -43,6 +46,10 @@ private:
   float topBound;
   ofVec3f centroid;
   ofxPolygonObject *polygon;
+
+  std::vector<dsEvent*> events;
+  
+  int eventCount = 0;
   
   //TODO
   //polygon
