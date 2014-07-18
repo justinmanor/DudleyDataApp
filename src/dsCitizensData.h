@@ -12,6 +12,8 @@
 #include "ofxJSONElement.h"
 #include "dsNeighborhoodFactory.h"
 #include "dsCategory.h"
+#include "dsEvent.h"
+
 //#include "ofxGeoJSON.h"
 
 #include "Poco/LocalDateTime.h"
@@ -60,9 +62,9 @@ public:
   
   
   // DEV - events
-  float getAgeInSeconds(int index) {return events[index].age; }
-	string getEventCategory(int index) {return events[index].category;}
-  string getNeighborhoodName(int index) { return events[index].neighborhood; }
+  float getAgeInSeconds(int index) {return events[index]->age; }
+	string getEventCategory(int index) {return events[index]->category;}
+  string getNeighborhoodName(int index) { return events[index]->neighborhood; }
   ofVec3f getEventCoords(int index);
   
   
@@ -72,11 +74,12 @@ public:
 private:
 
   string jsonUrl;                 // Contains the Open311 JSON query string originally passed to this class.
-  std::vector<event> events;      // Contains the Open311 data transformed into objects.
   ofxJSONElement jsonResults;     // Contains the raw Open311 data
   dsNeighborhoodFactory geojsonBoston;      // Creates neighborhood objects from geojson of Boston.
   //  ofxGeoJSON bostonMap;         // Contains the raw GeoJSON data of Boston for drawing a map.
   
+//  std::vector<event> events;      // Contains the Open311 data transformed into objects.
+  std::vector<dsEvent*> events;      // Contains the Open311 data transformed into objects.
   std::vector<dsCategory*> categories;
   map<string, int> categoryCounter;
 //  std::vector<event*> neighborhoods;

@@ -29,7 +29,6 @@ public:
   string getEventCategory(int index) {return category;}
   float getAgeInSeconds(int index) {return age; }
   
-private:
   int id;
 	int ageInSeconds;
   Poco::DateTime time;
@@ -40,5 +39,8 @@ private:
   float lon;
   string neighborhood;
   string category;
+
+  
+private:
   
 };
