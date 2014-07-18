@@ -31,7 +31,6 @@ public:
   void calculateCentroid();
   ofVec3f getCentroid();
   ofxPolygonObject* getPolygon();
-	void addToEventCount(int iCount);
   void addEvent(dsEvent* iEvent);
   std::vector<dsEvent*> getEvents(){ return events; }
   
@@ -48,8 +47,6 @@ private:
   ofxPolygonObject *polygon;
 
   std::vector<dsEvent*> events;
-  
-  int eventCount = 0;
   
   //TODO
   //polygon

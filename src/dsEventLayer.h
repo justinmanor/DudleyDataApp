@@ -42,6 +42,5 @@ public:
 
 private:
 	
-	map<string, int> neighborhoodEventCounts;
   
 };
