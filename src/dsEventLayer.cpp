@@ -29,12 +29,11 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
     events.push_back(c);
     addChild(c);
   }
-  
-}
-
-void dsEventLayer::buildEventLegend()
-{
-  vector <string> categories;
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// Build Event Legend
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	vector <string> categories;
   
   categories.push_back("Sidewalk Patch");
   categories.push_back("Graffiti");
@@ -67,18 +66,47 @@ void dsEventLayer::buildEventLegend()
 		element->setTrans(ofGetWidth()*.65/2, ofGetHeight()*.8/2-20*i, 0);
 		addChild(element);
 		
-		
+	}
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// Create the neighborhood event counts
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	for (int i = 0; i < events.size(); i++) {
+		string theName = data->getNeighborhoodName(i);
+		++neighborhoodEventCounts[theName];
+	}
+	
+	// print out the counts
+	for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
+			 it != neighborhoodEventCounts.end(); ++it) {
+		cout << it->first << "\t" << it->second << endl;
 	}
   
 }
 
-void animateEvent() {
+void dsEventLayer::animateEvent(dsCitizensData *data) {
 	
-//	for (int i = 0 ; i < dsEventLayer::events.size() ; i++){
-//
-//		events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
-//		events[i]->doMessage1f(OF_SETALPHA, citizensData->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
-//		
-//	}
+	for (int i = 0 ; i < events.size() ; i++){
+
+		events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
+		events[i]->doMessage1f(OF_SETALPHA, data->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
+		
+	}
 	
 }
+
+void dsEventLayer::animateByEventRate(dsCitizensData *data) {
+
+	for (int i = 0 ; i < events.size() ; i++){
+		
+		events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
+		events[i]->doMessage1f(OF_SETALPHA, data->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
+		
+	}
+
+}
+
+
+
+
+

@@ -23,20 +23,25 @@ public:
   dsEventLayer();
 	~dsEventLayer();
   
-	void                        buildEvents(dsCitizensData *data);
-	void                        buildEventLegend();
-	void												animateEvent();
+	void	buildEvents(dsCitizensData *data);
+	void	animateEvent(dsCitizensData *data);
+	void	animateByEventRate(dsCitizensData *data);
+	
   
 public:
   
   dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
   vector <ofxCircleObject *> events;
+	vector <ofxCircleObject *> centroids;
 	vector <ofxRectangleObject *> boxes;
 	vector <ofxTextObject *>	labels;
 	vector <ofxObject *>			elements;
 	
 	ofxSosoTrueTypeFont				*font16;
 
+private:
+	
+	map<string, int> neighborhoodEventCounts;
   
 };

@@ -51,7 +51,6 @@ void dsCitizensData::fetchNewestJson(){
 	{
     event e;
     e.id = i;
-		//e.ageInSeconds;
 		e.time = dateParser(jsonResults[i]["updated_datetime"].asString());
 		e.age = timeFromCurrent(e.time);
     e.timeString = jsonResults[i]["updated_datetime"].asString();
@@ -59,20 +58,21 @@ void dsCitizensData::fetchNewestJson(){
     e.lat = jsonResults[i]["lat"].asFloat();
     e.lon = jsonResults[i]["long"].asFloat();
     e.neighborhood = geojsonBoston.getNeighborhoodForPoint(e.lat, e.lon);
+		//neighborhoods[e.neighborhood].push_back(*e);
     e.category = jsonResults[i]["service_name"].asString();
     
     events.push_back(e);
     
     // DEV
     cout << "---------------------------------------------- event["<< i <<"]" << endl;
-    cout << e.id << endl;
-		cout << e.timeString << endl;
-    cout << e.age << endl;
-    cout << e.status << endl;
-    cout << e.lat << endl;
-    cout << e.lon << endl;
-    cout << e.neighborhood << endl;
-    cout << e.category << endl;
+    cout << "          id: "<< e.id << endl;
+		cout << "        Time: "<< e.timeString << endl;
+    cout << "    Age(sec): "<< e.age << endl;
+    cout << "      Status: "<< e.status << endl;
+    cout << "         Lat: "<< e.lat << endl;
+    cout << "         Lon: "<< e.lon << endl;
+    cout << "Neighborhood: "<< e.neighborhood << endl;
+    cout << "    Category: "<< e.category << endl;
 	}
 
 }
