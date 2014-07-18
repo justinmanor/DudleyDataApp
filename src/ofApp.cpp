@@ -49,6 +49,8 @@ void ofApp::keyPressed(int key){
 	//animate events in relative to their time
 	if (key == 'a') {
 		eventLayer->animateEvent(citizensData);
+	} else if (key == 's') {
+		eventLayer->animateByEventRate(citizensData);
 	}
 
 }
