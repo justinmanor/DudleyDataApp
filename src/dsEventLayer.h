@@ -42,5 +42,7 @@ public:
 
 private:
 	
+	map<string, int> neighborhoodEventCounts;
+	vector<string> simpleCount;
   
 };
