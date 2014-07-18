@@ -60,6 +60,7 @@ void dsCitizensData::fetchNewestJson(){
     e.lon = jsonResults[i]["long"].asFloat();
     e.neighborhood = geojsonBoston.getNeighborhoodForPoint(e.lat, e.lon);
     e.category = jsonResults[i]["service_name"].asString();
+    
     events.push_back(e);
     
     // DEV

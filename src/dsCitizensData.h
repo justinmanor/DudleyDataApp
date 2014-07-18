@@ -11,6 +11,7 @@
 #include "ofMain.h"
 #include "ofxJSONElement.h"
 #include "dsNeighborhoodFactory.h"
+#include "dsCategory.h"
 //#include "ofxGeoJSON.h"
 
 #include "Poco/LocalDateTime.h"
@@ -69,8 +70,8 @@ private:
   dsNeighborhoodFactory geojsonBoston;      // Creates neighborhood objects from geojson of Boston.
   //  ofxGeoJSON bostonMap;         // Contains the raw GeoJSON data of Boston for drawing a map.
   
+  std::vector<dsCategory*> categories;
 //  std::vector<event*> neighborhoods;
-//  std::vector<event*> categories;
 //  std::vector<...*> eventSuscribers;
   
 };
