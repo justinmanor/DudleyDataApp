@@ -27,6 +27,54 @@ void dsCitizensData::fetchNewestJson(){
     cout  << "---------------- Successfully parsed JSON" << endl;
 //    cout << jsonResults.getRawString() << endl;
     
+    //  Store it in an object.
+    for(int i=0; i<jsonResults.size(); i++)
+    {
+      // Create event object based on default Open311 data attributes.
+      dsEvent* e = new dsEvent(
+                               i,
+                               jsonResults[i]["updated_datetime"].asString(),
+                               jsonResults[i]["status"].asString(),
+                               jsonResults[i]["lat"].asFloat(),
+                               jsonResults[i]["long"].asFloat(),
+                               jsonResults[i]["service_name"].asString()
+                               );
+      // Add a few custom attributes of our own.
+      e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
+      e->setAge(timeFromCurrent(e->getTime()));
+      e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
+      // Add this event's category to the category vector.
+      addCategory(e->getCategory());
+      // Store this event to the events vector.
+      events.push_back(e);
+      
+      // DEV
+      cout << "---------------------------------------------- events["<< i <<"]" << endl;
+      cout << "          id: "<< e->getId() << endl;
+      cout << "        Time: "<< e->getTimeString() << endl;
+      cout << "    Age(sec): "<< e->getAge() << endl;
+      cout << "      Status: "<< e->getStatus() << endl;
+      cout << "         Lat: "<< e->getLat() << endl;
+      cout << "         Lon: "<< e->getLon() << endl;
+      cout << "Neighborhood: "<< e->getNeighborhood() << endl;
+      cout << "    Category: "<< e->getCategory() << endl;
+    }
+    
+    //DEV
+    printCategories();
+		
+		// send event counts to neighborhood objects.
+		for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
+				 it != neighborhoodEventCounts.end(); ++it) {
+			cout << "MAP: " << it->first << " : " << it->second << endl;
+			for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
+				if (it->first == geojsonBoston.getNeighborhood(i)->getName()) {
+					dsNeighborhood* n = geojsonBoston.getNeighborhood(i);
+					n->addToEventCount(it->second);
+				}
+			}
+		}
+    
     // Save to file : pretty print
     if(!jsonResults.save("example_output_pretty.json",true)) {
       //      cout << "example_output_pretty.json written unsuccessfully." << endl;
@@ -44,48 +92,25 @@ void dsCitizensData::fetchNewestJson(){
     //		cout  << "---------------- Failed to parse JSON" << endl;
 	}
   
-	//create
-	
-  //  Store it in an object.
-  for(int i=0; i<jsonResults.size(); i++)
-	{
-    event e;
-    e.id = i;
-		e.time = dateParser(jsonResults[i]["updated_datetime"].asString());
-		e.age = timeFromCurrent(e.time);
-    e.timeString = jsonResults[i]["updated_datetime"].asString();
-    e.status = jsonResults[i]["status"].asString();
-    e.lat = jsonResults[i]["lat"].asFloat();
-    e.lon = jsonResults[i]["long"].asFloat();
-    e.neighborhood = geojsonBoston.getNeighborhoodForPoint(e.lat, e.lon);
-		++neighborhoodEventCounts[e.neighborhood];  // add to neighborhood event count.
-    e.category = jsonResults[i]["service_name"].asString();
-    events.push_back(e);
-    
-    // DEV
-    cout << "---------------------------------------------- event["<< i <<"]" << endl;
-    cout << "          id: "<< e.id << endl;
-		cout << "        Time: "<< e.timeString << endl;
-    cout << "    Age(sec): "<< e.age << endl;
-    cout << "      Status: "<< e.status << endl;
-    cout << "         Lat: "<< e.lat << endl;
-    cout << "         Lon: "<< e.lon << endl;
-    cout << "Neighborhood: "<< e.neighborhood << endl;
-    cout << "    Category: "<< e.category << endl;
-	}
-	
-	// send event counts to neighborhood objects.
-	for (map<string, int>::const_iterator it = neighborhoodEventCounts.begin();
-			 it != neighborhoodEventCounts.end(); ++it) {
-		cout << "MAP: " << it->first << " : " << it->second << endl;
-				for (int i =0; i < geojsonBoston.getNeighborhoodCount(); i++) {
-					if (it->first == geojsonBoston.getNeighborhood(i)->getName()) {
-						dsNeighborhood* n = geojsonBoston.getNeighborhood(i);
-						n->addToEventCount(it->second);
-					}
-				}
-	}
+}
 
+// Adds the provided category to the categories vector if we haven't seen it already.
+void dsCitizensData::addCategory(string iCategoryName){
+
+  if(!categoryCounter[iCategoryName]){
+    dsCategory *cat = new dsCategory(iCategoryName);
+    categories.push_back(cat);
+  }
+  
+  ++categoryCounter[iCategoryName];
+}
+
+// FOR DEV: Prints out the categories.
+void dsCitizensData::printCategories(){
+  cout<< "* * * * * * * * * * * * * * * * * * * * * * * * * PRINTING CATEGORIES" <<endl;
+  for(map<string, int>::const_iterator it = categoryCounter.begin(); it != categoryCounter.end(); it++){
+    cout<< it->first <<"\t"<< it->second <<endl;
+  }
 }
 
 // Parse event time.
@@ -130,7 +155,7 @@ void dsCitizensData::fetchGeoJson(){
   if (geojsonBoston.load("boston_neighborhoods.geojson")) {
     ofLog(OF_LOG_NOTICE, "Succeed to load geojson..");
     
-    fetchNewestJson();    // Secondly, get Open311 data once we have neighborhoods.
+    fetchNewestJson();    // Secondly, get Open311 "event" data once we have neighborhoods.
     
   } else {
     ofLog(OF_LOG_NOTICE, "Failed to load geojson..");
@@ -149,7 +174,7 @@ dsNeighborhoodFactory dsCitizensData::getGeoJson(){
 ofVec3f dsCitizensData::getEventCoords(int index) {
   
   if (index < events.size()) {
-    ofVec3f xyz(events[index].lat, events[index].lon, 0);
+    ofVec3f xyz(events[index]->getLat(), events[index]->getLon(), 0);
     return xyz;
   }
   else
@@ -162,8 +187,8 @@ ofVec3f dsCitizensData::getCentroid() {
   ofVec3f centroid;
   
   for (auto e : events ) {
-    centroid.x += e.lat/((float)events.size());
-    centroid.y += e.lon/((float)events.size());
+    centroid.x += e->getLat()/((float)events.size());
+    centroid.y += e->getLon()/((float)events.size());
     
   }
   return centroid;
@@ -176,7 +201,7 @@ void dsCitizensData::draw() {
   ofSetColor(250, 0, 0);
   for (int i = 0 ; i < events.size() ; i++) {
     
-    ofCircle(400 + 400.0*(events[i].lat - 42.34), 500 -400.0*(events[i].lon + 72.06), 2);
+    ofCircle(400 + 400.0*(events[i]->getLat() - 42.34), 500 -400.0*(events[i]->getLon() + 72.06), 2);
     //ofLogNotice(ofToString(i));
   }
 }

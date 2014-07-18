@@ -81,10 +81,12 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
 		centerCircle->setTrans(data->getGeoJson().getNeighborhood(i)->getCentroid().x, 10*i, 0);
 		centerCircle->setAlpha(255);
 	
+
 		centerCircle->setColor(255, 255, 255);
 		
     centroids.push_back(centerCircle);
     addChild(centerCircle);
+
 
 	}
   
