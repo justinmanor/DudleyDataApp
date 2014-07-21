@@ -202,9 +202,9 @@ void dsCitizensData::fetchGeoJson(){
 }
 
 // Return the geojson.
-dsNeighborhoodFactory dsCitizensData::getGeoJson(){
-  return geojsonBoston;
-}
+//dsNeighborhoodFactory dsCitizensData::getGeoJson(){
+//  return geojsonBoston;
+//}
 
 ofVec3f dsCitizensData::getEventCoords(int index) {
   

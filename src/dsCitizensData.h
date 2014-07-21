@@ -38,6 +38,7 @@ public:
   void fetchNewestJson();
   void fetchGeoJson();
   int getNumEvents( ) {return events.size(); }
+  dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }
   int getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
   ofVec3f getCentroid();
   void draw();
@@ -48,7 +49,7 @@ public:
 	Poco::DateTime dateParser(string iTime);
 	int timeFromCurrent(Poco::DateTime iPocoTime);
 
-	dsNeighborhoodFactory getGeoJson();
+//	dsNeighborhoodFactory getGeoJson();   //dev_JN
   
   float getAgeInSeconds(int index) {return events[index]->getAge(); }
 	string getEventCategory(int index) {return events[index]->getCategory();}
