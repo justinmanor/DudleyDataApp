@@ -18,7 +18,11 @@ dsEventLayer::~dsEventLayer() {}
 
 void dsEventLayer::buildEvents(dsCitizensData *data)
 {
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// Create a small circle for each event, colored by category.
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 	for (int i = 0 ; i < data->getNumEvents() ; i ++){
     ofxCircleObject *c = new ofxCircleObject(20, 2);
     c->setTrans(2000.0*(data->getEventCoords(i) - data->getCentroid()));
@@ -30,9 +34,8 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
     addChild(c);
   }
 	
-	// - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// Build Event Legend
-	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// Build the categories legend.
+	
 	vector <string> categories;
   
   categories.push_back("Sidewalk Patch");
@@ -69,7 +72,7 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
 	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// Create centroid circles, only for neighborhoods that have events.
+	// Create a pulsing circle at each neighborhood's centroid (only if it has events).
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   // Copy the full neighborhoods vector, remove neighborhoods that don't have events.
@@ -91,7 +94,7 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
   
 }
 
-// 
+// Fade-in the event circles (that are colored by category) on a timeline, based on their update date.
 void dsEventLayer::animateEvent(dsCitizensData *data) {
 	
 	for (int i = 0 ; i < events.size() ; i++){
@@ -101,7 +104,7 @@ void dsEventLayer::animateEvent(dsCitizensData *data) {
 	
 }
 
-// Pulses a centroid circle for each neighborhood that has events.
+// Pulses a centroid circle for each neighborhood that has events, the rate depending on its activity level.
 void dsEventLayer::animateByEventRate(dsCitizensData *data) {
 
 	// send event counts to neighborhood objects.
