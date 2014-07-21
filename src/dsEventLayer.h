@@ -42,7 +42,6 @@ public:
 
 private:
 	
-	map<string, int> neighborhoodEventCounts;
-	vector<string> simpleCount;
+  std::vector<dsNeighborhood*> neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have events.
   
 };
