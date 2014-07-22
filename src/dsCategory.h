@@ -39,11 +39,9 @@ public:
   int getClosedCount(){ return stats.nClosed; }
   int getOpenClosedRatio(){ return stats.openClosedRatio; }
   map<string, int> getEventsPerNeighborhood(){ return stats.nEventsPerNeighborhood; }
+  int getNeighborhoodCount(string iNeighborhoodName);
   
   void calculateStats(dsEvent* iEvent);
-  
-  //TODO
-  int getNeighborhoodCount(string iNeighborhoodName);
   
 private:
   
