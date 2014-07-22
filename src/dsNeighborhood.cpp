@@ -90,8 +90,6 @@ ofxPolygonObject* dsNeighborhood::getPolygon(){
 
 void dsNeighborhood::addEvent(dsEvent* iEvent){
   events.push_back(iEvent);
-  
-  //  DEV_JN
   calculateStats(iEvent);
 }
 
@@ -123,3 +121,9 @@ void dsNeighborhood::calculateStats(dsEvent* iEvent){
   ++stats.nEventsPerCategory[iEvent->getCategory()];
   
 }
+
+//
+int dsNeighborhood::getCategoryCount(string iCategoryName){
+  return stats.nEventsPerCategory[iCategoryName];
+}
+

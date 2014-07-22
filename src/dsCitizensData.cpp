@@ -67,6 +67,9 @@ void dsCitizensData::fetchNewestJson(){
       
     }
     
+    int test = categories[0]->getNeighborhoodCount("Allston");
+    int test2 = neighborhoods[0]->getCategoryCount("Other");
+    
     //DEV
     printCategoryCounter();
     printCategoryContents();

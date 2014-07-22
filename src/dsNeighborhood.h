@@ -31,21 +31,30 @@ public:
   dsNeighborhood();
   ~dsNeighborhood();
   
-  int getEventCount(){ return events.size(); }
-  
-  void setName(string iName);
   string getName();
-  void addVertX(float iVertX);
+  int getEventCount(){ return events.size(); }
+  int getDayCount(){ return stats.nToday; }
+  int getHourCount(){ return stats.nThisHour; }
+  int getWeekCount(){ return stats.nThisWeek; }
+  int getOpenCount(){ return stats.nOpen; }
+  int getClosedCount(){ return stats.nClosed; }
+  int getOpenClosedRatio(){ return stats.openClosedRatio; }
+  map<string, int> getEventsPerCategory(){ return stats.nEventsPerCategory; }
+  int getCategoryCount(string iNeighborhoodName);
   vector<float> getVertsX();
-  void addVertY(float iVertY);
   vector<float> getVertsY();
-  void addBounds(float iLeftBound, float iRightBound, float iBottomBound, float iUpBound);
   float getBound(string iBound);
-  void calculateCentroid();
   ofVec3f getCentroid();
   ofxPolygonObject* getPolygon();
-  void addEvent(dsEvent* iEvent);
   std::vector<dsEvent*> getEvents(){ return events; }
+  
+  void setName(string iName);
+  void addVertX(float iVertX);
+  void addVertY(float iVertY);
+  void addBounds(float iLeftBound, float iRightBound, float iBottomBound, float iUpBound);
+  void addEvent(dsEvent* iEvent);
+  
+  void calculateCentroid();
   void calculateStats(dsEvent* iEvent);
   
 private:
@@ -60,7 +69,6 @@ private:
   ofVec3f centroid;
   ofxPolygonObject *polygon;
   neighborhoodStats stats;
-  
   std::vector<dsEvent*> events;
   
   //TODO
