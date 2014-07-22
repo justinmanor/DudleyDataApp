@@ -48,6 +48,7 @@
 		E0384D4419789E5B0098E489 /* dsCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D4219789E5B0098E489 /* dsCategory.cpp */; };
 		E0384D471978BC350098E489 /* dsEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D451978BC350098E489 /* dsEvent.cpp */; };
 		E0979ED3197F18360083C914 /* dsEventCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0979ED1197F18360083C914 /* dsEventCollection.cpp */; };
+		E0979ED6197F2CC70083C914 /* dsCitizensDataListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0979ED4197F2CC70083C914 /* dsCitizensDataListener.cpp */; };
 		E110B2F7DD0801265DDDB9DC /* ofxAVFVideoPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4DEA54B98B862847263B807 /* ofxAVFVideoPlayer.mm */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -190,6 +191,8 @@
 		E0384D461978BC350098E489 /* dsEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsEvent.h; sourceTree = "<group>"; };
 		E0979ED1197F18360083C914 /* dsEventCollection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsEventCollection.cpp; sourceTree = "<group>"; };
 		E0979ED2197F18360083C914 /* dsEventCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsEventCollection.h; sourceTree = "<group>"; };
+		E0979ED4197F2CC70083C914 /* dsCitizensDataListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsCitizensDataListener.cpp; sourceTree = "<group>"; };
+		E0979ED5197F2CC70083C914 /* dsCitizensDataListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsCitizensDataListener.h; sourceTree = "<group>"; };
 		E2413011F1A523DC723DFA74 /* ofxAnimation.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAnimation.h; path = ../../../addons/ofxSoso/src/ofxAnimation.h; sourceTree = SOURCE_ROOT; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -404,6 +407,8 @@
 				E0384D461978BC350098E489 /* dsEvent.h */,
 				E0979ED1197F18360083C914 /* dsEventCollection.cpp */,
 				E0979ED2197F18360083C914 /* dsEventCollection.h */,
+				E0979ED4197F2CC70083C914 /* dsCitizensDataListener.cpp */,
+				E0979ED5197F2CC70083C914 /* dsCitizensDataListener.h */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -664,6 +669,7 @@
 				2493105C19772ED900D38CF3 /* dsEventLayer.cpp in Sources */,
 				082528782FB65D5EF4B0A04D /* ofxPolygonObject.cpp in Sources */,
 				55D2103B1B041FE28CE75CB6 /* ofxQuadStripObject.cpp in Sources */,
+				E0979ED6197F2CC70083C914 /* dsCitizensDataListener.cpp in Sources */,
 				089ADEB3781631D6AE8DFABA /* ofxRectangleObject.cpp in Sources */,
 				E0384D2F1970A52F0098E489 /* ofxGeoJSON.cpp in Sources */,
 				E0384D1A19705D010098E489 /* json_writer.cpp in Sources */,
