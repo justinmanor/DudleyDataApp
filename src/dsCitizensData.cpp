@@ -71,7 +71,7 @@ void dsCitizensData::fetchNewestJson(){
     printCategoryCounter();
     printCategoryContents();
     printNeighborhoodContents();
-		
+    
     // Save to file : pretty print
     if(!jsonResults.save("example_output_pretty.json",true)) {
       //      cout << "example_output_pretty.json written unsuccessfully." << endl;

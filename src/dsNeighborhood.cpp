@@ -90,4 +90,33 @@ ofxPolygonObject* dsNeighborhood::getPolygon(){
 
 void dsNeighborhood::addEvent(dsEvent* iEvent){
   events.push_back(iEvent);
+  
+  //  DEV_JN
+  calculateStats(iEvent);
+}
+
+//
+void dsNeighborhood::calculateStats(dsEvent* iEvent){
+  // Add to counter vars.
+  if (iEvent->getStatus() == "open") { stats.nOpen++; }
+  else if (iEvent->getStatus() == "closed") { stats.nClosed++; }
+  
+  Poco::DateTime now;
+  Poco::Timespan diff = now - iEvent->getTime();
+  if (diff.days() == 0) { stats.nToday++; }
+  if (diff.totalHours() == 0) { stats.nThisHour++; }
+//  if (diff.() == 0) { stats.nThisWeek++; }
+  
+  int diffDays = diff.days();
+  int diffHours = diff.totalHours();    // is off... timezone problem?
+
+  Poco::Timespan span(7 * Poco::Timespan::DAYS);
+  Poco::DateTime a = now - span;
+  Poco::Timespan b = now - a;
+  int diffC = b.days();
+  
+  
+  // Recalculate ratio.
+  stats.openClosedRatio = stats.nClosed == 0 ? stats.nOpen/1 : (float)stats.nOpen/(float)stats.nClosed;
+  
 }

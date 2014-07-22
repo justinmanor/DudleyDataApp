@@ -11,6 +11,23 @@
 #include "ofMain.h"
 #include "dsEvent.h"
 #include "ofxPolygonObject.h"
+#include "Poco/DateTime.h"
+#include "Poco/Timespan.h"
+
+struct categoryCount{
+  string categoryName;
+  int eventCount;
+};
+
+struct neighborhoodStats{
+  int nOpen = 0;
+  int nClosed = 0;
+  float openClosedRatio = 0;
+  int nToday = 0;
+  int nThisHour = 0;
+  int nThisWeek = 0;
+  std::vector<categoryCount> categoryCounts;
+};
 
 class dsNeighborhood {
 
@@ -33,6 +50,7 @@ public:
   ofxPolygonObject* getPolygon();
   void addEvent(dsEvent* iEvent);
   std::vector<dsEvent*> getEvents(){ return events; }
+  void calculateStats(dsEvent* iEvent);
   
 private:
   
@@ -45,7 +63,8 @@ private:
   float topBound;
   ofVec3f centroid;
   ofxPolygonObject *polygon;
-
+  neighborhoodStats stats;
+  
   std::vector<dsEvent*> events;
   
   //TODO
