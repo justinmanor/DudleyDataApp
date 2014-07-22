@@ -56,9 +56,6 @@ public:
   
 private:
   
-//  string name;
-//  std::vector<dsEvent*> events;
-  
   vector<float> vertsX;
   vector<float> vertsY;
   float leftBound;
@@ -69,7 +66,4 @@ private:
   ofxPolygonObject *polygon;
   neighborhoodStats stats;
   
-  //TODO
-  //polygon
-  //events
 };

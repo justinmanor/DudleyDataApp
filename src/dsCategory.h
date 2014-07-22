@@ -47,9 +47,6 @@ public:
   
 private:
   
-//  string name;
-//  std::vector<dsEvent*> events;
-
   categoryStats stats;
   
 };
