@@ -35,24 +35,28 @@ public:
   dsCitizensData(string url);
   ~dsCitizensData();
 
-  void fetchNewestJson();
+  void fetchAllJson();
+  void fetchEventJson();
   void fetchGeoJson();
+  
   int getNumEvents( ) {return events.size(); }
   dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }
   int getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
   ofVec3f getCentroid();
-  void draw();
-	dsCategory* addCategoryToVector(string iCategoryName);
   dsCategory* getCategoryByName(string iCategoryName);
   dsNeighborhood* getNeighborhoodByName(string iNeighborhoodName);
-    
-	Poco::DateTime dateParser(string iTime);
-	int timeFromCurrent(Poco::DateTime iPocoTime);
-  
+
   float getAgeInSeconds(int index) {return events[index]->getAge(); }
 	string getEventCategory(int index) {return events[index]->getCategory();}
   string getNeighborhoodName(int index) { return events[index]->getNeighborhood(); }
   ofVec3f getEventCoords(int index);
+
+  void draw();
+	
+  dsCategory* addCategoryToVector(string iCategoryName);
+  
+	Poco::DateTime dateParser(string iTime);
+	int timeFromCurrent(Poco::DateTime iPocoTime);
   
   //DEV fcts
   void printCategoryCounter();

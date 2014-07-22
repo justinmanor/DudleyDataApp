@@ -5,6 +5,9 @@ void ofApp::setup(){
   
   ref = dsGraphicsRef::instance();
   
+  //TODO: make request be frmo 7 days ago (start with this, we need at least 1 week of data). Paging will be necessary.
+//  https://mayors24.cityofboston.gov/open311/v2/requests.json?start_date=[SEVEN DAYS AGO]-08:00&page_size=250&page=1
+  
   string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=250";
   citizensData = new dsCitizensData(url);
   

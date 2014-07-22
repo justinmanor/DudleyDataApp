@@ -13,14 +13,36 @@ dsCitizensData::dsCitizensData(string url){
   
   jsonUrl = url;
 
-  fetchGeoJson();       // Get neighborhood data first.
-  
+  fetchAllJson();
 }
 
 dsCitizensData::~dsCitizensData(){}
 
+//
+void dsCitizensData::fetchAllJson(){
+  fetchGeoJson();       // Get neighborhood data first.
+}
+
+// Get geojson file of Boston neighborhoods.
+void dsCitizensData::fetchGeoJson(){
+  
+  if (geojsonBoston.load("boston_neighborhoods.geojson")) {
+    ofLog(OF_LOG_NOTICE, "Succeed to load geojson..");
+    
+    // Copy the neighborhoods from the factory so it also resides here, in this main data object.
+    neighborhoods = geojsonBoston.getNeighborhoods();
+    
+    // Get Open311 "event" data once we have neighborhoods.
+    fetchEventJson();
+    
+  } else {
+    ofLog(OF_LOG_NOTICE, "Failed to load geojson..");
+  };
+  
+}
+
 // Get the json data of requests from the Open311 system.
-void dsCitizensData::fetchNewestJson(){
+void dsCitizensData::fetchEventJson(){
   
   bool parsingSuccessful = jsonResults.open(jsonUrl);
   if (parsingSuccessful) {
@@ -181,24 +203,6 @@ int dsCitizensData::timeFromCurrent(Poco::DateTime iPocoTime) {
 	return (ageInSeconds);
 
 	
-}
-
-// Get geojson file of Boston neighborhoods.
-void dsCitizensData::fetchGeoJson(){
-  
-  if (geojsonBoston.load("boston_neighborhoods.geojson")) {
-    ofLog(OF_LOG_NOTICE, "Succeed to load geojson..");
-
-    // Copy the neighborhoods from the factory so it also resides here, in this main data object.
-    neighborhoods = geojsonBoston.getNeighborhoods();
-    
-    // Get Open311 "event" data once we have neighborhoods.
-    fetchNewestJson();
-    
-  } else {
-    ofLog(OF_LOG_NOTICE, "Failed to load geojson..");
-  };
-  
 }
 
 // Return the geojson.
