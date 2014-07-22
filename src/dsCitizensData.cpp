@@ -244,3 +244,16 @@ void dsCitizensData::draw() {
     //ofLogNotice(ofToString(i));
   }
 }
+
+// Returns the number of events for a certain neighborhood, and optionally, specific to a category in said neighborhood.
+int dsCitizensData::getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName){
+  for (auto n : neighborhoods){
+    if (n->getName() == iNeighborhoodName){
+      
+      if (iCategoryName.empty()){ return n->getEventCount(); }
+      else { return n->getCategoryCount(iCategoryName); }
+      
+    }
+  }
+}
+

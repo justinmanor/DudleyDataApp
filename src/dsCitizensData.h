@@ -45,7 +45,8 @@ public:
   ofVec3f getCentroid();
   dsCategory* getCategoryByName(string iCategoryName);
   dsNeighborhood* getNeighborhoodByName(string iNeighborhoodName);
-
+  int getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");
+  
   float getAgeInSeconds(int index) {return events[index]->getAge(); }
 	string getEventCategory(int index) {return events[index]->getCategory();}
   string getNeighborhoodName(int index) { return events[index]->getNeighborhood(); }
