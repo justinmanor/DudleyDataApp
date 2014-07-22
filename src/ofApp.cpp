@@ -50,7 +50,7 @@ void ofApp::keyPressed(int key){
 	if (key == 'a') {
 		eventLayer->animateEvent(citizensData);
 	} else if (key == 's') {
-		eventLayer->animateByEventRate(citizensData);
+		eventLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
 	}
 
 }

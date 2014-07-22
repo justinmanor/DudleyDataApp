@@ -25,7 +25,7 @@ public:
   
 	void	buildEvents(dsCitizensData *data);
 	void	animateEvent(dsCitizensData *data);
-	void	animateByEventRate(dsCitizensData *data);
+	void	animateByEventRate(dsCitizensData *data, float iLength);
 	
   
 public:
