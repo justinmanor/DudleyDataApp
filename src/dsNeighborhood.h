@@ -13,11 +13,7 @@
 #include "ofxPolygonObject.h"
 #include "Poco/DateTime.h"
 #include "Poco/Timespan.h"
-
-struct categoryCount{
-  string categoryName;
-  int eventCount;
-};
+#include "Poco/Timezone.h"
 
 struct neighborhoodStats{
   int nOpen = 0;
@@ -26,7 +22,7 @@ struct neighborhoodStats{
   int nToday = 0;
   int nThisHour = 0;
   int nThisWeek = 0;
-  std::vector<categoryCount> categoryCounts;
+  map<string, int> nEventsPerCategory;      // Counts number of events per cateogry in neighborhood.
 };
 
 class dsNeighborhood {

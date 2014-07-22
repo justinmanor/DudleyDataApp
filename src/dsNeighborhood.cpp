@@ -103,20 +103,23 @@ void dsNeighborhood::calculateStats(dsEvent* iEvent){
   
   Poco::DateTime now;
   Poco::Timespan diff = now - iEvent->getTime();
-  if (diff.days() == 0) { stats.nToday++; }
-  if (diff.totalHours() == 0) { stats.nThisHour++; }
-//  if (diff.() == 0) { stats.nThisWeek++; }
   
-  int diffDays = diff.days();
-  int diffHours = diff.totalHours();    // is off... timezone problem?
-
-  Poco::Timespan span(7 * Poco::Timespan::DAYS);
-  Poco::DateTime a = now - span;
-  Poco::Timespan b = now - a;
-  int diffC = b.days();
+  int diffDaysFromEventToNow = diff.days();
+  if (diffDaysFromEventToNow == 0) { stats.nToday++; }    // If the diff is 0, then it was in this current day.
   
+  int diffHoursFromEventToNow = diff.totalHours();    // DEV: is off by 3 hours... timezone problem?
+  if (diffHoursFromEventToNow == 0) { stats.nThisHour++; }    // If the diff is 0, then it was in this current hour.
+  
+  Poco::Timespan spanOneWeek(7 * Poco::Timespan::DAYS);
+  Poco::DateTime dateAWeekAgo = now - spanOneWeek;
+  Poco::Timespan spanFromEventToAWeekAgo = iEvent->getTime() - dateAWeekAgo;
+  int diffDaysFromEventToAWeekAgo = spanFromEventToAWeekAgo.days();
+  if (diffDaysFromEventToAWeekAgo >= 0){ stats.nThisWeek++; }   // If its 7 to 0 days ago, it's within this week.
   
   // Recalculate ratio.
   stats.openClosedRatio = stats.nClosed == 0 ? stats.nOpen/1 : (float)stats.nOpen/(float)stats.nClosed;
+  
+  // Increment count of event's category.
+  ++stats.nEventsPerCategory[iEvent->getCategory()];
   
 }
