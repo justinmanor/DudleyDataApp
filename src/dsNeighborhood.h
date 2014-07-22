@@ -32,9 +32,6 @@ public:
   dsNeighborhood();
   ~dsNeighborhood();
   
-//  string getName();
-//  std::vector<dsEvent*> getEvents(){ return events; }
-  int getEventCount(){ return events.size(); }
   int getDayCount(){ return stats.nToday; }
   int getHourCount(){ return stats.nThisHour; }
   int getWeekCount(){ return stats.nThisWeek; }
@@ -53,7 +50,6 @@ public:
   void addVertX(float iVertX);
   void addVertY(float iVertY);
   void addBounds(float iLeftBound, float iRightBound, float iBottomBound, float iUpBound);
-  void addEvent(dsEvent* iEvent);
   
   void calculateCentroid();
   void calculateStats(dsEvent* iEvent);

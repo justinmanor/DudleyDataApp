@@ -19,7 +19,12 @@ public:
   
   string getName(){ return name; }
   std::vector<dsEvent*> getEvents(){ return events; }
+  int getEventCount(){ return events.size(); }
+
+  void addEvent(dsEvent* iEvent);
   
+  virtual void calculateStats(dsEvent* iEvent)=0;
+    
 protected:
 
   string name;

@@ -14,11 +14,6 @@ dsCategory::dsCategory(string iName){
 
 dsCategory::~dsCategory(){}
 
-void dsCategory::addEvent(dsEvent* iEvent){
-  events.push_back(iEvent);
-  calculateStats(iEvent);
-}
-
 //
 void dsCategory::calculateStats(dsEvent* iEvent){
 

@@ -32,9 +32,6 @@ public:
   dsCategory(string iName);
   ~dsCategory();
   
-//  string getName(){ return name; }
-//  std::vector<dsEvent*> getEvents(){ return events; }
-  int getEventCount(){ return events.size(); }
   int getDayCount(){ return stats.nToday; }
   int getHourCount(){ return stats.nThisHour; }
   int getWeekCount(){ return stats.nThisWeek; }
@@ -43,7 +40,6 @@ public:
   int getOpenClosedRatio(){ return stats.openClosedRatio; }
   map<string, int> getEventsPerNeighborhood(){ return stats.nEventsPerNeighborhood; }
   
-  void addEvent(dsEvent* iEvent);
   void calculateStats(dsEvent* iEvent);
   
   //TODO

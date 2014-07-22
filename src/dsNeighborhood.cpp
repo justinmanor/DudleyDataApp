@@ -20,9 +20,6 @@ dsNeighborhood::~dsNeighborhood(){
 void dsNeighborhood::setName(string iName){
   name = iName;
 }
-//string dsNeighborhood::getName(){
-//  return name;
-//}
 
 void dsNeighborhood::addVertX(float iVertX){
   vertsX.push_back(iVertX);
@@ -86,11 +83,6 @@ ofxPolygonObject* dsNeighborhood::getPolygon(){
   }
   
   return polygon;
-}
-
-void dsNeighborhood::addEvent(dsEvent* iEvent){
-  events.push_back(iEvent);
-  calculateStats(iEvent);
 }
 
 //

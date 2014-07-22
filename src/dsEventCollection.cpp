@@ -7,3 +7,9 @@
 //
 
 #include "dsEventCollection.h"
+
+//
+void dsEventCollection::addEvent(dsEvent* iEvent){
+  events.push_back(iEvent);
+  calculateStats(iEvent);
+}
