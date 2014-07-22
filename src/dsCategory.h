@@ -7,13 +7,15 @@
 //
 
 #pragma once
+
 #include "ofMain.h"
+#include "dsEventCollection.h"
 #include "dsEvent.h"
 #include "Poco/DateTime.h"
 #include "Poco/Timespan.h"
 #include "Poco/Timezone.h"
 
-struct categoryStats{
+struct categoryStats {
   int nOpen = 0;
   int nClosed = 0;
   float openClosedRatio = 0;
@@ -23,15 +25,15 @@ struct categoryStats{
   map<string, int> nEventsPerNeighborhood;      // Counts number of events per cateogry in neighborhood.
 };
 
-class dsCategory {
+class dsCategory : public dsEventCollection {
   
 public:
   
   dsCategory(string iName);
   ~dsCategory();
   
-  string getName(){ return name; }
-  std::vector<dsEvent*> getEvents(){ return events; }
+//  string getName(){ return name; }
+//  std::vector<dsEvent*> getEvents(){ return events; }
   int getEventCount(){ return events.size(); }
   int getDayCount(){ return stats.nToday; }
   int getHourCount(){ return stats.nThisHour; }
@@ -49,9 +51,9 @@ public:
   
 private:
   
-  int id;
-  string name;
-  std::vector<dsEvent*> events;
+//  string name;
+//  std::vector<dsEvent*> events;
+
   categoryStats stats;
   
 };

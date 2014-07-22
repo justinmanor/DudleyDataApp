@@ -20,9 +20,9 @@ dsNeighborhood::~dsNeighborhood(){
 void dsNeighborhood::setName(string iName){
   name = iName;
 }
-string dsNeighborhood::getName(){
-  return name;
-}
+//string dsNeighborhood::getName(){
+//  return name;
+//}
 
 void dsNeighborhood::addVertX(float iVertX){
   vertsX.push_back(iVertX);

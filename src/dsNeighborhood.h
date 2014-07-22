@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "dsEventCollection.h"
 #include "dsEvent.h"
 #include "ofxPolygonObject.h"
 #include "Poco/DateTime.h"
@@ -25,13 +26,14 @@ struct neighborhoodStats{
   map<string, int> nEventsPerCategory;      // Counts number of events per cateogry in neighborhood.
 };
 
-class dsNeighborhood {
+class dsNeighborhood : public dsEventCollection {
 
 public:
   dsNeighborhood();
   ~dsNeighborhood();
   
-  string getName();
+//  string getName();
+//  std::vector<dsEvent*> getEvents(){ return events; }
   int getEventCount(){ return events.size(); }
   int getDayCount(){ return stats.nToday; }
   int getHourCount(){ return stats.nThisHour; }
@@ -46,7 +48,6 @@ public:
   float getBound(string iBound);
   ofVec3f getCentroid();
   ofxPolygonObject* getPolygon();
-  std::vector<dsEvent*> getEvents(){ return events; }
   
   void setName(string iName);
   void addVertX(float iVertX);
@@ -59,7 +60,9 @@ public:
   
 private:
   
-  string name;
+//  string name;
+//  std::vector<dsEvent*> events;
+  
   vector<float> vertsX;
   vector<float> vertsY;
   float leftBound;
@@ -69,7 +72,6 @@ private:
   ofVec3f centroid;
   ofxPolygonObject *polygon;
   neighborhoodStats stats;
-  std::vector<dsEvent*> events;
   
   //TODO
   //polygon
