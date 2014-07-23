@@ -13,6 +13,7 @@
 #include "dsNeighborhoodFactory.h"
 #include "dsCategory.h"
 #include "dsEvent.h"
+#include "dsCitizensDataSuscriber.h"
 
 //#include "ofxGeoJSON.h"
 
@@ -66,7 +67,7 @@ public:
   
   //TODO
 //  updateSubscribers()
-//  addEventSubscriber()
+  void addEventSubscriber(dsCitizensDataSuscriber* iSubscriber);
   
 private:
 
@@ -81,6 +82,6 @@ private:
   std::vector<dsNeighborhood*> neighborhoods;
 
   //TODO
-  //  std::vector<...*> eventSuscribers;
+  std::vector<dsCitizensDataSuscriber*> eventSubscribers;
   
 };

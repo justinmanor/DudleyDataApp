@@ -20,6 +20,7 @@ void ofApp::setup(){
 
   // Draws/animates circles for each event and neighborhood centroids.
 	eventLayer = new dsEventLayer();
+//  citizensData->addEventSubscriber(eventLayer);
   eventLayer->buildEvents(citizensData);
   scene->getRoot()->addChild(eventLayer);
 
