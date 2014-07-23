@@ -17,7 +17,7 @@ dsEventLayer::dsEventLayer() {
 dsEventLayer::~dsEventLayer() {}
 
 void dsEventLayer::handleNewEvent(dsEvent* iEvent){
-  
+  ofLog()<< "dsEventLayer::handleNewEvent - - - - - - - - - - -"<< endl;
 }
 
 void dsEventLayer::buildEvents(dsCitizensData *data)

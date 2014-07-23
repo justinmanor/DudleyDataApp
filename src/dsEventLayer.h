@@ -8,16 +8,17 @@
 
 #pragma once
 
-#include "dsCitizensDataListener.h"
+#include "dsCitizensDataSuscriber.h"
 //#include "ofxObject.h"
 #include "dsGraphicsRef.h"
 #include "dsCitizensData.h"
 #include "ofxCircleObject.h"
 #include "ofxRectangleObject.h"
 #include "ofxTextObject.h"
+#include "dsEvent.h"
 
 //class dsEventLayer : public ofxObject {
-class dsEventLayer : public dsCitizensDataListener {
+class dsEventLayer : public dsCitizensDataSuscriber {
   
 public:
   
@@ -25,7 +26,7 @@ public:
   dsEventLayer();
 	~dsEventLayer();
 
-  void handleNewEvent(dsEvent* iEvent);
+  void  handleNewEvent(dsEvent* iEvent);
 	void	buildEvents(dsCitizensData *data);
 	void	animateEvent(dsCitizensData *data);
 	void	animateByEventRate(dsCitizensData *data, float iLength);
