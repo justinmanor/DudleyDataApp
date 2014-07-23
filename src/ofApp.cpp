@@ -18,12 +18,12 @@ void ofApp::setup(){
   scene->setBackgroundColor(10, 10, 10);
   
 
-  
+  // Draws/animates circles for each event and neighborhood centroids.
 	eventLayer = new dsEventLayer();
   eventLayer->buildEvents(citizensData);
   scene->getRoot()->addChild(eventLayer);
 
-  
+  // Draws the map of Boston neighborhoods.
   neighborhoodLayer = new dsNeighborhoodLayer();
   neighborhoodLayer->buildNeighborhoods(citizensData);
   scene->getRoot()->addChild(neighborhoodLayer);

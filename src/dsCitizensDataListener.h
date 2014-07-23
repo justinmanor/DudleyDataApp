@@ -7,10 +7,11 @@
 //
 
 #pragma once
+#include "ofxObject.h"
 #include "ofMain.h"
 #include "dsEvent.h"
 
-class dsCitizensDataListener{
+class dsCitizensDataListener : public ofxObject {
   
 public:
   virtual void handleNewEvent(dsEvent* iEvent)=0;

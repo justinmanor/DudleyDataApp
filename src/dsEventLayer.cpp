@@ -16,6 +16,10 @@ dsEventLayer::dsEventLayer() {
 
 dsEventLayer::~dsEventLayer() {}
 
+void dsEventLayer::handleNewEvent(dsEvent* iEvent){
+  
+}
+
 void dsEventLayer::buildEvents(dsCitizensData *data)
 {
 
