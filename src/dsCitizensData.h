@@ -57,7 +57,7 @@ public:
 	
   dsCategory* addCategoryToVector(string iCategoryName);
   
-//	Poco::DateTime dateParser(string iTime);
+	Poco::DateTime dateParser(string iTime);
 //	int timeFromCurrent(Poco::DateTime iPocoTime);
   
   //DEV fcts

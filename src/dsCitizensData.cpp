@@ -63,6 +63,7 @@ void dsCitizensData::fetchEventJson(){
                                );
       events.push_back(e);
       // Add a few custom attributes of our own.
+			e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
       e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
       // Add current category to the category vector.
       dsCategory* c = addCategoryToVector(e->getCategory());
@@ -164,6 +165,16 @@ void dsCitizensData::printNeighborhoodContents(){
     cout<< "name : " << neighborhood->getName() <<endl;
     cout<< "#events : " << neighborhood->getEvents().size() <<endl;
   }
+}
+
+Poco::DateTime dsCitizensData::dateParser(string iTime) {
+	
+	Poco::DateTimeParser parser;
+	Poco::DateTime time;
+	int GMT = 5;
+	time = parser.parse(iTime, GMT);
+	
+	return (time);
 }
 
 // Return the geojson.
