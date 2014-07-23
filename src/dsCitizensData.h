@@ -65,8 +65,7 @@ public:
   void printCategoryContents();
   void printNeighborhoodContents();
   
-  //TODO
-//  updateSubscribers()
+  void updateSubscribers();
   void addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
   
 private:
@@ -74,14 +73,13 @@ private:
   string jsonUrl;                 // Contains the Open311 JSON query string originally passed to this class.
   ofxJSONElement jsonResults;     // Contains the raw Open311 data
   dsNeighborhoodFactory geojsonBoston;      // Creates neighborhood objects from geojson of Boston.
-  //  ofxGeoJSON bostonMap;         // Contains the raw GeoJSON data of Boston for drawing a map.
   
   std::vector<dsEvent*> events;      // Contains the Open311 data transformed into objects.
   std::vector<dsCategory*> categories;
-  map<string, int> categoryCounter;
   std::vector<dsNeighborhood*> neighborhoods;
 
-  //TODO
+  map<string, int> categoryCounter;
+
   std::vector<dsCitizensDataSubscriber*> eventSubscribers;
   
 };

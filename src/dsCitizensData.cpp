@@ -258,7 +258,13 @@ int dsCitizensData::getNumEventsForNeighborhood(string iNeighborhoodName, string
 }
 
 //
-void addEventSubscriber(dsCitizensDataSubscriber* iSubscriber){
-//  eventSubscribers.push_back(iSubscriber);
+void dsCitizensData::addEventSubscriber(dsCitizensDataSubscriber* iSubscriber){
+  eventSubscribers.push_back(iSubscriber);
 }
 
+//
+void dsCitizensData::updateSubscribers(){
+  for (auto es : eventSubscribers){
+//    es->handleNewEvent(dsEvent *iEvent);
+  }
+}
