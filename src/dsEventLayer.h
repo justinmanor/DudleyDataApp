@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "dsCitizensDataSuscriber.h"
+#include "dsCitizensDataSubscriber.h"
 //#include "ofxObject.h"
 #include "dsGraphicsRef.h"
 #include "dsCitizensData.h"
@@ -18,7 +18,7 @@
 #include "dsEvent.h"
 
 //class dsEventLayer : public ofxObject {
-class dsEventLayer : public dsCitizensDataSuscriber {
+class dsEventLayer : public dsCitizensDataSubscriber {
   
 public:
   
