@@ -9,7 +9,6 @@
 #pragma once
 
 #include "dsCitizensDataSubscriber.h"
-//#include "ofxObject.h"
 #include "dsGraphicsRef.h"
 #include "dsCitizensData.h"
 #include "ofxCircleObject.h"
@@ -17,12 +16,10 @@
 #include "ofxTextObject.h"
 #include "dsEvent.h"
 
-//class dsEventLayer : public ofxObject {
 class dsEventLayer : public dsCitizensDataSubscriber {
   
 public:
   
-	
   dsEventLayer();
 	~dsEventLayer();
 
