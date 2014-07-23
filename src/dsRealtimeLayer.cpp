@@ -18,4 +18,5 @@ dsRealtimeLayer::~dsRealtimeLayer() {}
 
 void dsRealtimeLayer::handleNewEvent(dsEvent* iEvent){
   ofLog()<< "dsRealtimeLayer::handleNewEvent - - - - - - - - - - -"<< endl;
+  cout<< iEvent <<endl;
 }

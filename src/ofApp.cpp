@@ -17,10 +17,13 @@ void ofApp::setup(){
   scene = new ofxScene(ofGetWidth(), ofGetHeight());
   scene->setBackgroundColor(10, 10, 10);
   
-
+  //DEV : testing live polling sending events to realtime layer.
+  realtimeLayer = new dsRealtimeLayer();
+  citizensData->addEventSubscriber(realtimeLayer);
+  
   // Draws/animates circles for each event and neighborhood centroids.
 	eventLayer = new dsEventLayer();
-  citizensData->addEventSubscriber(eventLayer);
+//  citizensData->addEventSubscriber(eventLayer);
   eventLayer->buildEvents(citizensData);
   scene->getRoot()->addChild(eventLayer);
 

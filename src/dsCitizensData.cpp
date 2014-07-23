@@ -13,7 +13,9 @@ dsCitizensData::dsCitizensData(string url){
   
   jsonUrl = url;
 
+  // Initial data fetch.
   fetchAllJson();
+  
 }
 
 dsCitizensData::~dsCitizensData(){}
@@ -35,10 +37,25 @@ void dsCitizensData::fetchGeoJson(){
     // Get Open311 "event" data once we have neighborhoods.
     fetchEventJson();
     
+    // --- DEV
+    // Start realtime polling of new data.
+//    startPolling();
+    
   } else {
     ofLog(OF_LOG_NOTICE, "Failed to load geojson..");
   };
   
+}
+
+//
+void dsCitizensData::startPolling(){
+  string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?start_date=[SEVEN DAYS AGO]-08:00&page_size=250&page=1";
+  bool parsingSuccessful = jsonResults.open(url);
+  if (parsingSuccessful) {
+    
+  } else {
+    cout  << "---------------- startPolling- Failed to parse JSON" << endl;
+	}
 }
 
 // Get the json data of requests from the Open311 system.

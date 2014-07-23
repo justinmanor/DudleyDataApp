@@ -39,6 +39,7 @@ public:
   void fetchAllJson();
   void fetchEventJson();
   void fetchGeoJson();
+  void startPolling();
   
   int getNumEvents( ) {return events.size(); }
   dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }

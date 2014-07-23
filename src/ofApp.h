@@ -7,6 +7,7 @@
 #include "dsGraphicsRef.h"
 #include "dsNeighborhoodLayer.h"
 #include "dsEventLayer.h"
+#include "dsRealtimeLayer.h"
 
 class ofApp : public ofBaseApp{
 
@@ -31,13 +32,12 @@ class ofApp : public ofBaseApp{
   dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
   
-  // For drawing geoJSON map.
-
   ofEasyCam cam;
   ofxScene *scene;
   dsNeighborhoodLayer *neighborhoodLayer;
   dsEventLayer *eventLayer;
 	vector <ofxPolygonObject *> categories;
 
-
+  //DEV
+  dsRealtimeLayer* realtimeLayer;
 };
