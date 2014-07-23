@@ -17,17 +17,17 @@ class dsEventCollection{
 
 public:
   
-  string getName(){ return name; }
+  string								getName(){ return name; }
   std::vector<dsEvent*> getEvents(){ return events; }
-  int getEventCount(){ return events.size(); }
+  int										getEventCount(){ return events.size(); }
 
-  void addEvent(dsEvent* iEvent);
+  void									addEvent(dsEvent* iEvent);
   
-  virtual void calculateStats(dsEvent* iEvent)=0;
+  virtual void					calculateStats(dsEvent* iEvent)=0;
     
 protected:
 
-  string name;
+  string								name;
   std::vector<dsEvent*> events;
   
 };

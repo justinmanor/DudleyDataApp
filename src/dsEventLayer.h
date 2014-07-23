@@ -42,23 +42,23 @@ public:
   
 public:
   
-  dsGraphicsRef               *ref;
-  dsCitizensData              *citizensData;
-  vector <ofxCircleObject *> events;
-	vector <ofxCircleObject *> centroids;
+  dsGraphicsRef									*ref;
+  dsCitizensData								*citizensData;
+  vector <ofxCircleObject *>		events;
+	vector <ofxCircleObject *>		centroids;
 	vector <ofxRectangleObject *> boxes;
-	vector <ofxTextObject *>	labels;
-	vector <ofxObject *>			elements;
+	vector <ofxTextObject *>			labels;
+	vector <ofxObject *>					elements;
 	
-	ofxSosoTrueTypeFont				*font16;
+	ofxSosoTrueTypeFont						*font16;
 
 private:
 	
-	Poco::DateTime dateParser(string iTime);
-	int timeFromCurrent(Poco::DateTime iPocoTime);
+	Poco::DateTime	dateParser(string iTime);
+	int							timeFromCurrent(Poco::DateTime iPocoTime);
 	
   std::vector<dsNeighborhood*> neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have events.
 	
-	float ageInSeconds;
+	float						ageInSeconds;
   
 };

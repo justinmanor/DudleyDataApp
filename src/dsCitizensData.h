@@ -40,46 +40,45 @@ public:
   void fetchEventJson();
   void fetchGeoJson();
   
-  int getNumEvents( ) {return events.size(); }
+  int										getNumEvents() {return events.size(); }
   dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }
-  int getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
-  ofVec3f getCentroid();
-  dsCategory* getCategoryByName(string iCategoryName);
-  dsNeighborhood* getNeighborhoodByName(string iNeighborhoodName);
-  int getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");	
-	string getEventCategory(int index);
-  string getNeighborhoodName(int index);
-	string getEventTime(int index);
+  int										getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
+  ofVec3f								getCentroid();
+  dsCategory*						getCategoryByName(string iCategoryName);
+  dsNeighborhood*				getNeighborhoodByName(string iNeighborhoodName);
+  int										getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");
+	string								getEventCategory(int index);
+  string								getNeighborhoodName(int index);
+	string								getEventTime(int index);
 	
-  ofVec3f getEventCoords(int index);
+  ofVec3f								getEventCoords(int index);
 
-  void draw();
+  void									draw();
 	
-  dsCategory* addCategoryToVector(string iCategoryName);
+  dsCategory*						addCategoryToVector(string iCategoryName);
   
-	Poco::DateTime dateParser(string iTime);
-//	int timeFromCurrent(Poco::DateTime iPocoTime);
+	Poco::DateTime				dateParser(string iTime);
   
   //DEV fcts
-  void printCategoryCounter();
-  void printCategoryContents();
-  void printNeighborhoodContents();
+  void									printCategoryCounter();
+  void									printCategoryContents();
+  void									printNeighborhoodContents();
   
-  void updateSubscribers();
-  void addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
+  void									updateSubscribers();
+  void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
   
 private:
 
-  string jsonUrl;                 // Contains the Open311 JSON query string originally passed to this class.
-  ofxJSONElement jsonResults;     // Contains the raw Open311 data
-  dsNeighborhoodFactory geojsonBoston;      // Creates neighborhood objects from geojson of Boston.
+  string																	jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
+  ofxJSONElement													jsonResults;			// Contains the raw Open311 data
+  dsNeighborhoodFactory										geojsonBoston;		// Creates neighborhood objects from geojson of Boston.
   
-  std::vector<dsEvent*> events;      // Contains the Open311 data transformed into objects.
-  std::vector<dsCategory*> categories;
-  std::vector<dsNeighborhood*> neighborhoods;
+  std::vector<dsEvent*>										events;						// Contains the Open311 data transformed into objects.
+  std::vector<dsCategory*>								categories;
+  std::vector<dsNeighborhood*>						neighborhoods;
 
-  map<string, int> categoryCounter;
+  map<string, int>												categoryCounter;
 
-  std::vector<dsCitizensDataSubscriber*> eventSubscribers;
+  std::vector<dsCitizensDataSubscriber*>	eventSubscribers;
   
 };

@@ -24,33 +24,34 @@ public:
   dsEvent(int iId, string iTimestring, string iStatus, float iLat, float iLon, string iCategory);
   ~dsEvent();
   
-  int getId(){ return id; }
-  Poco::DateTime getTime(){ return time; }
-  string getTimeString(){ return timeString; }
-  string getStatus(){ return status; }
-  float getLat(){ return lat; }
-  float getLon(){ return lon; }
-  string getNeighborhood(){ return neighborhood; }
-  string getCategory(){ return category; }
-  void setTime(Poco::DateTime iTime){ time = iTime; }
-  void setNeighborhood(string iNeighborhood){ neighborhood = iNeighborhood; }
+  int							getId(){ return id; }
+  Poco::DateTime	getTime(){ return time; }
+  string					getTimeString(){ return timeString; }
+  string					getStatus(){ return status; }
+  float						getLat(){ return lat; }
+  float						getLon(){ return lon; }
+  string					getNeighborhood(){ return neighborhood; }
+  string					getCategory(){ return category; }
+  void						setTime(Poco::DateTime iTime){ time = iTime; }
+  void						setNeighborhood(string iNeighborhood){ neighborhood = iNeighborhood; }
   
-//  string getNeighborhoodName(int index) { return neighborhood; }
-//  ofVec3f getEventCoords(int index);
-//  string getEventCategory(int index) {return category;}
-//  float getAgeInSeconds(int index) {return age; }
+  string					getNeighborhoodName(int index) { return neighborhood; }
+  ofVec3f					getEventCoords(int index);
+	string					getEventCategory(int index) {return category;}
+
   
 private:
+	
   // Default Open311 event attributes.
-  int id;
-  string timeString;
-  string status;
-  float lat;
-  float lon;
-  string category;
+  int			id;
+  string	timeString;
+  string	status;
+  float		lat;
+  float		lon;
+  string	category;
   
   // Our additional custom attributes.
-  Poco::DateTime time;
-  string neighborhood;
+  Poco::DateTime	time;
+  string					neighborhood;
 
 };

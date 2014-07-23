@@ -33,10 +33,10 @@ class ofApp : public ofBaseApp{
   
   // For drawing geoJSON map.
 
-  ofEasyCam cam;
-  ofxScene *scene;
-  dsNeighborhoodLayer *neighborhoodLayer;
-  dsEventLayer *eventLayer;
+  ofEasyCam										cam;
+  ofxScene										*scene;
+  dsNeighborhoodLayer					*neighborhoodLayer;
+  dsEventLayer								*eventLayer;
 	vector <ofxPolygonObject *> categories;
 
 
