@@ -63,8 +63,6 @@ void dsCitizensData::fetchEventJson(){
                                );
       events.push_back(e);
       // Add a few custom attributes of our own.
-      e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
-      e->setAge(timeFromCurrent(e->getTime()));
       e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
       // Add current category to the category vector.
       dsCategory* c = addCategoryToVector(e->getCategory());
@@ -80,7 +78,6 @@ void dsCitizensData::fetchEventJson(){
       cout << "---------------------------------------------- events["<< i <<"]" << endl;
       cout << "          id: "<< e->getId() << endl;
       cout << "        Time: "<< e->getTimeString() << endl;
-      cout << "    Age(sec): "<< e->getAge() << endl;
       cout << "      Status: "<< e->getStatus() << endl;
       cout << "         Lat: "<< e->getLat() << endl;
       cout << "         Lon: "<< e->getLon() << endl;
@@ -169,42 +166,6 @@ void dsCitizensData::printNeighborhoodContents(){
   }
 }
 
-// Parse event time.
-Poco::DateTime dsCitizensData::dateParser(string iTime) {
-	
-	Poco::DateTimeParser parser;
-	Poco::DateTime time;
-	int GMT = 5;
-	time = parser.parse(iTime, GMT);
-  
-//	int year = time.year();
-//	int month = time.month();
-//	int day = time.day();
-//	int hour = time.hour();
-//	int minute = time.minute();
-//	int second = time.second();
-	
-	return (time);
-}
-
-// Time From this current moment in time.
-int dsCitizensData::timeFromCurrent(Poco::DateTime iPocoTime) {
-	
-	
-	Poco::Timespan age;
-	Poco::Timestamp current;
-	Poco::DateTime currentTime = Poco::DateTime(current);
-	
-	
-	age = currentTime - iPocoTime;
-	
-	int ageInSeconds = age.totalSeconds() - 14400;
-	//cout << current << endl;
-	return (ageInSeconds);
-
-	
-}
-
 // Return the geojson.
 //dsNeighborhoodFactory dsCitizensData::getGeoJson(){
 //  return geojsonBoston;
@@ -255,6 +216,23 @@ int dsCitizensData::getNumEventsForNeighborhood(string iNeighborhoodName, string
       
     }
   }
+}
+
+//
+string dsCitizensData::getEventCategory(int index) {
+	if (index >= 0 && index < events.size()) {
+		return events[index]->getCategory();
+	}
+}
+string dsCitizensData::getNeighborhoodName(int index) {
+	if (index >= 0 && index < events.size()) {
+		return events[index]->getNeighborhood();
+	}
+}
+string dsCitizensData::getEventTime(int index) {
+	if (index >= 0 && index < events.size()) {
+		return events[index]->getTimeString();
+	}
 }
 
 //

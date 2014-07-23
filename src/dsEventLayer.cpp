@@ -102,8 +102,9 @@ void dsEventLayer::buildEvents(dsCitizensData *data)
 void dsEventLayer::animateEvent(dsCitizensData *data) {
 	
 	for (int i = 0 ; i < events.size() ; i++){
+		ageInSeconds = timeFromCurrent(dsEventLayer::dateParser(data->getEventTime(i)));
 		events[i]->doMessage1f(OF_SETALPHA, 0.0, 0.01, OF_LINEAR, 0);
-		events[i]->doMessage1f(OF_SETALPHA, data->getAgeInSeconds(i)/10800, 0.5, OF_LINEAR, 255);
+		events[i]->doMessage1f(OF_SETALPHA, ageInSeconds/10800, 0.5, OF_LINEAR, 255);
 	}
 	
 }
@@ -125,6 +126,44 @@ void dsEventLayer::animateByEventRate(dsCitizensData *data, float iLength) {
 		centroids[i]->doMessage1f(OF_SETALPHA, fadeInLength+iLength, fadeInLength, OF_EASE_OUT, 0);
   }
 		
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// Parse event time.
+Poco::DateTime dsEventLayer::dateParser(string iTime) {
+	
+	Poco::DateTimeParser parser;
+	Poco::DateTime time;
+	int GMT = 5;
+	time = parser.parse(iTime, GMT);
+  
+	//	int year = time.year();
+	//	int month = time.month();
+	//	int day = time.day();
+	//	int hour = time.hour();
+	//	int minute = time.minute();
+	//	int second = time.second();
+	
+	return (time);
+}
+
+// Time From this current moment in time.
+int dsEventLayer::timeFromCurrent(Poco::DateTime iPocoTime) {
+	
+	
+	Poco::Timespan age;
+	Poco::Timestamp current;
+	Poco::DateTime currentTime = Poco::DateTime(current);
+	
+	
+	age = currentTime - iPocoTime;
+	
+	float ageInSeconds = age.totalSeconds() - 14400;
+	
+	return (ageInSeconds);
+	
+	
 }
 
 

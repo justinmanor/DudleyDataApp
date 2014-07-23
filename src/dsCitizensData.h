@@ -46,23 +46,10 @@ public:
   ofVec3f getCentroid();
   dsCategory* getCategoryByName(string iCategoryName);
   dsNeighborhood* getNeighborhoodByName(string iNeighborhoodName);
-  int getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");
-  
-  float getAgeInSeconds(int index) {
-		if (index >= 0 && index < events.size()) {
-			return events[index]->getAge();
-		}
-	}
-	string getEventCategory(int index) {
-		if (index >= 0 && index < events.size()) {
-			return events[index]->getCategory();
-		}
-	}
-  string getNeighborhoodName(int index) {
-		if (index >= 0 && index < events.size()) {
-			return events[index]->getNeighborhood();
-		}
-	}
+  int getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");	
+	string getEventCategory(int index);
+  string getNeighborhoodName(int index);
+	string getEventTime(int index);
 	
   ofVec3f getEventCoords(int index);
 
@@ -70,8 +57,8 @@ public:
 	
   dsCategory* addCategoryToVector(string iCategoryName);
   
-	Poco::DateTime dateParser(string iTime);
-	int timeFromCurrent(Poco::DateTime iPocoTime);
+//	Poco::DateTime dateParser(string iTime);
+//	int timeFromCurrent(Poco::DateTime iPocoTime);
   
   //DEV fcts
   void printCategoryCounter();

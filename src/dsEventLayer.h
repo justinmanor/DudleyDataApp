@@ -17,6 +17,14 @@
 #include "ofxTextObject.h"
 #include "dsEvent.h"
 
+#include "Poco/LocalDateTime.h"
+#include "Poco/DateTime.h"
+#include "Poco/DateTimeFormatter.h"
+#include "Poco/DateTimeParser.h"
+#include "Poco/DateTimeFormat.h"
+#include "Poco/Timestamp.h"
+#include <ctime>
+
 //class dsEventLayer : public ofxObject {
 class dsEventLayer : public dsCitizensDataSubscriber {
   
@@ -46,6 +54,11 @@ public:
 
 private:
 	
+	Poco::DateTime dateParser(string iTime);
+	int timeFromCurrent(Poco::DateTime iPocoTime);
+	
   std::vector<dsNeighborhood*> neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have events.
+	
+	float ageInSeconds;
   
 };
