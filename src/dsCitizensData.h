@@ -38,7 +38,7 @@ public:
   dsCitizensData();
   ~dsCitizensData();
 	
-	void setEnvironment(string iEnv, int iUTCTimeDiff);
+	void setEnvironment(string iEnv, Poco::Timespan iTimeSpan);
 
   void fetchAllJson();
   void fetchEventJson();
@@ -78,7 +78,8 @@ private:
 	string								start;
 	string								pageSize;
 	string								pageNum;
-	int										timeZone;
+	string								initialEnd;
+	string								envPull;
 
 	void									idle(float iTime);
 	float									timeOfLastPull;

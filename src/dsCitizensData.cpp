@@ -17,26 +17,27 @@ dsCitizensData::dsCitizensData(){
 	
 }
 
-void dsCitizensData::setEnvironment(string iEnv, int iUTCTimeDiff){
+void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
 	
 	baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
-	timeZone = iUTCTimeDiff;
-	pageSize = "page_size=250";
-	pageNum = "page=1";
+	initialEnd = dateTimeToString(currentDateTime() - iTimeSpan);
+	cout << "initial End: " << initialEnd << endl;
+	start = "start_date=" + initialEnd + "&end_date=" + dateTimeToString(currentDateTime());
 	
 	if (iEnv == "dev") {
     cout << "System Environment: dev" <<endl;
-		cout << " TimeZone from UTC: " << iUTCTimeDiff << endl;
-		start = "end_date=" + dateTimeToString(currentDateTime());
+		pageSize = "5";
+		envPull = "end_date";
 	} else if (iEnv == "production") {
 		cout << "System Environment: production" <<endl;
-		cout << " TimeZone from UTC: " << iUTCTimeDiff << endl;
+		pageSize = "250";
+		envPull = "start_date";
 	} else {
 		cout << "***** error with production setup *****" << endl;
-		start = "start_date=" + dateTimeToString(currentDateTime());
 	}
 	
-	jsonUrl = baseUrl + "?" + start + "&" + pageSize + "&" + pageNum;
+	jsonUrl = baseUrl + "?" + start + "&page_size=250&page=1";
+	cout << jsonUrl << endl;
 	fetchAllJson();
 	
 }
@@ -54,13 +55,10 @@ void dsCitizensData::idle(float iTime){
 		if (timeSinceLastPull > 5.0) {
 			cout << "5 seconds!" <<endl;
 			
-			string baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
-			string pageSize = "page_size=5";
-			string pageNum = "page=1";
-			string start = dateTimeToString(dateTimeOfLastPull);
+			string currentStart = dateTimeToString(dateTimeOfLastPull);
+			pageNum = "page=1";
 			
-			// jsonUrl = baseUrl + "?start_date=" + "2014-07-20T08:00:00-8:00" + "&" + pageSize + "&" + pageNum;
-			jsonUrl = baseUrl + "?end_date=" + start + "&" + pageSize + "&" + pageNum;
+			jsonUrl = baseUrl + "?" + envPull + "=" + currentStart + "&page_size=" + pageSize + "&" + pageNum;
 			
 			cout << start << endl;
 			cout << jsonUrl << endl;
@@ -260,20 +258,30 @@ Poco::DateTime dsCitizensData::dateParser(string iTime) {
 
 // Poco::DateTime to String, matching server format
 string dsCitizensData::dateTimeToString(Poco::DateTime iDateTime) {
-
-	int utcOffset = Poco::Timezone::utcOffset();
-	//cout << utcOffset << endl;
-	string s = (Poco::DateTimeFormatter::format(iDateTime, Poco::DateTimeFormat::ISO8601_FORMAT, timeZone));
+	
+	int tzBoston;
+	Poco::DateTime bostonTime;
+	
+	if (Poco::Timezone::dst() == 3600) {
+		//cout << "day light savings in affect" << endl;
+    tzBoston = -14400;
+		bostonTime = iDateTime - Poco::Timespan(0,4,0,0,0);
+	} else {
+		//cout << "standard time, no DST." << endl;
+		tzBoston = -18000;
+		bostonTime = iDateTime - Poco::Timespan(0,5,0,0,0);
+	}
+	
+	string s = (Poco::DateTimeFormatter::format(bostonTime, Poco::DateTimeFormat::ISO8601_FORMAT, tzBoston));
 	return s;
 	
 }
 
 // Get current local Poco::DateTime
 Poco::DateTime dsCitizensData::currentDateTime() {
-	
-	Poco::LocalDateTime::LocalDateTime now;
-	Poco::Timestamp ts = now.timestamp();
-	Poco::DateTime current = Poco::DateTime(ts);
+
+	Poco::DateTime current = Poco::DateTime::DateTime();
+	cout << dateTimeToString( current ) << endl;
 	
 	return current;
 	

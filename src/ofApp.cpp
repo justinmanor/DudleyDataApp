@@ -6,9 +6,9 @@ void ofApp::setup(){
 	citizensData = new dsCitizensData();
 	
 	// ---- Dev or Production ----
-	env = "dev"; // set to "dev" or "production"
-	timeDiff = -25200; // -14400 for boston, -25200 for San Diego
-	setupEnv(env, -25200);
+	env = "dev"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
+	initialGrab = Poco::Timespan(1,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
+	setupEnv(env, initialGrab);
 	// ---------------------------
 	
   
@@ -24,16 +24,6 @@ void ofApp::setup(){
 	//https://mayors24.cityofboston.gov/open311/v2/requests.json?start_date=[SEVEN DAYS AGO]-08:00&page_size=250&page=1
 	//  Setting start and end might help when trying to find specific times
 	//  start_date=2014-07-16T05:00:00-08:00&end_date=2014-07-16T15:22:00-08:00&
-	
-//	string baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
-//	string start = "end_date=2014-07-20T08:00:00";
-//	string tzSanDiego = "-08:00";
-//	string tzBoston = "-04:00";
-//	string pageSize = "page_size=250";
-//	string pageNum = "page=1";
-  
-  //string url = baseUrl + "?" + start + "&" + tzSanDiego + "&" + pageSize + "&" + pageNum;
-	//string url = baseUrl + "?" + pageSize + "&" + pageNum;
   
   scene->getRoot()->addChild(citizensData);
 
@@ -118,6 +108,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-void ofApp::setupEnv(string iEnv, int iUTCTimeDiff) {
-	citizensData->setEnvironment(iEnv, iUTCTimeDiff);
+void ofApp::setupEnv(string iEnv, Poco::Timespan iTimeSpan) {
+	citizensData->setEnvironment(iEnv, iTimeSpan);
 }

@@ -26,14 +26,14 @@ class ofApp : public ofBaseApp{
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
 	
-	void setupEnv(string iEnv, int iUTCTimeDiff = -14400);
+	void setupEnv(string iEnv, Poco::Timespan iTimeSpan);
 
   protected:
   
   dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
 	string											env;
-	int													timeDiff;
+	Poco::Timespan							initialGrab;
   
   // For drawing geoJSON map.
 
