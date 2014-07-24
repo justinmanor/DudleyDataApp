@@ -14,9 +14,39 @@ dsCitizensData::dsCitizensData(string url){
   jsonUrl = url;
 
   fetchAllJson();
+	
 }
 
 dsCitizensData::~dsCitizensData(){}
+
+// IDLE
+void dsCitizensData::idle(float iTime){
+	
+	if (timeOfLastPull) {
+    int timeSinceLastPull = ofGetElapsedTimef() - timeOfLastPull;
+		if (timeSinceLastPull > 5.0) {
+			cout << "5 seconds!" <<endl;
+			
+			string baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
+			string pageSize = "page_size=250";
+			string pageNum = "page=1";
+			string start = dateTimeToString(dateTimeOfLastPull);
+			
+			jsonUrl = baseUrl + "?start_date=" + "2014-07-20T08:00:00-8:00" + "&" + pageSize + "&" + pageNum;
+			jsonUrl = baseUrl + "?start_date=" + start + "&" + pageSize + "&" + pageNum;
+			
+			cout << start << endl;
+			cout << jsonUrl << endl;
+
+			//fetchEventJson();
+			// or
+			dateTimeOfLastPull = dateTimeOfLastPull = currentDateTime();
+			timeOfLastPull = ofGetElapsedTimef();
+		}
+	}
+  
+}
+
 
 //
 void dsCitizensData::fetchAllJson(){
@@ -78,7 +108,7 @@ void dsCitizensData::fetchEventJson(){
       // DEV
       cout << "---------------------------------------------- events["<< i <<"]" << endl;
       cout << "          id: "<< e->getId() << endl;
-      cout << "        Time: "<< e->getTimeString() << endl;
+      cout << "        Time: "<< dateTimeToString( e->getTime() ) << endl;
       cout << "      Status: "<< e->getStatus() << endl;
       cout << "         Lat: "<< e->getLat() << endl;
       cout << "         Lon: "<< e->getLon() << endl;
@@ -108,6 +138,10 @@ void dsCitizensData::fetchEventJson(){
 	} else {
     //		cout  << "---------------- Failed to parse JSON" << endl;
 	}
+	
+	// setting the current time for pulling reference
+	timeOfLastPull = ofGetElapsedTimef();
+	dateTimeOfLastPull = currentDateTime();
   
 }
 
@@ -171,10 +205,28 @@ Poco::DateTime dsCitizensData::dateParser(string iTime) {
 	
 	Poco::DateTimeParser parser;
 	Poco::DateTime time;
-	int GMT = 5;
-	time = parser.parse(iTime, GMT);
-	
+	int tzd;
+	parser.parse(Poco::DateTimeFormat::ISO8601_FORMAT, iTime, time, tzd);
+	//cout << tzd << endl;
 	return (time);
+}
+
+string dsCitizensData::dateTimeToString(Poco::DateTime iDateTime) {
+
+	int utcOffset = Poco::Timezone::utcOffset();
+	//cout << utcOffset << endl;
+	string s = (Poco::DateTimeFormatter::format(iDateTime, Poco::DateTimeFormat::ISO8601_FORMAT, -28800));
+	return s;
+	
+}
+
+Poco::DateTime dsCitizensData::currentDateTime() {
+	
+	Poco::LocalDateTime::LocalDateTime now;
+	Poco::Timestamp ts = now.timestamp();
+	Poco::DateTime current = Poco::DateTime(ts);
+	return current;
+	
 }
 
 // Return the geojson.

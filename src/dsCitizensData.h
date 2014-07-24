@@ -14,6 +14,7 @@
 #include "dsCategory.h"
 #include "dsEvent.h"
 #include "dsCitizensDataSubscriber.h"
+#include "ofxObject.h"
 
 //#include "ofxGeoJSON.h"
 
@@ -23,11 +24,12 @@
 #include "Poco/DateTimeParser.h"
 #include "Poco/DateTimeFormat.h"
 #include "Poco/Timestamp.h"
+#include "Poco/Timezone.h"
 #include <ctime>
 
 //class dsCategory;   // forward-declaration.
 
-class dsCitizensData{
+class dsCitizensData:public ofxObject{
 
 public:
 
@@ -58,6 +60,7 @@ public:
   dsCategory*						addCategoryToVector(string iCategoryName);
   
 	Poco::DateTime				dateParser(string iTime);
+	string								dateTimeToString(Poco::DateTime iDateTime);
   
   //DEV fcts
   void									printCategoryCounter();
@@ -69,6 +72,11 @@ public:
   
 private:
 
+	void									idle(float iTime);
+	float									timeOfLastPull;
+	Poco::DateTime				dateTimeOfLastPull;
+	Poco::DateTime				currentDateTime();
+	
   string																	jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
   ofxJSONElement													jsonResults;			// Contains the raw Open311 data
   dsNeighborhoodFactory										geojsonBoston;		// Creates neighborhood objects from geojson of Boston.
