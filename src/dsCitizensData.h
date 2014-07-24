@@ -35,8 +35,10 @@ public:
 
 	int day, month, year;
 	
-  dsCitizensData(string url);
+  dsCitizensData();
   ~dsCitizensData();
+	
+	void setEnvironment(string iEnv, int iUTCTimeDiff);
 
   void fetchAllJson();
   void fetchEventJson();
@@ -71,6 +73,12 @@ public:
   void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
   
 private:
+	
+	string								baseUrl;
+	string								start;
+	string								pageSize;
+	string								pageNum;
+	int										timeZone;
 
 	void									idle(float iTime);
 	float									timeOfLastPull;

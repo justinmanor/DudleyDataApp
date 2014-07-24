@@ -25,11 +25,15 @@ class ofApp : public ofBaseApp{
   void windowResized(int w, int h);
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
+	
+	void setupEnv(string iEnv, int iUTCTimeDiff = -14400);
 
   protected:
   
   dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
+	string											env;
+	int													timeDiff;
   
   // For drawing geoJSON map.
 

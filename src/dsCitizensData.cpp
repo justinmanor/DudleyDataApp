@@ -9,11 +9,35 @@
 #include "dsCitizensData.h"
 
 
-dsCitizensData::dsCitizensData(string url){
+dsCitizensData::dsCitizensData(){
   
-  jsonUrl = url;
+  //jsonUrl = url;
 
-  fetchAllJson();
+  //fetchAllJson();
+	
+}
+
+void dsCitizensData::setEnvironment(string iEnv, int iUTCTimeDiff){
+	
+	baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
+	timeZone = iUTCTimeDiff;
+	pageSize = "page_size=250";
+	pageNum = "page=1";
+	
+	if (iEnv == "dev") {
+    cout << "System Environment: dev" <<endl;
+		cout << " TimeZone from UTC: " << iUTCTimeDiff << endl;
+		start = "end_date=" + dateTimeToString(currentDateTime());
+	} else if (iEnv == "production") {
+		cout << "System Environment: production" <<endl;
+		cout << " TimeZone from UTC: " << iUTCTimeDiff << endl;
+	} else {
+		cout << "***** error with production setup *****" << endl;
+		start = "start_date=" + dateTimeToString(currentDateTime());
+	}
+	
+	jsonUrl = baseUrl + "?" + start + "&" + pageSize + "&" + pageNum;
+	fetchAllJson();
 	
 }
 
@@ -22,26 +46,29 @@ dsCitizensData::~dsCitizensData(){}
 // IDLE
 void dsCitizensData::idle(float iTime){
 	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// realtime pulling
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	if (timeOfLastPull) {
     int timeSinceLastPull = ofGetElapsedTimef() - timeOfLastPull;
 		if (timeSinceLastPull > 5.0) {
 			cout << "5 seconds!" <<endl;
 			
 			string baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
-			string pageSize = "page_size=250";
+			string pageSize = "page_size=5";
 			string pageNum = "page=1";
 			string start = dateTimeToString(dateTimeOfLastPull);
 			
-			jsonUrl = baseUrl + "?start_date=" + "2014-07-20T08:00:00-8:00" + "&" + pageSize + "&" + pageNum;
-			jsonUrl = baseUrl + "?start_date=" + start + "&" + pageSize + "&" + pageNum;
+			// jsonUrl = baseUrl + "?start_date=" + "2014-07-20T08:00:00-8:00" + "&" + pageSize + "&" + pageNum;
+			jsonUrl = baseUrl + "?end_date=" + start + "&" + pageSize + "&" + pageNum;
 			
 			cout << start << endl;
 			cout << jsonUrl << endl;
-
-			//fetchEventJson();
+			//dateParser(start);
+			fetchEventJson();
 			// or
-			dateTimeOfLastPull = dateTimeOfLastPull = currentDateTime();
-			timeOfLastPull = ofGetElapsedTimef();
+			//dateTimeOfLastPull = currentDateTime();
+			//timeOfLastPull = ofGetElapsedTimef();
 		}
 	}
   
@@ -75,68 +102,82 @@ void dsCitizensData::fetchGeoJson(){
 void dsCitizensData::fetchEventJson(){
   
   bool parsingSuccessful = jsonResults.open(jsonUrl);
-  if (parsingSuccessful) {
+  
+	if (parsingSuccessful) {
+		
     cout  << "---------------- Successfully parsed JSON" << endl;
-//    cout << jsonResults.getRawString() << endl;
+		
+		// cout << jsonResults.getRawString() << endl;
     
-    //  Create an event for each piece of data.
-    for(int i=0; i<jsonResults.size(); i++)
-    {
-      // Event attributes based on default Open311 data attributes.
-      dsEvent* e = new dsEvent(
-                               i,
-                               jsonResults[i]["updated_datetime"].asString(),
-                               jsonResults[i]["status"].asString(),
-                               jsonResults[i]["lat"].asFloat(),
-                               jsonResults[i]["long"].asFloat(),
-                               jsonResults[i]["service_name"].asString()
-                               );
-      events.push_back(e);
-      // Add a few custom attributes of our own.
-			e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
-      e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
-      // Add current category to the category vector.
-      dsCategory* c = addCategoryToVector(e->getCategory());
-      // Add reference to this event in the category object.
-      c->addEvent(e);
-      // Add reference to this event in the neighborhood object.
-      dsNeighborhood* n = getNeighborhoodByName(e->getNeighborhood());
-      if (e->getNeighborhood() != "unknown"){
-        n->addEvent(e);
-      }
-      
-      // DEV
-      cout << "---------------------------------------------- events["<< i <<"]" << endl;
-      cout << "          id: "<< e->getId() << endl;
-      cout << "        Time: "<< dateTimeToString( e->getTime() ) << endl;
-      cout << "      Status: "<< e->getStatus() << endl;
-      cout << "         Lat: "<< e->getLat() << endl;
-      cout << "         Lon: "<< e->getLon() << endl;
-      cout << "Neighborhood: "<< e->getNeighborhood() << endl;
-      cout << "    Category: "<< e->getCategory() << endl;
-      
-    }
-    
-    //DEV
-    printCategoryCounter();
-    printCategoryContents();
-    printNeighborhoodContents();
-    
-    // Save to file : pretty print
-    if(!jsonResults.save("example_output_pretty.json",true)) {
-      //      cout << "example_output_pretty.json written unsuccessfully." << endl;
-    } else {
-      //      cout << "example_output_pretty.json written successfully." << endl;
-    }
-    // Save to file : raw
-    if(!jsonResults.save("example_output_fast.json",false)) {
-      //      cout << "example_output_pretty.json written unsuccessfully." << endl;
-    } else {
-      //      cout << "example_output_pretty.json written successfully." << endl;
-    }
-    
+		if (jsonResults.size() > 0) {
+			
+			cout << "New event(s): " << jsonResults.size() << endl;
+			
+		
+			//  Create an event for each piece of data.
+			for(int i=0; i<jsonResults.size(); i++) {
+				// Event attributes based on default Open311 data attributes.
+				dsEvent* e = new dsEvent(
+																 i,
+																 jsonResults[i]["updated_datetime"].asString(),
+																 jsonResults[i]["status"].asString(),
+																 jsonResults[i]["lat"].asFloat(),
+																 jsonResults[i]["long"].asFloat(),
+																 jsonResults[i]["service_name"].asString()
+																 );
+				events.push_back(e);
+				// Add a few custom attributes of our own.
+				e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
+				e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
+				// Add current category to the category vector.
+				dsCategory* c = addCategoryToVector(e->getCategory());
+				// Add reference to this event in the category object.
+				c->addEvent(e);
+				// Add reference to this event in the neighborhood object.
+				dsNeighborhood* n = getNeighborhoodByName(e->getNeighborhood());
+				if (e->getNeighborhood() != "unknown"){
+					n->addEvent(e);
+				}
+				
+				// DEV
+				cout << "---------------------------------------------- events["<< i <<"]" << endl;
+				cout << "          id: "<< e->getId() << endl;
+				cout << "        Time: "<< dateTimeToString( e->getTime() ) << endl;
+				cout << "      Status: "<< e->getStatus() << endl;
+				cout << "         Lat: "<< e->getLat() << endl;
+				cout << "         Lon: "<< e->getLon() << endl;
+				cout << "Neighborhood: "<< e->getNeighborhood() << endl;
+				cout << "    Category: "<< e->getCategory() << endl;
+				
+			}
+			
+			//DEV
+			//printCategoryCounter();
+			//printCategoryContents();
+			//printNeighborhoodContents();
+			
+			// Save to file : pretty print
+			if(!jsonResults.save("example_output_pretty.json",true)) {
+				//      cout << "example_output_pretty.json written unsuccessfully." << endl;
+			} else {
+				//      cout << "example_output_pretty.json written successfully." << endl;
+			}
+			// Save to file : raw
+			if(!jsonResults.save("example_output_fast.json",false)) {
+				//      cout << "example_output_pretty.json written unsuccessfully." << endl;
+			} else {
+				//      cout << "example_output_pretty.json written successfully." << endl;
+			}
+			
+			
+			cout << "Total Event Size: " << events.size() << endl;
+			updateSubscribers();
+		} else {
+			cout << " - - - No new events - - - " << endl;
+		}
+		
 	} else {
-    //		cout  << "---------------- Failed to parse JSON" << endl;
+		cout  << "---------------- Failed to parse JSON" << endl;
 	}
 	
 	// setting the current time for pulling reference
@@ -201,33 +242,44 @@ void dsCitizensData::printNeighborhoodContents(){
   }
 }
 
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Time Tools
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// String to Poco::DateTime
 Poco::DateTime dsCitizensData::dateParser(string iTime) {
 	
 	Poco::DateTimeParser parser;
 	Poco::DateTime time;
 	int tzd;
 	parser.parse(Poco::DateTimeFormat::ISO8601_FORMAT, iTime, time, tzd);
-	//cout << tzd << endl;
+	cout << "UTC Time Diff: " << tzd << endl;
 	return (time);
 }
 
+// Poco::DateTime to String, matching server format
 string dsCitizensData::dateTimeToString(Poco::DateTime iDateTime) {
 
 	int utcOffset = Poco::Timezone::utcOffset();
 	//cout << utcOffset << endl;
-	string s = (Poco::DateTimeFormatter::format(iDateTime, Poco::DateTimeFormat::ISO8601_FORMAT, -28800));
+	string s = (Poco::DateTimeFormatter::format(iDateTime, Poco::DateTimeFormat::ISO8601_FORMAT, timeZone));
 	return s;
 	
 }
 
+// Get current local Poco::DateTime
 Poco::DateTime dsCitizensData::currentDateTime() {
 	
 	Poco::LocalDateTime::LocalDateTime now;
 	Poco::Timestamp ts = now.timestamp();
 	Poco::DateTime current = Poco::DateTime(ts);
+	
 	return current;
 	
 }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Return the geojson.
 //dsNeighborhoodFactory dsCitizensData::getGeoJson(){
@@ -305,7 +357,8 @@ void dsCitizensData::addEventSubscriber(dsCitizensDataSubscriber* iSubscriber){
 
 //
 void dsCitizensData::updateSubscribers(){
+	//newEvents
   for (auto es : eventSubscribers){
-//    es->handleNewEvent(dsEvent *iEvent);
+    es->handleNewEvent(events[15]);
   }
 }
