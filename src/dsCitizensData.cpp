@@ -15,11 +15,13 @@ dsCitizensData::dsCitizensData(){
 
 void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
 	
+  // Set URL for the big historical fetch of event data.
 	baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
 	initialEnd = dateTimeToString(currentDateTime() - iTimeSpan);
 	cout << "initial End: " << initialEnd << endl;
 	start = "start_date=" + initialEnd + "&end_date=" + dateTimeToString(currentDateTime());
-	
+	histPageNum = "1";
+  
 	if (iEnv == "dev") {
     cout << "System Environment: dev" <<endl;
 		pageSize = "5";
@@ -32,7 +34,8 @@ void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
 		cout << "***** error with production setup *****" << endl;
 	}
 	
-	jsonUrl = baseUrl + "?" + start + "&page_size=250&page=1";
+	jsonUrlNoPage = baseUrl + "?" + start + "&page_size=250";
+  jsonUrl = jsonUrlNoPage +"&page="+ histPageNum;
 	cout << jsonUrl << endl;
 	fetchAllJson();
 	
@@ -182,6 +185,15 @@ void dsCitizensData::fetchEventJson(){
 				//      cout << "example_output_pretty.json written successfully." << endl;
 			}
 			
+      
+      // PAGING: if we just hit the maximum 250 results per page (allowed by server), get the next page of data.
+      if (jsonResults.size() >= 250){
+        cout<< "HISTORICAL FETCH - PAGE "+ histPageNum +" * * * * * * * * * * * * * * * * * * * * * * * * * * *";
+        histPageNum = ofToString(ofToInt(histPageNum) + 1);
+        jsonUrl = jsonUrlNoPage +"&page="+ histPageNum;
+        fetchEventJson();
+      }
+      
 			
 			cout << "Total Event Size: " << events.size() << endl;
 			updateSubscribers();

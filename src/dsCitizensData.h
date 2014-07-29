@@ -76,7 +76,10 @@ public:
 private:
 	
 	string								baseUrl;
+  string                jsonUrlNoPage;
+  string								jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
 	string								start;
+  string                histPageNum;      // Page number to get for historical data.
 	string								pageSize;
 	string								pageNum;
 	string								initialEnd;
@@ -87,7 +90,6 @@ private:
 	Poco::DateTime				dateTimeOfLastPull;
 	Poco::DateTime				currentDateTime();
 	
-  string																	jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
   ofxJSONElement													jsonResults;			// Contains the raw Open311 data
   dsNeighborhoodFactory										geojsonBoston;		// Creates neighborhood objects from geojson of Boston.
   

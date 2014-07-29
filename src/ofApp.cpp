@@ -7,7 +7,7 @@ void ofApp::setup(){
 	
 	// ---- Dev or Production ----
 	env = "dev"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
-	initialGrab = Poco::Timespan(1,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
+	initialGrab = Poco::Timespan(7,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
 	setupEnv(env, initialGrab);
 	// ---------------------------
 	
