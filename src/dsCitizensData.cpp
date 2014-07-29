@@ -27,10 +27,12 @@ void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
     cout << "System Environment: dev" <<endl;
 		rtPageSize = "5";
 		envPull = "end_date";
+    pollingInterval = 5.0;
 	} else if (iEnv == "production") {
 		cout << "System Environment: production" <<endl;
 		rtPageSize = "250";
 		envPull = "start_date";
+    pollingInterval = 5.0;
 	} else {
 		cout << "***** error with production setup *****" << endl;
 	}
@@ -56,27 +58,21 @@ void dsCitizensData::idle(float iTime){
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     if (timeOfLastPull) {
       int timeSinceLastPull = ofGetElapsedTimef() - timeOfLastPull;
-      if (timeSinceLastPull > 5.0) {
+      if (timeSinceLastPull > pollingInterval) {
 //        cout << "5 seconds!" <<endl;
         
         string currentStart = dateTimeToString(dateTimeOfLastPull);
-        
         jsonUrl = baseUrl + "?" + envPull + "=" + currentStart + "&page_size=" + rtPageSize + "&page=" + rtPageNum;
         
 //        cout << start << endl;
 //        cout << jsonUrl << endl;
-        //dateParser(start);
         fetchRealtimeEventJson();
-        // or
-        //dateTimeOfLastPull = currentDateTime();
-        //timeOfLastPull = ofGetElapsedTimef();
       }
     }
     
   }
   
 }
-
 
 //
 void dsCitizensData::fetchAllJson(){
@@ -101,6 +97,7 @@ void dsCitizensData::fetchGeoJson(){
   
 }
 
+// Is used to get new data by polling every few seconds. Loop durationd defined in idle loop.
 void dsCitizensData::fetchRealtimeEventJson(){
   
   bool parsingSuccessful = jsonResults.open(jsonUrl);
@@ -288,96 +285,6 @@ void dsCitizensData::fetchHistoricEventJson(){
 	} else {
 		cout  << "ERROR- dsCitizensData::fetchHistoricEventJson- Failed to parse JSON" << endl;
 	}
-  
-}
-
-// Get the json data of requests from the Open311 system.
-void dsCitizensData::fetchEventJson(){
-  
-  bool parsingSuccessful = jsonResults.open(jsonUrl);
-  
-	if (parsingSuccessful) {
-		
-    cout  << "---------------- Successfully parsed JSON" << endl;
-		
-		// cout << jsonResults.getRawString() << endl;
-    
-		if (jsonResults.size() > 0) {
-			
-			cout << "New event(s): " << jsonResults.size() << endl;
-			
-		
-			//  Create an event for each piece of data.
-			for(int i=0; i<jsonResults.size(); i++) {
-				// Event attributes based on default Open311 data attributes.
-				dsEvent* e = new dsEvent(
-																 i,
-																 jsonResults[i]["updated_datetime"].asString(),
-																 jsonResults[i]["status"].asString(),
-																 jsonResults[i]["lat"].asFloat(),
-																 jsonResults[i]["long"].asFloat(),
-																 jsonResults[i]["service_name"].asString()
-																 );
-				events.push_back(e);
-				// Add a few custom attributes of our own.
-				e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
-				e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
-				// Add current category to the category vector.
-				dsCategory* c = addCategoryToVector(e->getCategory());
-				// Add reference to this event in the category object.
-				c->addEvent(e);
-				// Add reference to this event in the neighborhood object.
-				dsNeighborhood* n = getNeighborhoodByName(e->getNeighborhood());
-				if (e->getNeighborhood() != "unknown"){
-					n->addEvent(e);
-				}
-				
-				// DEV
-				cout << "---------------------------------------------- events["<< i <<"]" << endl;
-				cout << "          id: "<< e->getId() << endl;
-				cout << "        Time: "<< dateTimeToString( e->getTime() ) << endl;
-				cout << "      Status: "<< e->getStatus() << endl;
-				cout << "         Lat: "<< e->getLat() << endl;
-				cout << "         Lon: "<< e->getLon() << endl;
-				cout << "Neighborhood: "<< e->getNeighborhood() << endl;
-				cout << "    Category: "<< e->getCategory() << endl;
-				
-			}
-			
-			//DEV
-			//printCategoryCounter();
-			//printCategoryContents();
-			//printNeighborhoodContents();
-			
-			// Save to file : pretty print
-			if(!jsonResults.save("example_output_pretty.json",true)) {
-				//      cout << "example_output_pretty.json written unsuccessfully." << endl;
-			} else {
-				//      cout << "example_output_pretty.json written successfully." << endl;
-			}
-			// Save to file : raw
-			if(!jsonResults.save("example_output_fast.json",false)) {
-				//      cout << "example_output_pretty.json written unsuccessfully." << endl;
-			} else {
-				//      cout << "example_output_pretty.json written successfully." << endl;
-			}
-			
-			
-      
-      
-			cout << "Total Event Size: " << events.size() << endl;
-			updateSubscribers();
-		} else {
-			cout << " - - - No new events - - - " << endl;
-		}
-		
-	} else {
-		cout  << "---------------- Failed to parse JSON" << endl;
-	}
-	
-	// setting the current time for pulling reference
-	timeOfLastPull = ofGetElapsedTimef();
-	dateTimeOfLastPull = currentDateTime();
   
 }
 

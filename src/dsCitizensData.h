@@ -41,10 +41,9 @@ public:
 	void setEnvironment(string iEnv, Poco::Timespan iTimeSpan);
 
   void fetchAllJson();
-  void fetchEventJson();
+  void fetchGeoJson();
   void fetchHistoricEventJson();
   void fetchRealtimeEventJson();
-  void fetchGeoJson();
   
   bool pollingActivated = false;
   
@@ -78,6 +77,7 @@ public:
   
 private:
 	
+  float                 pollingInterval;
 	string								baseUrl;
   string                jsonUrlNoPage;
   string								jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.

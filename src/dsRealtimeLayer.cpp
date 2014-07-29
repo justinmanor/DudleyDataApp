@@ -17,6 +17,5 @@ dsRealtimeLayer::dsRealtimeLayer() {
 dsRealtimeLayer::~dsRealtimeLayer() {}
 
 void dsRealtimeLayer::handleNewEvent(dsEvent* iEvent){
-  ofLog()<< "dsRealtimeLayer::handleNewEvent - - - - - - - - - - -"<< endl;
-//  cout<< iEvent <<endl;
+  ofLog()<< "dsRealtimeLayer::handleNewEvent- event time: "<< iEvent->getTimeString() << endl;
 }
