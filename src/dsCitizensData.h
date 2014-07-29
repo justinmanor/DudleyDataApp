@@ -42,8 +42,11 @@ public:
 
   void fetchAllJson();
   void fetchEventJson();
+  void fetchHistoricEventJson();
+  void fetchRealtimeEventJson();
   void fetchGeoJson();
-  void startPolling();
+  
+  bool pollingActivated = false;
   
   int										getNumEvents() {return events.size(); }
   dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }
@@ -80,8 +83,8 @@ private:
   string								jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
 	string								start;
   string                histPageNum;      // Page number to get for historical data.
-	string								pageSize;
-	string								pageNum;
+	string								rtPageSize;       // Page size for realtime polling.
+	string								rtPageNum;      // Page number to get, for realtime polling.
 	string								initialEnd;
 	string								envPull;
 

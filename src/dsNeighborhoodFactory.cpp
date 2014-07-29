@@ -46,7 +46,7 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
     ofxJSONElement type = result["features"][i]["geometry"]["type"];
     string name = result["features"][i]["properties"]["name"].asString();
     ofxJSONElement coordinates = result["features"][i]["geometry"]["coordinates"];
-    ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
+//    ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
     
     if ("Polygon" == type.asString()) {
       
