@@ -26,16 +26,23 @@ class ofApp : public ofBaseApp{
   void windowResized(int w, int h);
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
+	
+	void setupEnv(string iEnv, Poco::Timespan iTimeSpan);
 
   protected:
   
   dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
+	string											env;
+	Poco::Timespan							initialGrab;
   
-  ofEasyCam cam;
-  ofxScene *scene;
-  dsNeighborhoodLayer *neighborhoodLayer;
-  dsEventLayer *eventLayer;
+  // For drawing geoJSON map.
+
+  ofEasyCam										cam;
+  ofxScene										*scene;
+  dsNeighborhoodLayer					*neighborhoodLayer;
+  dsEventLayer								*eventLayer;
+  
 	vector <ofxPolygonObject *> categories;
 
   //DEV

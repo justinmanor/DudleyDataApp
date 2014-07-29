@@ -9,16 +9,69 @@
 #include "dsCitizensData.h"
 
 
-dsCitizensData::dsCitizensData(string url){
-  
-  jsonUrl = url;
+dsCitizensData::dsCitizensData(){
+	
+}
 
-  // Initial data fetch.
-  fetchAllJson();
-  
+void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
+	
+	baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
+	initialEnd = dateTimeToString(currentDateTime() - iTimeSpan);
+	cout << "initial End: " << initialEnd << endl;
+	start = "start_date=" + initialEnd + "&end_date=" + dateTimeToString(currentDateTime());
+	
+	if (iEnv == "dev") {
+    cout << "System Environment: dev" <<endl;
+		pageSize = "5";
+		envPull = "end_date";
+	} else if (iEnv == "production") {
+		cout << "System Environment: production" <<endl;
+		pageSize = "250";
+		envPull = "start_date";
+	} else {
+		cout << "***** error with production setup *****" << endl;
+	}
+	
+	jsonUrl = baseUrl + "?" + start + "&page_size=250&page=1";
+	cout << jsonUrl << endl;
+	fetchAllJson();
+	
 }
 
 dsCitizensData::~dsCitizensData(){}
+
+// IDLE
+void dsCitizensData::idle(float iTime){
+	
+  /*
+  
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// realtime pulling
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	if (timeOfLastPull) {
+    int timeSinceLastPull = ofGetElapsedTimef() - timeOfLastPull;
+		if (timeSinceLastPull > 5.0) {
+			cout << "5 seconds!" <<endl;
+			
+			string currentStart = dateTimeToString(dateTimeOfLastPull);
+			pageNum = "page=1";
+			
+			jsonUrl = baseUrl + "?" + envPull + "=" + currentStart + "&page_size=" + pageSize + "&" + pageNum;
+			
+			cout << start << endl;
+			cout << jsonUrl << endl;
+			//dateParser(start);
+			fetchEventJson();
+			// or
+			//dateTimeOfLastPull = currentDateTime();
+			//timeOfLastPull = ofGetElapsedTimef();
+		}
+	}
+  
+ */
+  
+}
+
 
 //
 void dsCitizensData::fetchAllJson(){
@@ -62,71 +115,87 @@ void dsCitizensData::startPolling(){
 void dsCitizensData::fetchEventJson(){
   
   bool parsingSuccessful = jsonResults.open(jsonUrl);
-  if (parsingSuccessful) {
+  
+	if (parsingSuccessful) {
+		
     cout  << "---------------- Successfully parsed JSON" << endl;
-//    cout << jsonResults.getRawString() << endl;
+		
+		// cout << jsonResults.getRawString() << endl;
     
-    //  Create an event for each piece of data.
-    for(int i=0; i<jsonResults.size(); i++)
-    {
-      // Event attributes based on default Open311 data attributes.
-      dsEvent* e = new dsEvent(
-                               i,
-                               jsonResults[i]["updated_datetime"].asString(),
-                               jsonResults[i]["status"].asString(),
-                               jsonResults[i]["lat"].asFloat(),
-                               jsonResults[i]["long"].asFloat(),
-                               jsonResults[i]["service_name"].asString()
-                               );
-      events.push_back(e);
-      // Add a few custom attributes of our own.
-      e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
-      e->setAge(timeFromCurrent(e->getTime()));
-      e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
-      // Add current category to the category vector.
-      dsCategory* c = addCategoryToVector(e->getCategory());
-      // Add reference to this event in the category object.
-      c->addEvent(e);
-      // Add reference to this event in the neighborhood object.
-      dsNeighborhood* n = getNeighborhoodByName(e->getNeighborhood());
-      if (e->getNeighborhood() != "unknown"){
-        n->addEvent(e);
-      }
-      
-      // DEV
-      cout << "---------------------------------------------- events["<< i <<"]" << endl;
-      cout << "          id: "<< e->getId() << endl;
-      cout << "        Time: "<< e->getTimeString() << endl;
-      cout << "    Age(sec): "<< e->getAge() << endl;
-      cout << "      Status: "<< e->getStatus() << endl;
-      cout << "         Lat: "<< e->getLat() << endl;
-      cout << "         Lon: "<< e->getLon() << endl;
-      cout << "Neighborhood: "<< e->getNeighborhood() << endl;
-      cout << "    Category: "<< e->getCategory() << endl;
-      
-    }
-    
-    //DEV
-    printCategoryCounter();
-    printCategoryContents();
-    printNeighborhoodContents();
-    
-    // Save to file : pretty print
-    if(!jsonResults.save("example_output_pretty.json",true)) {
-      //      cout << "example_output_pretty.json written unsuccessfully." << endl;
-    } else {
-      //      cout << "example_output_pretty.json written successfully." << endl;
-    }
-    // Save to file : raw
-    if(!jsonResults.save("example_output_fast.json",false)) {
-      //      cout << "example_output_pretty.json written unsuccessfully." << endl;
-    } else {
-      //      cout << "example_output_pretty.json written successfully." << endl;
-    }
-    
+		if (jsonResults.size() > 0) {
+			
+			cout << "New event(s): " << jsonResults.size() << endl;
+			
+		
+			//  Create an event for each piece of data.
+			for(int i=0; i<jsonResults.size(); i++) {
+				// Event attributes based on default Open311 data attributes.
+				dsEvent* e = new dsEvent(
+																 i,
+																 jsonResults[i]["updated_datetime"].asString(),
+																 jsonResults[i]["status"].asString(),
+																 jsonResults[i]["lat"].asFloat(),
+																 jsonResults[i]["long"].asFloat(),
+																 jsonResults[i]["service_name"].asString()
+																 );
+				events.push_back(e);
+				// Add a few custom attributes of our own.
+				e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
+				e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
+				// Add current category to the category vector.
+				dsCategory* c = addCategoryToVector(e->getCategory());
+				// Add reference to this event in the category object.
+				c->addEvent(e);
+				// Add reference to this event in the neighborhood object.
+				dsNeighborhood* n = getNeighborhoodByName(e->getNeighborhood());
+				if (e->getNeighborhood() != "unknown"){
+					n->addEvent(e);
+				}
+				
+				// DEV
+				cout << "---------------------------------------------- events["<< i <<"]" << endl;
+				cout << "          id: "<< e->getId() << endl;
+				cout << "        Time: "<< dateTimeToString( e->getTime() ) << endl;
+				cout << "      Status: "<< e->getStatus() << endl;
+				cout << "         Lat: "<< e->getLat() << endl;
+				cout << "         Lon: "<< e->getLon() << endl;
+				cout << "Neighborhood: "<< e->getNeighborhood() << endl;
+				cout << "    Category: "<< e->getCategory() << endl;
+				
+			}
+			
+			//DEV
+			//printCategoryCounter();
+			//printCategoryContents();
+			//printNeighborhoodContents();
+			
+			// Save to file : pretty print
+			if(!jsonResults.save("example_output_pretty.json",true)) {
+				//      cout << "example_output_pretty.json written unsuccessfully." << endl;
+			} else {
+				//      cout << "example_output_pretty.json written successfully." << endl;
+			}
+			// Save to file : raw
+			if(!jsonResults.save("example_output_fast.json",false)) {
+				//      cout << "example_output_pretty.json written unsuccessfully." << endl;
+			} else {
+				//      cout << "example_output_pretty.json written successfully." << endl;
+			}
+			
+			
+			cout << "Total Event Size: " << events.size() << endl;
+			updateSubscribers();
+		} else {
+			cout << " - - - No new events - - - " << endl;
+		}
+		
 	} else {
-    //		cout  << "---------------- Failed to parse JSON" << endl;
+		cout  << "---------------- Failed to parse JSON" << endl;
 	}
+	
+	// setting the current time for pulling reference
+	timeOfLastPull = ofGetElapsedTimef();
+	dateTimeOfLastPull = currentDateTime();
   
 }
 
@@ -186,41 +255,54 @@ void dsCitizensData::printNeighborhoodContents(){
   }
 }
 
-// Parse event time.
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Time Tools
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// String to Poco::DateTime
 Poco::DateTime dsCitizensData::dateParser(string iTime) {
 	
 	Poco::DateTimeParser parser;
 	Poco::DateTime time;
-	int GMT = 5;
-	time = parser.parse(iTime, GMT);
-  
-//	int year = time.year();
-//	int month = time.month();
-//	int day = time.day();
-//	int hour = time.hour();
-//	int minute = time.minute();
-//	int second = time.second();
-	
+	int tzd;
+	parser.parse(Poco::DateTimeFormat::ISO8601_FORMAT, iTime, time, tzd);
+	cout << "UTC Time Diff: " << tzd << endl;
 	return (time);
 }
 
-// Time From this current moment in time.
-int dsCitizensData::timeFromCurrent(Poco::DateTime iPocoTime) {
+// Poco::DateTime to String, matching server format
+string dsCitizensData::dateTimeToString(Poco::DateTime iDateTime) {
 	
+	int tzBoston;
+	Poco::DateTime bostonTime;
 	
-	Poco::Timespan age;
-	Poco::Timestamp current;
-	Poco::DateTime currentTime = Poco::DateTime(current);
+	if (Poco::Timezone::dst() == 3600) {
+		//cout << "day light savings in affect" << endl;
+    tzBoston = -14400;
+		bostonTime = iDateTime - Poco::Timespan(0,4,0,0,0);
+	} else {
+		//cout << "standard time, no DST." << endl;
+		tzBoston = -18000;
+		bostonTime = iDateTime - Poco::Timespan(0,5,0,0,0);
+	}
 	
-	
-	age = currentTime - iPocoTime;
-	
-	int ageInSeconds = age.totalSeconds() - 14400;
-	//cout << current << endl;
-	return (ageInSeconds);
-
+	string s = (Poco::DateTimeFormatter::format(bostonTime, Poco::DateTimeFormat::ISO8601_FORMAT, tzBoston));
+	return s;
 	
 }
+
+// Get current local Poco::DateTime
+Poco::DateTime dsCitizensData::currentDateTime() {
+
+	Poco::DateTime current = Poco::DateTime::DateTime();
+	cout << dateTimeToString( current ) << endl;
+	
+	return current;
+	
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Return the geojson.
 //dsNeighborhoodFactory dsCitizensData::getGeoJson(){
@@ -275,13 +357,31 @@ int dsCitizensData::getNumEventsForNeighborhood(string iNeighborhoodName, string
 }
 
 //
+string dsCitizensData::getEventCategory(int index) {
+	if (index >= 0 && index < events.size()) {
+		return events[index]->getCategory();
+	}
+}
+string dsCitizensData::getNeighborhoodName(int index) {
+	if (index >= 0 && index < events.size()) {
+		return events[index]->getNeighborhood();
+	}
+}
+string dsCitizensData::getEventTime(int index) {
+	if (index >= 0 && index < events.size()) {
+		return events[index]->getTimeString();
+	}
+}
+
+//
 void dsCitizensData::addEventSubscriber(dsCitizensDataSubscriber* iSubscriber){
   eventSubscribers.push_back(iSubscriber);
 }
 
 //
 void dsCitizensData::updateSubscribers(){
+	//newEvents
   for (auto es : eventSubscribers){
-//    es->handleNewEvent(dsEvent *iEvent);
+    es->handleNewEvent(events[15]);
   }
 }

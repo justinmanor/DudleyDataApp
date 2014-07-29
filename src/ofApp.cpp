@@ -2,25 +2,35 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	
+	citizensData = new dsCitizensData();
+	
+	// ---- Dev or Production ----
+	env = "dev"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
+	initialGrab = Poco::Timespan(1,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
+	setupEnv(env, initialGrab);
+	// ---------------------------
+	
   
   ref = dsGraphicsRef::instance();
   
-  //TODO: make request be frmo 7 days ago (start with this, we need at least 1 week of data). Paging will be necessary.
-//  https://mayors24.cityofboston.gov/open311/v2/requests.json?start_date=[SEVEN DAYS AGO]-08:00&page_size=250&page=1
-  
-  string url = "https://mayors24.cityofboston.gov/open311/v2/requests.json?page_size=250";
-  citizensData = new dsCitizensData(url);
-  
-  // Disable the of setupScreen because now each scene has a custom renderer.
+	// Disable the of setupScreen because now each scene has a custom renderer.
   ofDisableSetupScreen();
   
   scene = new ofxScene(ofGetWidth(), ofGetHeight());
   scene->setBackgroundColor(10, 10, 10);
+	
+  //TODO: make request be from 7 days ago (start with this, we need at least 1 week of data). Paging will be necessary.
+	//https://mayors24.cityofboston.gov/open311/v2/requests.json?start_date=[SEVEN DAYS AGO]-08:00&page_size=250&page=1
+	//  Setting start and end might help when trying to find specific times
+	//  start_date=2014-07-16T05:00:00-08:00&end_date=2014-07-16T15:22:00-08:00&
   
   //DEV : testing live polling sending events to realtime layer.
   realtimeLayer = new dsRealtimeLayer();
   citizensData->addEventSubscriber(realtimeLayer);
   
+  scene->getRoot()->addChild(citizensData);
+
   // Draws/animates circles for each event and neighborhood centroids.
 	eventLayer = new dsEventLayer();
 //  citizensData->addEventSubscriber(eventLayer);
@@ -100,4 +110,8 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::setupEnv(string iEnv, Poco::Timespan iTimeSpan) {
+	citizensData->setEnvironment(iEnv, iTimeSpan);
 }
