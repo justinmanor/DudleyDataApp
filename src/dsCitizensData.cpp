@@ -36,7 +36,7 @@ void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
 		envPull = "start_date";
     pollingInterval = 5.0;
 	} else if (iEnv == "dev_jc_1") {
-		cout << "System Environment: production" <<endl;
+		cout << "System Environment: dev_jc_1" <<endl;
 		rtPageSize = "249";
     histPageSize = "249";
 		envPull = "start_date";

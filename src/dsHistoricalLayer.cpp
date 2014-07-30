@@ -29,10 +29,10 @@ void dsHistoricalLayer::idle(float iTime){
   //DEV: infinite animation that uses citizensData events directly so this is continuously updated.
   for (int i = 0; i < centroids.size(); i++) {
     float freq = float(neighborhoodsContainingEvents[i]->getEventCount()) / float(data->getNumEvents()) * freqMultiplier;
-    float scale = (sin(freq * iTime) + 1) / 2;
+    float scale = (sin(freq * iTime * (M_PI*2)) + 1) / 2;
     centroids[i]->setScale(scale);
     
-    cout<<"centroid["<<i<<"] | scale = "<< scale << " | freq = "<< freq << " | time = "<< iTime << " | time*freq = "<< freq*iTime <<endl;
+//    cout<<"centroid["<<i<<"] | scale = "<< scale << " | freq = "<< freq << " | time = "<< iTime << " | time*freq = "<< freq*iTime <<endl;
   }
   
   

@@ -16,7 +16,7 @@ void ofApp::setup(){
 	scene->getRoot()->addChild(citizensData);         // Required to have its idle loop work.
   
 	// ---- Dev or Production ----
-	env = "dev_jc_1"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
+	env = "dev"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
 	initialGrab = Poco::Timespan(7,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
 	setupEnv(env, initialGrab);
   
