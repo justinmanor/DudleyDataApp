@@ -5,54 +5,54 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>1ACEDCB3-B732-4083-9E8A-AC4E3EBD5395</string>
+	<string>B90CE476-7150-4650-BCA2-1985C94834A7</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Dudley</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>6C1FD21F-F39B-498B-B4FD-87629B39F7A2</key>
-		<string>https://github.com/jcnesci/ofxSoso.git</string>
-		<key>A027C4A1-D2AB-43DE-A34C-7472CAA5BB53</key>
-		<string>https://github.com/jcnesci/openFrameworks.git</string>
-		<key>A52CD357-F11C-4792-803E-0B86F76F50EF</key>
-		<string>https://github.com/jcnesci/ofxAVFVideoPlayer.git</string>
-		<key>ADE00CD8-2565-4E0F-A669-9CD50F2DB00D</key>
-		<string>https://github.com/jcnesci/DudleyDataApp.git</string>
+		<key>069E6151-CEAA-4DE6-9872-4C518B101FA2</key>
+		<string>https://github.com/Surfincolin/ofxSoso.git</string>
+		<key>1DDDF662-58EE-4C46-925A-C7FCDEF82EF3</key>
+		<string>https://github.com/Surfincolin/openFrameworks.git</string>
+		<key>623D6CC1-30D8-42C6-B467-8325A2EDB190</key>
+		<string>https://github.com/Surfincolin/DudleyDataApp.git</string>
+		<key>9808F509-5D48-47C4-956C-E831887C53CA</key>
+		<string>https://github.com/kronick/ofxAVFVideoPlayer.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>apps/soso/Dudley/Dudley.xcodeproj/project.xcworkspace</string>
+	<string>apps/sosoApps/DudleyDataApp/Dudley.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>6C1FD21F-F39B-498B-B4FD-87629B39F7A2</key>
+		<key>069E6151-CEAA-4DE6-9872-4C518B101FA2</key>
 		<string>../../../../../addons/ofxSoso</string>
-		<key>A027C4A1-D2AB-43DE-A34C-7472CAA5BB53</key>
+		<key>1DDDF662-58EE-4C46-925A-C7FCDEF82EF3</key>
 		<string>../../../../..</string>
-		<key>A52CD357-F11C-4792-803E-0B86F76F50EF</key>
-		<string>../../../../../addons/ofxAVFVideoPlayer</string>
-		<key>ADE00CD8-2565-4E0F-A669-9CD50F2DB00D</key>
+		<key>623D6CC1-30D8-42C6-B467-8325A2EDB190</key>
 		<string>../..</string>
+		<key>9808F509-5D48-47C4-956C-E831887C53CA</key>
+		<string>../../../../../addons/ofxAVFVideoPlayer</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/jcnesci/DudleyDataApp.git</string>
+	<string>https://github.com/Surfincolin/DudleyDataApp.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>A027C4A1-D2AB-43DE-A34C-7472CAA5BB53</string>
+	<string>1DDDF662-58EE-4C46-925A-C7FCDEF82EF3</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>ADE00CD8-2565-4E0F-A669-9CD50F2DB00D</string>
+			<string>623D6CC1-30D8-42C6-B467-8325A2EDB190</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Dudley</string>
+			<string>DudleyDataApp</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>A52CD357-F11C-4792-803E-0B86F76F50EF</string>
+			<string>9808F509-5D48-47C4-956C-E831887C53CA</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ofxAVFVideoPlayer</string>
 		</dict>
@@ -60,7 +60,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6C1FD21F-F39B-498B-B4FD-87629B39F7A2</string>
+			<string>069E6151-CEAA-4DE6-9872-4C518B101FA2</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ofxSoso</string>
 		</dict>
@@ -68,7 +68,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>A027C4A1-D2AB-43DE-A34C-7472CAA5BB53</string>
+			<string>1DDDF662-58EE-4C46-925A-C7FCDEF82EF3</string>
 			<key>IDESourceControlWCCName</key>
 			<string>openFrameworks</string>
 		</dict>

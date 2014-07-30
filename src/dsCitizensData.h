@@ -70,7 +70,7 @@ public:
   void									printCategoryContents();
   void									printNeighborhoodContents();
   
-  void									updateSubscribers();
+  void									updateSubscribers(dsEvent* iEvent);
   void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
   
 private:

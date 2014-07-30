@@ -6,13 +6,13 @@ void ofApp::setup(){
 	citizensData = new dsCitizensData();
 	
 	// ---- Dev or Production ----
-	env = "dev"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
+	env = "dev"; // set to "dev" or "production" -- dev pulls 5 events every 5 seconds.
 	initialGrab = Poco::Timespan(1,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
 	setupEnv(env, initialGrab);
 	// ---------------------------
 	
   
-  ref = dsGraphicsRef::instance();
+  //ref = dsGraphicsRef::instance();
   
 	// Disable the of setupScreen because now each scene has a custom renderer.
   ofDisableSetupScreen();
@@ -41,6 +41,10 @@ void ofApp::setup(){
   neighborhoodLayer = new dsNeighborhoodLayer();
   neighborhoodLayer->buildNeighborhoods(citizensData);
   scene->getRoot()->addChild(neighborhoodLayer);
+	
+	// Draw new events.
+	//realtimeLayer = new dsRealtimeLayer();
+	scene->getRoot()->addChild(realtimeLayer);
   
   
 }
