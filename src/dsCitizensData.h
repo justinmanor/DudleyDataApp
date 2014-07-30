@@ -83,6 +83,7 @@ private:
   string								jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
 	string								start;
   string                histPageNum;      // Page number to get for historical data.
+  string                histPageSize;     // Page size for historical data.
 	string								rtPageSize;       // Page size for realtime polling.
 	string								rtPageNum;        // Page number to get, for realtime polling.
 	string								initialEnd;

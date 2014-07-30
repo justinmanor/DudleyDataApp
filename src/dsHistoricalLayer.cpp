@@ -23,7 +23,20 @@ dsHistoricalLayer::dsHistoricalLayer(dsCitizensData* iData) {
 dsHistoricalLayer::~dsHistoricalLayer() {}
 
 void dsHistoricalLayer::idle(float iTime){
-
+  
+  float freqMultiplier = 20.0;
+  
+  //DEV: infinite animation that uses citizensData events directly so this is continuously updated.
+  for (int i = 0; i < centroids.size(); i++) {
+    float freq = float(neighborhoodsContainingEvents[i]->getEventCount()) / float(data->getNumEvents()) * freqMultiplier;
+    float scale = (sin(freq * iTime) + 1) / 2;
+    centroids[i]->setScale(scale);
+    
+    cout<<"centroid["<<i<<"] | scale = "<< scale << " | freq = "<< freq << " | time = "<< iTime << " | time*freq = "<< freq*iTime <<endl;
+  }
+  
+  
+  /*
   float timeSinceLastUpdate = ofGetElapsedTimef() - timeOfLastUpdate;
   if (timeSinceLastUpdate > updateInterval){
     cout << "dsHistoricalLayer::idle---------------- UPDATING @ interval: "<< updateInterval << endl;
@@ -32,6 +45,7 @@ void dsHistoricalLayer::idle(float iTime){
     
     drawCentroids();        // re-draw visuals. TODO: update so we don't just re-draw from scratch, but smoothly update the drawing to the new values.
   }
+  */
 }
 
 void dsHistoricalLayer::drawCentroids(){
@@ -39,6 +53,9 @@ void dsHistoricalLayer::drawCentroids(){
   // - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// Create a pulsing circle at each neighborhood's centroid (only if it has events).
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -
+  
+  // range = [0.5, 5] secs
+  // domain = [minNumEventsInNeigh, maxNumEventsInNeigh]
   
   // Copy the full neighborhoods vector, remove neighborhoods that don't have events.
   neighborhoodsContainingEvents = data->getGeoJson().getNeighborhoods();
@@ -51,7 +68,8 @@ void dsHistoricalLayer::drawCentroids(){
 	for (int i = 0; i < neighborhoodsContainingEvents.size(); i++) {
     ofxCircleObject *centerCircle = new ofxCircleObject(20, 5);
     centerCircle->setTrans(2000*(neighborhoodsContainingEvents[i]->getCentroid() - data->getCentroid()));
-    centerCircle->setAlpha(0);
+//    centerCircle->setAlpha(0);
+    centerCircle->setAlpha(200);
     centerCircle->setColor(255, 255, 255);
     centroids.push_back(centerCircle);
     addChild(centerCircle);

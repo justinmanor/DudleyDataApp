@@ -26,18 +26,26 @@ void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
 	if (iEnv == "dev") {
     cout << "System Environment: dev" <<endl;
 		rtPageSize = "5";
+    histPageSize = "250";
 		envPull = "end_date";
     pollingInterval = 5.0;
 	} else if (iEnv == "production") {
 		cout << "System Environment: production" <<endl;
 		rtPageSize = "250";
+    histPageSize = "250";
+		envPull = "start_date";
+    pollingInterval = 5.0;
+	} else if (iEnv == "dev_jc_1") {
+		cout << "System Environment: production" <<endl;
+		rtPageSize = "249";
+    histPageSize = "249";
 		envPull = "start_date";
     pollingInterval = 5.0;
 	} else {
 		cout << "***** error with production setup *****" << endl;
 	}
 	
-	jsonUrlNoPage = baseUrl + "?" + start + "&page_size=250";
+	jsonUrlNoPage = baseUrl + "?" + start + "&page_size=" + histPageSize;
   jsonUrl = jsonUrlNoPage +"&page="+ histPageNum;
 //	cout << jsonUrl << endl;
   
