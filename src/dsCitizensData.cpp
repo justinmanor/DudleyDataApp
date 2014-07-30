@@ -109,6 +109,7 @@ void dsCitizensData::fetchGeoJson(){
 void dsCitizensData::fetchRealtimeEventJson(){
   
   bool parsingSuccessful = jsonResults.open(jsonUrl);
+	int initialEventSize = events.size();
   
 	if (parsingSuccessful) {
 		
@@ -177,11 +178,19 @@ void dsCitizensData::fetchRealtimeEventJson(){
 //			}
 			
 			
+
+			cout << "Total Event Size: " << events.size() << endl;
+			if (initialEventSize != 0) {
+				for (int i = initialEventSize; i < events.size(); i++) {
+					updateSubscribers(events[i]);
+				}
+			}
+
       cout << "dsCitizensData::fetchRealtimeEventJson- # new events: " << jsonResults.size() << endl;
       cout << "dsCitizensData::fetchRealtimeEventJson- # total events: " << events.size() << endl;
       cout << "dsCitizensData::fetchRealtimeEventJson- jsonUrl: " << jsonUrl << endl;
 
-			updateSubscribers();
+			//updateSubscribers();
       
 		} else {
       cout << "dsCitizensData::fetchRealtimeEventJson- # new events: NONE" << endl;
@@ -476,9 +485,9 @@ void dsCitizensData::addEventSubscriber(dsCitizensDataSubscriber* iSubscriber){
 }
 
 //
-void dsCitizensData::updateSubscribers(){
+void dsCitizensData::updateSubscribers(dsEvent* iEvent){
 	//newEvents
   for (auto es : eventSubscribers){
-    es->handleNewEvent(events[15]);
+    es->handleNewEvent(iEvent);
   }
 }

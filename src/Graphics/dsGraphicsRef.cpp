@@ -71,3 +71,15 @@ ofColor dsGraphicsRef::getColorByName(string iName)
 	//return ofVec4f(255,255,255,255);
   return ofColor(255,255,255);
 }
+
+void dsGraphicsRef::setDrawingCentroid (ofVec3f iDrawingCentroid) {
+	
+	drawingCentroid = iDrawingCentroid;
+	
+}
+
+ofVec3f dsGraphicsRef::getDrawingCentroid() {
+	
+	return drawingCentroid;
+
+};

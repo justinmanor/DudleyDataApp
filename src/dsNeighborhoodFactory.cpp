@@ -40,11 +40,13 @@ bool dsNeighborhoodFactory::load(string _path) {
 
 // Calculate the bounding boxes for each neighborhood.
 void dsNeighborhoodFactory::setupNeighborhoods(){
-  
+		
   // For each neighborhood...
   for (int i = 0; i<result["features"].size(); i++) {
     ofxJSONElement type = result["features"][i]["geometry"]["type"];
     string name = result["features"][i]["properties"]["name"].asString();
+		//cout << "---------COORDS-----------" << endl;
+		//cout << result["features"][i]["geometry"]["coordinates"] << endl;
     ofxJSONElement coordinates = result["features"][i]["geometry"]["coordinates"];
 //    ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
     
@@ -78,8 +80,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
         }
         
         // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-        n->addVertX(curX);
-        n->addVertY(curY);
+        n->addVertX(curX);	// Swapped for Lat Long
+        n->addVertY(curY);	// Swapped for Lat Long
         
       }
       
@@ -135,8 +137,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
           }
           
           // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-          n->addVertX(curX);
-          n->addVertY(curY);
+          n->addVertX(curX);	// Swapped for Lat Long
+          n->addVertY(curY);	// Swapped for Lat Long
         }
       }
       
@@ -147,7 +149,12 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
 //      n.bottom = minY;
 //      n.top = maxY;
       neighborhoods.push_back(n);
+			
     }
+		
+		// Push the new neighborhood's centroid to the neigCentroids vector.
+		// Used for calculating cityCentroid.
+		neigCentroids.push_back(neighborhoods[i]->getCentroid());
     
     //DEV
 //    cout << "****************************************** neighborhoods["<< i <<"]" << endl;
@@ -162,7 +169,16 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
 //    cout << "centroid.y : "  << neighborhoods[i]->getCentroid().y << endl;
     
   }
-  
+	
+	// calculate the cityCentroid.
+	for (int i = 0; i < neigCentroids.size(); i++) {
+    cityCentroid.x += neigCentroids[i].x/((float)neigCentroids.size());
+		cityCentroid.y += neigCentroids[i].y/((float)neigCentroids.size());
+	}
+	cout << "CITY CENTROID : " << cityCentroid.x << ", " << cityCentroid.y << ", " << cityCentroid.z << endl;
+  ref = dsGraphicsRef::instance();
+	ref->setDrawingCentroid(cityCentroid);
+	
 }
 
 // For a given point, return which Boston neighborhood it is part of.

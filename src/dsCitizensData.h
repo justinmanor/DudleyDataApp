@@ -67,10 +67,10 @@ public:
 	Poco::DateTime				dateParser(string iTime);
 	string								dateTimeToString(Poco::DateTime iDateTime);
   
-  void									updateSubscribers();
+  void									updateSubscribers(dsEvent* iEvent);
   void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
   
-  //DEV fcts
+	//DEV fcts
   void									printCategoryCounter();
   void									printCategoryContents();
   void									printNeighborhoodContents();

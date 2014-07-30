@@ -3,9 +3,11 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	
+
   //
   ref = dsGraphicsRef::instance();
   ofDisableSetupScreen();             // Disable the of setupScreen because now each scene has a custom renderer.
+
   scene = new ofxScene(ofGetWidth(), ofGetHeight());
   scene->setBackgroundColor(10, 10, 10);
 	
@@ -21,6 +23,7 @@ void ofApp::setup(){
   //
   realtimeLayer = new dsRealtimeLayer();
   citizensData->addEventSubscriber(realtimeLayer);
+	scene->getRoot()->addChild(realtimeLayer);
   
   //
   historicalLayer = new dsHistoricalLayer(citizensData);
@@ -35,6 +38,7 @@ void ofApp::setup(){
   neighborhoodLayer = new dsNeighborhoodLayer();
   neighborhoodLayer->buildNeighborhoods(citizensData);
   scene->getRoot()->addChild(neighborhoodLayer);
+	
   
   
 }

@@ -28,12 +28,17 @@ protected:
   ~dsGraphicsRef();
   
 public:
+	
   static dsGraphicsRef*               instance();
   ofColor                             getColorByName(string iName);
-  
+	ofVec3f															getDrawingCentroid();
+	void																setDrawingCentroid(ofVec3f iDrawingCentroid);
+	
 private:
 	static dsGraphicsRef                *graphicsRef;
 	static vector<dsGraphicsRefColor *> colors;
+	ofVec3f															drawingCentroid;
+	
 
   
 };

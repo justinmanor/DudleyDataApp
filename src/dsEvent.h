@@ -36,7 +36,7 @@ public:
   void						setNeighborhood(string iNeighborhood){ neighborhood = iNeighborhood; }
   
   string					getNeighborhoodName(int index) { return neighborhood; }
-  ofVec3f					getEventCoords(int index);
+  ofVec3f					getEventCoords();
 	string					getEventCategory(int index) {return category;}
 
   

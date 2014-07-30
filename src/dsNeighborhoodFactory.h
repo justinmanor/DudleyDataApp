@@ -12,6 +12,7 @@
 #include "ofxJSONElement.h"
 #include "dsNeighborhood.h"
 #include "ofxPolygonObject.h"
+#include "dsGraphicsRef.h"
 
 class dsNeighborhoodFactory{
 
@@ -27,12 +28,18 @@ public:
   dsNeighborhood*								getNeighborhood(int index);
   ofVec3f												getNeighborhoodCentroid(int index);
   std::vector<dsNeighborhood*>	getNeighborhoods(){ return neighborhoods; }
+	ofVec3f												getCityCentroid() { return cityCentroid; }
 	
   //void generatePolygons();
   
 private:
+	
+	dsGraphicsRef									*ref;
+	
   ofxJSONElement								result;
 //  std::vector<dsNeighborhood> neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
   std::vector<dsNeighborhood*>	neighborhoods;      // Stores the coords for each neighborhood's bounding boxes.
+	ofVec3f												cityCentroid;
+	vector<ofVec3f>								neigCentroids;
   
 };
