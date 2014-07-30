@@ -63,8 +63,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
       
       for (int j = 0; j<coordinates[0].size(); j++) {
         
-        float curX = coordinates[0][j][1].asFloat();
-        float curY = coordinates[0][j][0].asFloat();
+        float curX = coordinates[0][j][0].asFloat();
+        float curY = coordinates[0][j][1].asFloat();
         
         if (curX < minX){
           minX = curX;
@@ -116,8 +116,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
 //          string s = std::stof(coordinates[j][0][k][1]);
 //          cout<< s << endl;
 
-          float curX = coordinates[j][0][k][1].asFloat();
-          float curY = coordinates[j][0][k][0].asFloat();
+          float curX = coordinates[j][0][k][0].asFloat();
+          float curY = coordinates[j][0][k][1].asFloat();
 
           //DEV
 //          cout << "curX = " << curX << endl;
