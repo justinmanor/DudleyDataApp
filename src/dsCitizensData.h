@@ -67,13 +67,13 @@ public:
 	Poco::DateTime				dateParser(string iTime);
 	string								dateTimeToString(Poco::DateTime iDateTime);
   
+  void									updateSubscribers();
+  void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
+  
   //DEV fcts
   void									printCategoryCounter();
   void									printCategoryContents();
   void									printNeighborhoodContents();
-  
-  void									updateSubscribers();
-  void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
   
 private:
 	
@@ -84,7 +84,7 @@ private:
 	string								start;
   string                histPageNum;      // Page number to get for historical data.
 	string								rtPageSize;       // Page size for realtime polling.
-	string								rtPageNum;      // Page number to get, for realtime polling.
+	string								rtPageNum;        // Page number to get, for realtime polling.
 	string								initialEnd;
 	string								envPull;
 

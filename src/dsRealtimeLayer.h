@@ -10,7 +10,6 @@
 
 #include "dsCitizensDataSubscriber.h"
 #include "dsGraphicsRef.h"
-#include "dsCitizensData.h"
 #include "dsEvent.h"
 
 class dsRealtimeLayer : public dsCitizensDataSubscriber {
@@ -25,7 +24,6 @@ public:
 public:
   
   dsGraphicsRef               *ref;
-  dsCitizensData              *citizensData;
   
 private:
 	

@@ -3,39 +3,33 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	
-	citizensData = new dsCitizensData();
+  //
+  ref = dsGraphicsRef::instance();
+  ofDisableSetupScreen();             // Disable the of setupScreen because now each scene has a custom renderer.
+  scene = new ofxScene(ofGetWidth(), ofGetHeight());
+  scene->setBackgroundColor(10, 10, 10);
 	
+  //
+	citizensData = new dsCitizensData();
+	scene->getRoot()->addChild(citizensData);         // Required to have its idle loop work.
+  
 	// ---- Dev or Production ----
 	env = "production"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
 	initialGrab = Poco::Timespan(7,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
 	setupEnv(env, initialGrab);
-	// ---------------------------
-	
   
-  ref = dsGraphicsRef::instance();
-  
-	// Disable the of setupScreen because now each scene has a custom renderer.
-  ofDisableSetupScreen();
-  
-  scene = new ofxScene(ofGetWidth(), ofGetHeight());
-  scene->setBackgroundColor(10, 10, 10);
-	
-  //TODO: make request be from 7 days ago (start with this, we need at least 1 week of data). Paging will be necessary.
-	//https://mayors24.cityofboston.gov/open311/v2/requests.json?start_date=[SEVEN DAYS AGO]-08:00&page_size=250&page=1
-	//  Setting start and end might help when trying to find specific times
-	//  start_date=2014-07-16T05:00:00-08:00&end_date=2014-07-16T15:22:00-08:00&
-  
-  //DEV : testing live polling sending events to realtime layer.
+  //
   realtimeLayer = new dsRealtimeLayer();
   citizensData->addEventSubscriber(realtimeLayer);
   
-  scene->getRoot()->addChild(citizensData);
-
+  //
+  historicalLayer = new dsHistoricalLayer(citizensData);
+  scene->getRoot()->addChild(historicalLayer);         // Required to have its idle loop work.
+  
   // Draws/animates circles for each event and neighborhood centroids.
-	eventLayer = new dsEventLayer();
-//  citizensData->addEventSubscriber(eventLayer);
-  eventLayer->buildEvents(citizensData);
-  scene->getRoot()->addChild(eventLayer);
+//	eventLayer = new dsEventLayer();
+//  eventLayer->buildEvents(citizensData);
+//  scene->getRoot()->addChild(eventLayer);
 
   // Draws the map of Boston neighborhoods.
   neighborhoodLayer = new dsNeighborhoodLayer();
@@ -67,7 +61,8 @@ void ofApp::keyPressed(int key){
 	if (key == 'a') {
 		eventLayer->animateEvent(citizensData);
 	} else if (key == 's') {
-		eventLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
+//		eventLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
+    historicalLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
 	}
 
 }
