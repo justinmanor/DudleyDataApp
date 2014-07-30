@@ -48,7 +48,7 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
 		//cout << "---------COORDS-----------" << endl;
 		//cout << result["features"][i]["geometry"]["coordinates"] << endl;
     ofxJSONElement coordinates = result["features"][i]["geometry"]["coordinates"];
-    ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
+//    ofLog(OF_LOG_NOTICE) << "index:" << i << result["features"][i]["properties"]["name"];
     
     if ("Polygon" == type.asString()) {
       
@@ -80,8 +80,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
         }
         
         // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-        n->addVertX(curY);	// Swapped for Lat Long
-        n->addVertY(curX);	// Swapped for Lat Long
+        n->addVertX(curX);	// Swapped for Lat Long
+        n->addVertY(curY);	// Swapped for Lat Long
         
       }
       
@@ -137,8 +137,8 @@ void dsNeighborhoodFactory::setupNeighborhoods(){
           }
           
           // Also, store all x & y's seperately in the neighborhood object for point-in-poly algo later.
-          n->addVertX(curY);	// Swapped for Lat Long
-          n->addVertY(curX);	// Swapped for Lat Long
+          n->addVertX(curX);	// Swapped for Lat Long
+          n->addVertY(curY);	// Swapped for Lat Long
         }
       }
       

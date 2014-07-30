@@ -48,6 +48,7 @@
 		E0384D3519759E090098E489 /* dsNeighborhood.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D3319759E090098E489 /* dsNeighborhood.cpp */; };
 		E0384D4419789E5B0098E489 /* dsCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D4219789E5B0098E489 /* dsCategory.cpp */; };
 		E0384D471978BC350098E489 /* dsEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0384D451978BC350098E489 /* dsEvent.cpp */; };
+		E04CE5811988554A002532D2 /* dsHistoricalLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04CE57F1988554A002532D2 /* dsHistoricalLayer.cpp */; };
 		E0979ED3197F18360083C914 /* dsEventCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0979ED1197F18360083C914 /* dsEventCollection.cpp */; };
 		E0979ED6197F2CC70083C914 /* dsCitizensDataSubscriber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0979ED4197F2CC70083C914 /* dsCitizensDataSubscriber.cpp */; };
 		E110B2F7DD0801265DDDB9DC /* ofxAVFVideoPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4DEA54B98B862847263B807 /* ofxAVFVideoPlayer.mm */; };
@@ -192,6 +193,8 @@
 		E0384D4319789E5B0098E489 /* dsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsCategory.h; sourceTree = "<group>"; };
 		E0384D451978BC350098E489 /* dsEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsEvent.cpp; sourceTree = "<group>"; };
 		E0384D461978BC350098E489 /* dsEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsEvent.h; sourceTree = "<group>"; };
+		E04CE57F1988554A002532D2 /* dsHistoricalLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsHistoricalLayer.cpp; sourceTree = "<group>"; };
+		E04CE5801988554A002532D2 /* dsHistoricalLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsHistoricalLayer.h; sourceTree = "<group>"; };
 		E0979ED1197F18360083C914 /* dsEventCollection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsEventCollection.cpp; sourceTree = "<group>"; };
 		E0979ED2197F18360083C914 /* dsEventCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsEventCollection.h; sourceTree = "<group>"; };
 		E0979ED4197F2CC70083C914 /* dsCitizensDataSubscriber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dsCitizensDataSubscriber.cpp; sourceTree = "<group>"; };
@@ -284,6 +287,8 @@
 				2493105B19772ED900D38CF3 /* dsEventLayer.h */,
 				E011C706197F6A9E0001561F /* dsRealtimeLayer.cpp */,
 				E011C707197F6A9E0001561F /* dsRealtimeLayer.h */,
+				E04CE57F1988554A002532D2 /* dsHistoricalLayer.cpp */,
+				E04CE5801988554A002532D2 /* dsHistoricalLayer.h */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -673,6 +678,7 @@
 				E0384D471978BC350098E489 /* dsEvent.cpp in Sources */,
 				2493105C19772ED900D38CF3 /* dsEventLayer.cpp in Sources */,
 				E011C708197F6A9E0001561F /* dsRealtimeLayer.cpp in Sources */,
+				E04CE5811988554A002532D2 /* dsHistoricalLayer.cpp in Sources */,
 				082528782FB65D5EF4B0A04D /* ofxPolygonObject.cpp in Sources */,
 				55D2103B1B041FE28CE75CB6 /* ofxQuadStripObject.cpp in Sources */,
 				E0979ED6197F2CC70083C914 /* dsCitizensDataSubscriber.cpp in Sources */,

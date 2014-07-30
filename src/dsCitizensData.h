@@ -41,9 +41,11 @@ public:
 	void setEnvironment(string iEnv, Poco::Timespan iTimeSpan);
 
   void fetchAllJson();
-  void fetchEventJson();
   void fetchGeoJson();
-  void startPolling();
+  void fetchHistoricEventJson();
+  void fetchRealtimeEventJson();
+  
+  bool pollingActivated = false;
   
   int										getNumEvents() {return events.size(); }
   dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }
@@ -65,20 +67,24 @@ public:
 	Poco::DateTime				dateParser(string iTime);
 	string								dateTimeToString(Poco::DateTime iDateTime);
   
-  //DEV fcts
+  void									updateSubscribers(dsEvent* iEvent);
+  void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
+  
+	//DEV fcts
   void									printCategoryCounter();
   void									printCategoryContents();
   void									printNeighborhoodContents();
   
-  void									updateSubscribers(dsEvent* iEvent);
-  void									addEventSubscriber(dsCitizensDataSubscriber* iSubscriber);
-  
 private:
 	
+  float                 pollingInterval;
 	string								baseUrl;
+  string                jsonUrlNoPage;
+  string								jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
 	string								start;
-	string								pageSize;
-	string								pageNum;
+  string                histPageNum;      // Page number to get for historical data.
+	string								rtPageSize;       // Page size for realtime polling.
+	string								rtPageNum;        // Page number to get, for realtime polling.
 	string								initialEnd;
 	string								envPull;
 
@@ -87,7 +93,6 @@ private:
 	Poco::DateTime				dateTimeOfLastPull;
 	Poco::DateTime				currentDateTime();
 	
-  string																	jsonUrl;          // Contains the Open311 JSON query string originally passed to this class.
   ofxJSONElement													jsonResults;			// Contains the raw Open311 data
   dsNeighborhoodFactory										geojsonBoston;		// Creates neighborhood objects from geojson of Boston.
   

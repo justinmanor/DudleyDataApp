@@ -8,6 +8,7 @@
 #include "dsNeighborhoodLayer.h"
 #include "dsEventLayer.h"
 #include "dsRealtimeLayer.h"
+#include "dsHistoricalLayer.h"
 
 class ofApp : public ofBaseApp{
 
@@ -44,7 +45,7 @@ class ofApp : public ofBaseApp{
   dsEventLayer								*eventLayer;
   
 	vector <ofxPolygonObject *> categories;
-
-  //DEV
+  
   dsRealtimeLayer* realtimeLayer;
+  dsHistoricalLayer* historicalLayer;
 };
