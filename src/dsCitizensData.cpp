@@ -50,14 +50,14 @@ void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
 //	cout << jsonUrl << endl;
   
 	fetchAllJson();
-	
+
 }
 
 dsCitizensData::~dsCitizensData(){}
 
 // IDLE
 void dsCitizensData::idle(float iTime){
-	
+  
   // After the first historical fetch is complete, we activate polling to look for new realtime data.
   if (pollingActivated == true){
   
@@ -65,7 +65,7 @@ void dsCitizensData::idle(float iTime){
     // Realtime polling
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     if (timeOfLastPull) {
-      int timeSinceLastPull = ofGetElapsedTimef() - timeOfLastPull;
+      timeSinceLastPull = ofGetElapsedTimef() - timeOfLastPull;
       if (timeSinceLastPull > pollingInterval) {
 //        cout << "5 seconds!" <<endl;
         
@@ -195,6 +195,8 @@ void dsCitizensData::fetchRealtimeEventJson(){
 		} else {
       cout << "dsCitizensData::fetchRealtimeEventJson- # new events: NONE" << endl;
 		}
+    
+    numNewEventsFromLastPull = events.size() - initialEventSize;
 		
 	} else {
 		cout  << "---------------- Failed to parse JSON" << endl;
@@ -490,4 +492,24 @@ void dsCitizensData::updateSubscribers(dsEvent* iEvent){
   for (auto es : eventSubscribers){
     es->handleNewEvent(iEvent);
   }
+}
+
+int dsCitizensData::getNumEvents() {
+  if (!events.empty()){
+    return events.size();
+  } else {
+    return 0;
+  }
+}
+
+int dsCitizensData::getTimeToNextPull(){
+  if(pollingActivated){
+    return (pollingInterval - timeSinceLastPull);
+  } else {
+    return 0;
+  }
+}
+
+int dsCitizensData::getNumNewEvents(){
+  return numNewEventsFromLastPull;
 }

@@ -11,6 +11,7 @@
 
 dsUIObject::dsUIObject(dsCitizensData* iData)
 {
+  data = iData;
   bool isVisible = true;
   
   // Initialize "hack" variables for window bar and screen width corrections in Soso universe
@@ -22,6 +23,7 @@ dsUIObject::dsUIObject(dsCitizensData* iData)
   ofAddListener(ofEvents().mousePressed, this, &dsUIObject::onMousePressed);
   ofAddListener(ofEvents().mouseMoved, this, &dsUIObject::onMouseMoved);
   ofAddListener(ofEvents().mouseDragged, this, &dsUIObject::onMouseDragged);
+  
 }
 
 dsUIObject::~dsUIObject()
@@ -45,16 +47,8 @@ void dsUIObject::setup()
   // Define UI Canvas Size Parameters
   int canvas_width = 280;
   int canvas_height = 600;
-  
-  // Define an arbitrary string vector for radio buttons
-  vector<string> radioNames;
-  radioNames.push_back("radio_1");
-  radioNames.push_back("radio_2");
-  radioNames.push_back("radio_3");
-  
-  // Build the UI Canvas
   UI = new ofxUICanvas(0, 0, canvas_width, canvas_height);
-  // Use zeros for translation here and setTrans on dsUIObject in App.
+  UI->setTheme(OFX_UI_THEME_MACOSX);    //OFX_UI_THEME_GRAYDAY
   
   // Disable app event callbacks because we do it from within render tree (ofxObject-style)
   UI->disableAppEventCallbacks();
@@ -73,9 +67,29 @@ void dsUIObject::setup()
   
   // Updating FPS label.
   demoLabel = NULL;
-  demoLabel = new ofxUILabel("FPS: "+ ofToString(ofGetFrameRate(), 2), OFX_UI_FONT_MEDIUM);
+  demoLabel = new ofxUILabel("FPS: "+ ofToString(ofGetFrameRate(), 2), OFX_UI_FONT_SMALL);
   UI->addWidgetDown(demoLabel);
-  
+  //
+  UI->addSpacer();
+  //
+  numEventsLabel = NULL;
+  numEventsLabel = new ofxUILabel("# events: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(numEventsLabel);
+  timeToNextPullLabel = NULL;
+  timeToNextPullLabel = new ofxUILabel("next poll in: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(timeToNextPullLabel);
+  numNewEventsLabel = NULL;
+  numNewEventsLabel = new ofxUILabel("# new events: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(numNewEventsLabel);
+  //
+  UI->addSpacer();
+  //
+  UI->addLabel("Neighborhood Stats", OFX_UI_FONT_MEDIUM);
+  //
+  UI->addSpacer();
+  //
+  UI->addLabel("Category Stats", OFX_UI_FONT_MEDIUM);
+
 }
 
 void dsUIObject::idle(float iTime)
@@ -88,6 +102,9 @@ void dsUIObject::update()
   
   // Do something to the updating label (so it updates)
   if (demoLabel){ demoLabel->setLabel("FPS: "+ ofToString(ofGetFrameRate(), 2)); }
+  if (numEventsLabel){ numEventsLabel->setLabel("# events: "+ ofToString(data->getNumEvents())); }
+  if (timeToNextPullLabel){ timeToNextPullLabel->setLabel("next poll in: "+ ofToString(data->getTimeToNextPull())); }
+  if (numNewEventsLabel){ numNewEventsLabel->setLabel("# new events: "+ ofToString(data->getNumNewEvents())); }
   
   // Update the UI (ofxUICanvas)
   UI->update();

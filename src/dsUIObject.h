@@ -37,7 +37,11 @@ public:
   
 public:
   
-  ofxUICanvas   *UI;
+  ofxUICanvas           *UI;
+  ofxUILabel            *demoLabel;
+  ofxUILabel            *numEventsLabel;
+  ofxUILabel            *timeToNextPullLabel;
+  ofxUILabel            *numNewEventsLabel;
   
   ofxUILabelToggle      *demoToggleBG;
   ofxUIMinimalSlider    *demoSliderR;
@@ -47,7 +51,6 @@ public:
   ofxUIMinimalSlider    *demoSliderS;
   ofxUIMinimalSlider    *demoSliderL;
   ofxUILabelButton      *demoButtonInv;
-  ofxUILabel            *demoLabel;
   ofxUI2DPad            *demoPos;
   ofxUIMinimalSlider    *demoCircleRes;
   ofxUIMinimalSlider    *demoCircleScale;
@@ -55,7 +58,7 @@ public:
   
 private:
   
-  dsCitizensData*       data;
+  dsCitizensData*       data;               // Pointer to all data to get statistics in the UI.
   
   bool                  isVisible;
   
