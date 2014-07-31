@@ -136,7 +136,7 @@ void dsCitizensData::fetchRealtimeEventJson(){
 				events.push_back(e);
 				// Add a few custom attributes of our own.
 				e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
-				e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
+				e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLon(), e->getLat()));
 				// Add current category to the category vector.
 				dsCategory* c = addCategoryToVector(e->getCategory());
 				// Add reference to this event in the category object.
@@ -235,7 +235,7 @@ void dsCitizensData::fetchHistoricEventJson(){
 				events.push_back(e);
 				// Add a few custom attributes of our own.
 				e->setTime(dateParser(jsonResults[i]["updated_datetime"].asString()));
-				e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLat(), e->getLon()));
+				e->setNeighborhood(geojsonBoston.getNeighborhoodForPoint(e->getLon(), e->getLat()));
 				// Add current category to the category vector.
 				dsCategory* c = addCategoryToVector(e->getCategory());
 				// Add reference to this event in the category object.
@@ -418,7 +418,7 @@ Poco::DateTime dsCitizensData::currentDateTime() {
 ofVec3f dsCitizensData::getEventCoords(int index) {
   
   if (index < events.size()) {
-    ofVec3f xyz(events[index]->getLat(), events[index]->getLon(), 0);
+    ofVec3f xyz(events[index]->getLon(), events[index]->getLat(), 0);
     return xyz;
   }
   else
@@ -431,8 +431,8 @@ ofVec3f dsCitizensData::getCentroid() {
   ofVec3f centroid;
   
   for (auto e : events ) {
-    centroid.x += e->getLat()/((float)events.size());
-    centroid.y += e->getLon()/((float)events.size());
+    centroid.x += e->getLon()/((float)events.size());
+    centroid.y += e->getLat()/((float)events.size());
     
   }
   return centroid;
@@ -445,7 +445,7 @@ void dsCitizensData::draw() {
   ofSetColor(250, 0, 0);
   for (int i = 0 ; i < events.size() ; i++) {
     
-    ofCircle(400 + 400.0*(events[i]->getLat() - 42.34), 500 -400.0*(events[i]->getLon() + 72.06), 2);
+    ofCircle(400 + 400.0*(events[i]->getLon() - 42.34), 500 -400.0*(events[i]->getLat() + 72.06), 2);
     //ofLogNotice(ofToString(i));
   }
 }
