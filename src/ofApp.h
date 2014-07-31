@@ -10,6 +10,11 @@
 #include "dsRealtimeLayer.h"
 #include "dsHistoricalLayer.h"
 
+//DEV_jn
+#include "ofxUI.h"                  // ofxUI.h addon is dependent on ofxXmlSettings.h addon
+#include "ofxXmlSettings.h"
+
+
 class ofApp : public ofBaseApp{
 
 	public:
