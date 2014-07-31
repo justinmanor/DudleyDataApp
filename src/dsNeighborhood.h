@@ -37,7 +37,7 @@ public:
   int								getWeekCount(){ return stats.nThisWeek; }
   int								getOpenCount(){ return stats.nOpen; }
   int								getClosedCount(){ return stats.nClosed; }
-  int								getOpenClosedRatio(){ return stats.openClosedRatio; }
+  float							getOpenClosedRatio(){ return stats.openClosedRatio; }
   map<string, int>	getEventsPerCategory(){ return stats.nEventsPerCategory; }
   int								getCategoryCount(string iCategoryName);
   vector<float>			getVertsX();

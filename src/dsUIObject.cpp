@@ -29,17 +29,27 @@ dsUIObject::dsUIObject(dsCitizensData* iData)
 dsUIObject::~dsUIObject()
 {
   delete UI;
-  delete demoToggleBG;
-  delete demoSliderR;
-  delete demoSliderG;
-  delete demoSliderB;
-  delete demoButtonInv;
   delete demoLabel;
-  delete demoPos;
-  delete demoCircleRes;
-  delete demoCircleScale;
-  delete demoToggle1;
+  delete numEventsLabel;
+  delete timeToNextPullLabel;
+  delete numNewEventsLabel;
   
+  delete neighborhoodDropdown;
+  delete neighborhoodOpenLabel;
+  delete neighborhoodClosedLabel;
+  delete neighborhoodRatioLabel;
+  delete neighborhoodHourLabel;
+  delete neighborhoodTodayLabel;
+  delete neighborhoodWeekLabel;
+
+  delete categoryDropdown;
+  delete categoryOpenLabel;
+  delete categoryClosedLabel;
+  delete categoryRatioLabel;
+  delete categoryHourLabel;
+  delete categoryTodayLabel;
+  delete categoryWeekLabel;
+
 }
 
 void dsUIObject::setup()
@@ -60,6 +70,8 @@ void dsUIObject::setup()
   // UI items.
   // ------------------------------------------------------------
   
+  UI->setWidgetFontSize(OFX_UI_FONT_SMALL);
+  
   // Canvas title.
   UI->addLabel("Dudley Data App", OFX_UI_FONT_MEDIUM);
   
@@ -73,23 +85,80 @@ void dsUIObject::setup()
   UI->addSpacer();
   //
   numEventsLabel = NULL;
-  numEventsLabel = new ofxUILabel("# events: ", OFX_UI_FONT_SMALL);
+  numEventsLabel = new ofxUILabel("events: ", OFX_UI_FONT_SMALL);
   UI->addWidgetDown(numEventsLabel);
   timeToNextPullLabel = NULL;
   timeToNextPullLabel = new ofxUILabel("next poll in: ", OFX_UI_FONT_SMALL);
   UI->addWidgetDown(timeToNextPullLabel);
   numNewEventsLabel = NULL;
-  numNewEventsLabel = new ofxUILabel("# new events: ", OFX_UI_FONT_SMALL);
+  numNewEventsLabel = new ofxUILabel("new events from last poll: ", OFX_UI_FONT_SMALL);
   UI->addWidgetDown(numNewEventsLabel);
   //
   UI->addSpacer();
   //
   UI->addLabel("Neighborhood Stats", OFX_UI_FONT_MEDIUM);
+  vector<string> neighborhoods = data->getNeighborhoodNames();
+  neighborhoodDropdown = UI->addDropDownList("Select neighborhood", neighborhoods);
+  neighborhoodDropdown->setAutoClose(true);
+  neighborhoodDropdown->setShowCurrentSelected(true);
+  
+  neighborhoodOpenLabel = NULL;
+  neighborhoodOpenLabel = new ofxUILabel("open: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(neighborhoodOpenLabel);
+  
+  neighborhoodClosedLabel = NULL;
+  neighborhoodClosedLabel = new ofxUILabel("closed: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(neighborhoodClosedLabel);
+  
+  neighborhoodRatioLabel = NULL;
+  neighborhoodRatioLabel = new ofxUILabel("ratio: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(neighborhoodRatioLabel);
+
+  neighborhoodHourLabel = NULL;
+  neighborhoodHourLabel = new ofxUILabel("this hour: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(neighborhoodHourLabel);
+  
+  neighborhoodTodayLabel = NULL;
+  neighborhoodTodayLabel = new ofxUILabel("today: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(neighborhoodTodayLabel);
+
+  neighborhoodWeekLabel = NULL;
+  neighborhoodWeekLabel = new ofxUILabel("this week: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(neighborhoodWeekLabel);
   //
   UI->addSpacer();
   //
   UI->addLabel("Category Stats", OFX_UI_FONT_MEDIUM);
-
+  vector<string> categories = data->getCategoryNames();
+  categoryDropdown = UI->addDropDownList("Select category", categories);
+  categoryDropdown->setAutoClose(true);
+  categoryDropdown->setShowCurrentSelected(true);
+  
+  categoryOpenLabel = NULL;
+  categoryOpenLabel = new ofxUILabel("open: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(categoryOpenLabel);
+  
+  categoryClosedLabel = NULL;
+  categoryClosedLabel = new ofxUILabel("closed: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(categoryClosedLabel);
+  
+  categoryRatioLabel = NULL;
+  categoryRatioLabel = new ofxUILabel("ratio: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(categoryRatioLabel);
+  
+  categoryHourLabel = NULL;
+  categoryHourLabel = new ofxUILabel("this hour: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(categoryHourLabel);
+  
+  categoryTodayLabel = NULL;
+  categoryTodayLabel = new ofxUILabel("today: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(categoryTodayLabel);
+  
+  categoryWeekLabel = NULL;
+  categoryWeekLabel = new ofxUILabel("this week: ", OFX_UI_FONT_SMALL);
+  UI->addWidgetDown(categoryWeekLabel);
+  //
+  UI->addSpacer();
 }
 
 void dsUIObject::idle(float iTime)
@@ -97,18 +166,43 @@ void dsUIObject::idle(float iTime)
   
 }
 
+// Continously update the following items.
 void dsUIObject::update()
 {
   
   // Do something to the updating label (so it updates)
   if (demoLabel){ demoLabel->setLabel("FPS: "+ ofToString(ofGetFrameRate(), 2)); }
-  if (numEventsLabel){ numEventsLabel->setLabel("# events: "+ ofToString(data->getNumEvents())); }
-  if (timeToNextPullLabel){ timeToNextPullLabel->setLabel("next poll in: "+ ofToString(data->getTimeToNextPull())); }
-  if (numNewEventsLabel){ numNewEventsLabel->setLabel("# new events: "+ ofToString(data->getNumNewEvents())); }
+  if (numEventsLabel){ numEventsLabel->setLabel("events: "+ ofToString(data->getNumEvents())); }
+  if (timeToNextPullLabel){ timeToNextPullLabel->setLabel("next poll in: "+ ofToString(data->getTimeToNextPull()) +" secs"); }
+  if (numNewEventsLabel){ numNewEventsLabel->setLabel("new events from last poll: "+ ofToString(data->getNumNewEvents())); }
   
   // Update the UI (ofxUICanvas)
   UI->update();
   
+}
+
+// Update the dropdowns when they are interacted with.
+void dsUIObject::updateDropdown(string iDropdownName, string iSelectedItem){
+  if (iDropdownName == "Select neighborhood"){
+    dsNeighborhood* curNeighborhood = data->getNeighborhoodByName(iSelectedItem);
+
+    neighborhoodOpenLabel->setLabel("open: "+ ofToString( curNeighborhood->getOpenCount() ));
+    neighborhoodClosedLabel->setLabel("closed: "+ ofToString( curNeighborhood->getClosedCount() ));
+    neighborhoodRatioLabel->setLabel("ratio: "+ ofToString( curNeighborhood->getOpenClosedRatio(), 2 ));
+    neighborhoodHourLabel->setLabel("this hour: "+ ofToString( curNeighborhood->getHourCount() ));
+    neighborhoodTodayLabel->setLabel("today: "+ ofToString( curNeighborhood->getDayCount() ));
+    neighborhoodWeekLabel->setLabel("this week: "+ ofToString( curNeighborhood->getWeekCount() ));
+  } else if (iDropdownName == "Select category"){
+    dsCategory* curCategory = data->getCategoryByName(iSelectedItem);
+    
+    categoryOpenLabel->setLabel("open: "+ ofToString( curCategory->getOpenCount() ));
+    categoryClosedLabel->setLabel("closed: "+ ofToString( curCategory->getClosedCount() ));
+    categoryRatioLabel->setLabel("ratio: "+ ofToString( curCategory->getOpenClosedRatio(), 2 ));
+    categoryHourLabel->setLabel("this hour: "+ ofToString( curCategory->getHourCount() ));
+    categoryTodayLabel->setLabel("today: "+ ofToString( curCategory->getDayCount() ));
+    categoryWeekLabel->setLabel("this week: "+ ofToString( curCategory->getWeekCount() ));
+  }
+
 }
 
 void dsUIObject::render()

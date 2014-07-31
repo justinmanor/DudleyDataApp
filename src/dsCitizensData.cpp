@@ -513,3 +513,19 @@ int dsCitizensData::getTimeToNextPull(){
 int dsCitizensData::getNumNewEvents(){
   return numNewEventsFromLastPull;
 }
+
+vector<string> dsCitizensData::getNeighborhoodNames(){
+  vector<string> names;
+  for (auto n : neighborhoods){
+    names.push_back(n->getName());
+  }
+  return names;
+}
+
+vector<string> dsCitizensData::getCategoryNames(){
+  vector<string> names;
+  for (auto c : categories){
+    names.push_back(c->getName());
+  }
+  return names;
+}

@@ -44,17 +44,23 @@ public:
   
   int										getNumEvents();
   dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }
-  int										getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
+
   ofVec3f								getCentroid();
-  dsCategory*						getCategoryByName(string iCategoryName);
-  dsNeighborhood*				getNeighborhoodByName(string iNeighborhoodName);
-  int										getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");
 	string								getEventCategory(int index);
-  string								getNeighborhoodName(int index);
 	string								getEventTime(int index);
   ofVec3f								getEventCoords(int index);
   int                   getTimeToNextPull();
   int                   getNumNewEvents();
+
+  int										getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
+  string								getNeighborhoodName(int index);
+  dsNeighborhood*				getNeighborhoodByName(string iNeighborhoodName);
+  int										getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");
+  vector<string>        getNeighborhoodNames();
+  
+  dsCategory*						getCategoryByName(string iCategoryName);
+  vector<string>        getCategoryNames();
+  
   void									draw();
 	
   dsCategory*						addCategoryToVector(string iCategoryName);

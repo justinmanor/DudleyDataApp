@@ -32,16 +32,16 @@ public:
   dsCategory(string iName);
   ~dsCategory();
   
-  int getDayCount(){ return stats.nToday; }
-  int getHourCount(){ return stats.nThisHour; }
-  int getWeekCount(){ return stats.nThisWeek; }
-  int getOpenCount(){ return stats.nOpen; }
-  int getClosedCount(){ return stats.nClosed; }
-  int getOpenClosedRatio(){ return stats.openClosedRatio; }
-  map<string, int> getEventsPerNeighborhood(){ return stats.nEventsPerNeighborhood; }
-  int getNeighborhoodCount(string iNeighborhoodName);
+  int                 getDayCount(){ return stats.nToday; }
+  int                 getHourCount(){ return stats.nThisHour; }
+  int                 getWeekCount(){ return stats.nThisWeek; }
+  int                 getOpenCount(){ return stats.nOpen; }
+  int                 getClosedCount(){ return stats.nClosed; }
+  float               getOpenClosedRatio(){ return stats.openClosedRatio; }
+  map<string, int>    getEventsPerNeighborhood(){ return stats.nEventsPerNeighborhood; }
+  int                 getNeighborhoodCount(string iNeighborhoodName);
   
-  void calculateStats(dsEvent* iEvent);
+  void                calculateStats(dsEvent* iEvent);
   
 private:
   

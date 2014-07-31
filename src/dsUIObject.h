@@ -35,26 +35,29 @@ public:
   void        toggleVisible() { isVisible = !isVisible; }
   void        setVisible(bool iIsVisible) { isVisible = iIsVisible; }
   
+  void        updateDropdown(string iDropdownName, string iNeighborhoodName);
+  
 public:
   
-  ofxUICanvas           *UI;
-  ofxUILabel            *demoLabel;
-  ofxUILabel            *numEventsLabel;
-  ofxUILabel            *timeToNextPullLabel;
-  ofxUILabel            *numNewEventsLabel;
-  
-  ofxUILabelToggle      *demoToggleBG;
-  ofxUIMinimalSlider    *demoSliderR;
-  ofxUIMinimalSlider    *demoSliderG;
-  ofxUIMinimalSlider    *demoSliderB;
-  ofxUIMinimalSlider    *demoSliderH;
-  ofxUIMinimalSlider    *demoSliderS;
-  ofxUIMinimalSlider    *demoSliderL;
-  ofxUILabelButton      *demoButtonInv;
-  ofxUI2DPad            *demoPos;
-  ofxUIMinimalSlider    *demoCircleRes;
-  ofxUIMinimalSlider    *demoCircleScale;
-  ofxUIToggle           *demoToggle1;
+  ofxUICanvas*          UI;
+  ofxUILabel*           demoLabel;
+  ofxUILabel*           numEventsLabel;
+  ofxUILabel*           timeToNextPullLabel;
+  ofxUILabel*           numNewEventsLabel;
+  ofxUIDropDownList*    neighborhoodDropdown;
+  ofxUILabel*           neighborhoodOpenLabel;
+  ofxUILabel*           neighborhoodClosedLabel;
+  ofxUILabel*           neighborhoodRatioLabel;
+  ofxUILabel*           neighborhoodHourLabel;
+  ofxUILabel*           neighborhoodTodayLabel;
+  ofxUILabel*           neighborhoodWeekLabel;
+  ofxUIDropDownList*    categoryDropdown;
+  ofxUILabel*           categoryOpenLabel;
+  ofxUILabel*           categoryClosedLabel;
+  ofxUILabel*           categoryRatioLabel;
+  ofxUILabel*           categoryHourLabel;
+  ofxUILabel*           categoryTodayLabel;
+  ofxUILabel*           categoryWeekLabel;
   
 private:
   

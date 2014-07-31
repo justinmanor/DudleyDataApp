@@ -146,36 +146,15 @@ void ofApp::UIEvent(ofxUIEventArgs &e){
   
   string name = e.widget->getName();
   
-  if (name == "toggle bg control") {
-    ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
-    bgControl = toggle->getValue();
-  } else if (name == "red"){
-    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
-    sliderR = (int) slider->getValue();
-  } else if (name == "green"){
-    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
-    sliderG = (int) slider->getValue();
-  } else if (name == "blue"){
-    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
-    sliderB = (int) slider->getValue();
-  } else if (name == "invert bg color"){
-    ofxUILabelButton *button = (ofxUILabelButton *) e.widget;
-    bgInvert = button->getValue();
-  } else if (name == "position") {
-    ofxUI2DPad *padPos = (ofxUI2DPad *) e.widget;
-    xPosition = (float) padPos->getValue().x*ofGetWidth();
-    yPosition = (float) padPos->getValue().y*ofGetHeight();
-  } else if (name == "resolution") {
-    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
-    sliderRes = (int) slider->getValue();
-  } else if (name == "scale") {
-    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
-    sliderScale = (float) slider->getValue();
-  } else if (name == "Smile") {
-    ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
-    toggleSmile = toggle->getValue();
+  if (name == "Select neighborhood" || name == "Select category"){
+    ofxUIDropDownList *ddlist = (ofxUIDropDownList *) e.widget;
+    vector<ofxUIWidget *> &selected = ddlist->getSelected();
+    for(int i = 0; i < selected.size(); i++)
+    {
+      ofLogNotice() << "SELECTED: " << selected[i]->getName() << endl;
+      UIObject->updateDropdown(name, selected[i]->getName());
+    }
   }
-  
   
 }
 

@@ -54,26 +54,6 @@ protected:
   
   // --- GUI stuff.
   
-  // Default Background Color and Related Values
-  int defaultR = 100;
-  int defaultG = 100;
-  int defaultB = 100;
-  int defaultRes = 5;
-  
-  //Slider Values
-  int sliderR = 100;
-  int sliderG = 150;
-  int sliderB = 200;
-  int sliderRes = 5;
-  float sliderScale = 100;
-  
-  //For collecting ofxUI2DPad position.
-  float xPosition = ofGetWidth()/2;
-  float yPosition = ofGetHeight()/2;
-  
-  //Toggles
-  bool bgControl = 0;
-  bool bgInvert = 0;
-  bool toggleSmile = 0;
+  //dev_jn
 
 };
