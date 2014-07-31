@@ -18,7 +18,7 @@ void ofApp::setup(){
 	scene->getRoot()->addChild(citizensData);         // Required to have its idle loop work.
   
 	// ---- Dev or Production ----
-	env = "dev"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
+	env = "dev_jc_1"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
 	initialGrab = Poco::Timespan(7,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
 	setupEnv(env, initialGrab);
   
@@ -49,7 +49,7 @@ void ofApp::setup(){
   // ------------------------------------------------------------
   
   // Build UIObject
-  UIObject = new dsUIObject();
+  UIObject = new dsUIObject(citizensData);
   UIObject->setup();
   scene->getRoot()->addChild(UIObject);
   UIObject->setVisible(true);
@@ -91,8 +91,9 @@ void ofApp::keyPressed(int key){
 	} else if (key == 's') {
 //		eventLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
     historicalLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
-	}
-
+	} else if (key == 'f') {
+    ofToggleFullscreen();
+  }
 }
 
 //--------------------------------------------------------------

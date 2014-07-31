@@ -9,7 +9,7 @@
 #include "dsUIObject.h"
 #include <iostream>
 
-dsUIObject::dsUIObject()
+dsUIObject::dsUIObject(dsCitizensData* iData)
 {
   bool isVisible = true;
   
@@ -46,11 +46,6 @@ void dsUIObject::setup()
   int canvas_width = 280;
   int canvas_height = 600;
   
-  //Define UI Object Parameters
-  int UIButtonWidth = 200;
-  int UIButtonHeight = 20;
-  int UIRadioWidth = 20;
-  
   // Define an arbitrary string vector for radio buttons
   vector<string> radioNames;
   radioNames.push_back("radio_1");
@@ -67,14 +62,18 @@ void dsUIObject::setup()
   // Disable mouse event callbacks because we have to flip the y-coords.
   UI->disableMouseEventCallbacks();
   
-  // Add a label to the top of the canvas
+  // ------------------------------------------------------------
+  // UI items.
+  // ------------------------------------------------------------
+  
+  // Canvas title.
   UI->addLabel("Dudley Data App", OFX_UI_FONT_MEDIUM);
   
   UI->addSpacer();
   
-  // Build an updating label
+  // Updating FPS label.
   demoLabel = NULL;
-  demoLabel = new ofxUILabel("updating label", OFX_UI_FONT_MEDIUM);
+  demoLabel = new ofxUILabel("FPS: "+ ofToString(ofGetFrameRate(), 2), OFX_UI_FONT_MEDIUM);
   UI->addWidgetDown(demoLabel);
   
 }
@@ -88,9 +87,7 @@ void dsUIObject::update()
 {
   
   // Do something to the updating label (so it updates)
-  float t = ofGetElapsedTimef();
-  if (demoLabel)
-    demoLabel->setLabel("updating label: "+ ofToString(t, 2));
+  if (demoLabel){ demoLabel->setLabel("FPS: "+ ofToString(ofGetFrameRate(), 2)); }
   
   // Update the UI (ofxUICanvas)
   UI->update();

@@ -11,11 +11,12 @@
 #include "ofxObject.h"
 #include "ofxUI.h"                        // ofxUI.h addon is dependent on ofxXmlSettings.h addon
 #include "ofxXmlSettings.h"
+#include "dsCitizensData.h"
 
 class dsUIObject : public ofxObject {
   
 public:
-  dsUIObject();
+  dsUIObject(dsCitizensData* iData);
   ~dsUIObject();
   
   void        setup();
@@ -54,16 +55,18 @@ public:
   
 private:
   
-  bool        isVisible;
+  dsCitizensData*       data;
   
-  int         windowBarHack;
-  int         screenWidthHack;
+  bool                  isVisible;
+  
+  int                   windowBarHack;
+  int                   screenWidthHack;
   
   //Slider Values and default positions
-  float       sliderValR = 100;
-  float       sliderValG = 150;
-  float       sliderValB = 200;
-  int         sliderValRes = 5;
-  float       sliderValScale = 100;
+  float                 sliderValR = 100;
+  float                 sliderValG = 150;
+  float                 sliderValB = 200;
+  int                   sliderValRes = 5;
+  float                 sliderValScale = 100;
   
 };
