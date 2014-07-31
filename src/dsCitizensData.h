@@ -15,9 +15,6 @@
 #include "dsEvent.h"
 #include "dsCitizensDataSubscriber.h"
 #include "ofxObject.h"
-
-//#include "ofxGeoJSON.h"
-
 #include "Poco/LocalDateTime.h"
 #include "Poco/DateTime.h"
 #include "Poco/DateTimeFormatter.h"
@@ -26,8 +23,6 @@
 #include "Poco/Timestamp.h"
 #include "Poco/Timezone.h"
 #include <ctime>
-
-//class dsCategory;   // forward-declaration.
 
 class dsCitizensData:public ofxObject{
 
