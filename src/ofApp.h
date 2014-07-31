@@ -1,23 +1,20 @@
 #pragma once
 
 #include "ofMain.h"
-#include "dsCitizensData.h"
 #include "ofxScene.h"
-#include "ofxCircleObject.h"
 #include "dsGraphicsRef.h"
+#include "ofxCircleObject.h"
+
+#include "dsUIObject.h"
+#include "dsCitizensData.h"
 #include "dsNeighborhoodLayer.h"
-#include "dsEventLayer.h"
 #include "dsRealtimeLayer.h"
 #include "dsHistoricalLayer.h"
-
-//DEV_jn
-#include "ofxUI.h"                  // ofxUI.h addon is dependent on ofxXmlSettings.h addon
-#include "ofxXmlSettings.h"
-
+#include "dsEventLayer.h"
 
 class ofApp : public ofBaseApp{
 
-	public:
+public:
   
   void setup();
   void update();
@@ -34,17 +31,18 @@ class ofApp : public ofBaseApp{
   void gotMessage(ofMessage msg);
 	
 	void setupEnv(string iEnv, Poco::Timespan iTimeSpan);
+  
+  void UIEvent(ofxUIEventArgs &e);
 
-  protected:
+protected:
   
   dsGraphicsRef               *ref;
   dsCitizensData              *citizensData;
 	string											env;
 	Poco::Timespan							initialGrab;
   
-  // For drawing geoJSON map.
-
-  ofEasyCam										cam;
+  dsUIObject                  *UIObject;
+  
   ofxScene										*scene;
   dsNeighborhoodLayer					*neighborhoodLayer;
   dsEventLayer								*eventLayer;
@@ -53,4 +51,29 @@ class ofApp : public ofBaseApp{
   
   dsRealtimeLayer* realtimeLayer;
   dsHistoricalLayer* historicalLayer;
+  
+  // --- GUI stuff.
+  
+  // Default Background Color and Related Values
+  int defaultR = 100;
+  int defaultG = 100;
+  int defaultB = 100;
+  int defaultRes = 5;
+  
+  //Slider Values
+  int sliderR = 100;
+  int sliderG = 150;
+  int sliderB = 200;
+  int sliderRes = 5;
+  float sliderScale = 100;
+  
+  //For collecting ofxUI2DPad position.
+  float xPosition = ofGetWidth()/2;
+  float yPosition = ofGetHeight()/2;
+  
+  //Toggles
+  bool bgControl = 0;
+  bool bgInvert = 0;
+  bool toggleSmile = 0;
+
 };

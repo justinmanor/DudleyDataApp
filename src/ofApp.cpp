@@ -3,7 +3,6 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	
-
   //
   ref = dsGraphicsRef::instance();
   ofDisableSetupScreen();             // Disable the of setupScreen because now each scene has a custom renderer.
@@ -11,7 +10,10 @@ void ofApp::setup(){
   scene = new ofxScene(ofGetWidth(), ofGetHeight());
   scene->setBackgroundColor(10, 10, 10);
 	
-  //
+  // ------------------------------------------------------------
+  // Data stuff.
+  // ------------------------------------------------------------
+  
 	citizensData = new dsCitizensData();
 	scene->getRoot()->addChild(citizensData);         // Required to have its idle loop work.
   
@@ -20,7 +22,10 @@ void ofApp::setup(){
 	initialGrab = Poco::Timespan(7,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
 	setupEnv(env, initialGrab);
   
-  //
+  // ------------------------------------------------------------
+  // Graphic layers stuff.
+  // ------------------------------------------------------------
+  
   realtimeLayer = new dsRealtimeLayer();
   citizensData->addEventSubscriber(realtimeLayer);
 	scene->getRoot()->addChild(realtimeLayer);
@@ -39,7 +44,24 @@ void ofApp::setup(){
   neighborhoodLayer->buildNeighborhoods(citizensData);
   scene->getRoot()->addChild(neighborhoodLayer);
 	
+  // ------------------------------------------------------------
+  // GUI stuff.
+  // ------------------------------------------------------------
   
+  // Build UIObject
+  UIObject = new dsUIObject();
+  UIObject->setup();
+  scene->getRoot()->addChild(UIObject);
+  UIObject->setVisible(true);
+  
+  int cornerOffset = 20;
+  
+  int UI_x = -ofGetWindowWidth()/2 + cornerOffset;
+  int UI_y = ofGetWindowHeight()/2 - cornerOffset;
+  UIObject->setTrans(UI_x, UI_y, 0);
+  
+  // Add Event Listeners
+  ofAddListener(UIObject->UI->newGUIEvent, this, &ofApp::UIEvent);
   
 }
 
@@ -47,6 +69,8 @@ void ofApp::setup(){
 void ofApp::update(){
   
   scene->update(ofGetElapsedTimef());
+  
+  UIObject->update(); // This could also be done with an idle() method in UIObject.
 
 }
 
@@ -114,3 +138,43 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 void ofApp::setupEnv(string iEnv, Poco::Timespan iTimeSpan) {
 	citizensData->setEnvironment(iEnv, iTimeSpan);
 }
+
+//--------------------------------------------------------------
+// Monitor UI events to update the appropriate values based on input.
+void ofApp::UIEvent(ofxUIEventArgs &e){
+  
+  string name = e.widget->getName();
+  
+  if (name == "toggle bg control") {
+    ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
+    bgControl = toggle->getValue();
+  } else if (name == "red"){
+    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
+    sliderR = (int) slider->getValue();
+  } else if (name == "green"){
+    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
+    sliderG = (int) slider->getValue();
+  } else if (name == "blue"){
+    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
+    sliderB = (int) slider->getValue();
+  } else if (name == "invert bg color"){
+    ofxUILabelButton *button = (ofxUILabelButton *) e.widget;
+    bgInvert = button->getValue();
+  } else if (name == "position") {
+    ofxUI2DPad *padPos = (ofxUI2DPad *) e.widget;
+    xPosition = (float) padPos->getValue().x*ofGetWidth();
+    yPosition = (float) padPos->getValue().y*ofGetHeight();
+  } else if (name == "resolution") {
+    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
+    sliderRes = (int) slider->getValue();
+  } else if (name == "scale") {
+    ofxUIMinimalSlider *slider = (ofxUIMinimalSlider *) e.widget;
+    sliderScale = (float) slider->getValue();
+  } else if (name == "Smile") {
+    ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
+    toggleSmile = toggle->getValue();
+  }
+  
+  
+}
+
