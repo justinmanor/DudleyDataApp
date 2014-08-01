@@ -58,6 +58,9 @@ public:
   ofxUILabel*           categoryHourLabel;
   ofxUILabel*           categoryTodayLabel;
   ofxUILabel*           categoryWeekLabel;
+
+  ofxUIMovingGraph*     mg;
+  vector<float> buffer;
   
 private:
   

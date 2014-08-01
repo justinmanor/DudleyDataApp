@@ -27,7 +27,7 @@ void dsRealtimeLayer::handleNewEvent(dsEvent* iEvent){
 void dsRealtimeLayer::buildEvents(dsEvent* iEvent){
 	
 	cout << "buildEvent from RealtimeLayer Fired" << endl;
-	ofxCircleObject *newEvents = new ofxCircleObject(20,10);
+	ofxCircleObject *newEvents = new ofxCircleObject(20,50);
 	ofVec3f coords = ofVec3f(iEvent->getLon(), iEvent->getLat(), 0);
 	cout << iEvent->getLon() << " : " << iEvent->getLat() << endl;
 	newEvents->setTrans(2000.0*(coords - ref->getDrawingCentroid()));
@@ -40,6 +40,7 @@ void dsRealtimeLayer::buildEvents(dsEvent* iEvent){
 
 void dsRealtimeLayer::animateEvent(ofxCircleObject* iNewEvent){
 
-	iNewEvent->doMessage1f(OF_SCALE, 0.1, 5.0, OF_LINEAR, 0);
+	iNewEvent->doMessage1f(OF_SCALE, 0.1, 500.0, OF_LINEAR, 0);
+  iNewEvent->doMessage1f(OF_SETALPHA, 0.1, 500.0, OF_LINEAR, 0);
 
 }

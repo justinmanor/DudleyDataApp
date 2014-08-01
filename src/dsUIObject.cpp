@@ -101,6 +101,9 @@ void dsUIObject::setup()
   neighborhoodDropdown = UI->addDropDownList("Select neighborhood", neighborhoods);
   neighborhoodDropdown->setAutoClose(true);
   neighborhoodDropdown->setShowCurrentSelected(true);
+  for (auto t : neighborhoodDropdown->getToggles()){
+    t->setColorBack(ofxUIColor(0, 255));      // Set list item bg to black.
+  }
   
   neighborhoodOpenLabel = NULL;
   neighborhoodOpenLabel = new ofxUILabel("open: ", OFX_UI_FONT_SMALL);
@@ -133,7 +136,10 @@ void dsUIObject::setup()
   categoryDropdown = UI->addDropDownList("Select category", categories);
   categoryDropdown->setAutoClose(true);
   categoryDropdown->setShowCurrentSelected(true);
-  
+  for (auto t : categoryDropdown->getToggles()){
+    t->setColorBack(ofxUIColor(0, 255));      // Set list item bg to black.
+  }
+
   categoryOpenLabel = NULL;
   categoryOpenLabel = new ofxUILabel("open: ", OFX_UI_FONT_SMALL);
   UI->addWidgetDown(categoryOpenLabel);
@@ -159,6 +165,18 @@ void dsUIObject::setup()
   UI->addWidgetDown(categoryWeekLabel);
   //
   UI->addSpacer();
+  //
+  UI->addLabel("Graph", OFX_UI_FONT_MEDIUM);
+//  for(int i = 0; i < 256; i++)
+//  {
+//    buffer.push_back(0.0);
+//  }
+    for(int i = 0; i < 256; i++) {
+      buffer.push_back(0.0);
+      buffer[i] = ofNoise(i/100.0, ofGetElapsedTimef());
+    }
+  mg = UI->addMovingGraph("MOVING", buffer, 256, 0.0, 1.0);
+
 }
 
 void dsUIObject::idle(float iTime)
@@ -169,6 +187,10 @@ void dsUIObject::idle(float iTime)
 // Continously update the following items.
 void dsUIObject::update()
 {
+  
+  //DEV_jn
+//  mg->addPoint(buffer[0]);
+//  for(int i = 0; i < 256; i++) { buffer[i] = ofNoise(i/100.0, ofGetElapsedTimef()); }
   
   // Do something to the updating label (so it updates)
   if (demoLabel){ demoLabel->setLabel("FPS: "+ ofToString(ofGetFrameRate(), 2)); }
