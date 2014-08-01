@@ -17,11 +17,40 @@ dsHistoricalLayer::dsHistoricalLayer(dsCitizensData* iData) {
   updateInterval = 30.0;                      // Set to update the layer at this interval.
   
   // Init drawing.
-  drawCentroids();
+  drawNeighborhoodCentroids();
   drawLastFewEvents();
 }
 
 dsHistoricalLayer::~dsHistoricalLayer() {}
+
+void dsHistoricalLayer::idle(float iTime){
+  
+  /*
+  // OLD
+  // Infinite animation that uses citizensData events directly so this is continuously updated.
+  float freqMultiplier = 20.0;
+  for (int i = 0; i < centroids.size(); i++) {
+    float freq = float(neighborhoodsContainingEvents[i]->getEventCount()) / float(data->getNumEvents()) * freqMultiplier;
+    float scale = (sin(freq * iTime * (M_PI*2)) + 1) / 2;
+    centroids[i]->setScale(scale);
+    
+    //    cout<<"centroid["<<i<<"] | scale = "<< scale << " | freq = "<< freq << " | time = "<< iTime << " | time*freq = "<< freq*iTime <<endl;
+  }
+  */
+  
+  /*
+  //OLD
+  // Redraw centroids only when we hit the interval.
+  float timeSinceLastUpdate = ofGetElapsedTimef() - timeOfLastUpdate;
+  if (timeSinceLastUpdate > updateInterval){
+  cout << "dsHistoricalLayer::idle---------------- UPDATING @ interval: "<< updateInterval << endl;
+
+  timeOfLastUpdate = ofGetElapsedTimef();
+
+  drawNeighborhoodCentroids();        // re-draw visuals. TODO: update so we don't just re-draw from scratch, but smoothly update the drawing to the new values.
+  }
+  */
+}
 
 // Create a small circle on map for the last few events.
 void dsHistoricalLayer::drawLastFewEvents(){
@@ -34,16 +63,16 @@ void dsHistoricalLayer::drawLastFewEvents(){
   
   // Create shapes for them.
   for (int i = 0 ; i < lastEvents.size() ; i ++){
-    ofxPolygonObject* t = new ofxPolygonObject(3);
+    ofxPolygonObject* triangle = new ofxPolygonObject(3);
     ofVec3f centerPoint = data->getEventCoords(lastEvents[i]->getId());
-    t->setVertexPos(0, ofVec3f(-6,-6,0));
-    t->setVertexPos(1, ofVec3f(6,-6,0));
-    t->setVertexPos(2, ofVec3f(0,6,0));
-    t->setTrans(2000.0*(centerPoint - data->getCentroid()));
-    t->setColor(ref->getColorByName("lastFewEvents"));
-    t->setAlpha(200);
-    lastEventShapes.push_back(t);
-    addChild(t);
+    triangle->setVertexPos(0, ofVec3f(-6,-6,0));
+    triangle->setVertexPos(1, ofVec3f(6,-6,0));
+    triangle->setVertexPos(2, ofVec3f(0,6,0));
+    triangle->setTrans(2000.0*(centerPoint - data->getCentroid()));
+    triangle->setColor(ref->getColorByName("lastFewEvents"));
+    triangle->setAlpha(200);
+    lastEventShapes.push_back(triangle);
+    addChild(triangle);
   }
   
 }
@@ -54,35 +83,8 @@ void dsHistoricalLayer::showLastFewEvents(bool iVisible){
   }
 }
 
-void dsHistoricalLayer::idle(float iTime){
-  
-  float freqMultiplier = 20.0;
-  
-  //DEV: infinite animation that uses citizensData events directly so this is continuously updated.
-  for (int i = 0; i < centroids.size(); i++) {
-    float freq = float(neighborhoodsContainingEvents[i]->getEventCount()) / float(data->getNumEvents()) * freqMultiplier;
-    float scale = (sin(freq * iTime * (M_PI*2)) + 1) / 2;
-    centroids[i]->setScale(scale);
-    
-//    cout<<"centroid["<<i<<"] | scale = "<< scale << " | freq = "<< freq << " | time = "<< iTime << " | time*freq = "<< freq*iTime <<endl;
-  }
-  
-  
-  /*
-   // Redraw centroids only when we hit the interval.
-  float timeSinceLastUpdate = ofGetElapsedTimef() - timeOfLastUpdate;
-  if (timeSinceLastUpdate > updateInterval){
-    cout << "dsHistoricalLayer::idle---------------- UPDATING @ interval: "<< updateInterval << endl;
-    
-    timeOfLastUpdate = ofGetElapsedTimef();
-    
-    drawCentroids();        // re-draw visuals. TODO: update so we don't just re-draw from scratch, but smoothly update the drawing to the new values.
-  }
-  */
-}
-
 // Create a pulsing circle at each neighborhood's centroid (only if it has events).
-void dsHistoricalLayer::drawCentroids(){
+void dsHistoricalLayer::drawNeighborhoodCentroids(){
   
   // Copy the full neighborhoods vector, remove neighborhoods that don't have events.
   neighborhoodsContainingEvents = data->getGeoJson().getNeighborhoods();
@@ -91,17 +93,54 @@ void dsHistoricalLayer::drawCentroids(){
       neighborhoodsContainingEvents.erase(neighborhoodsContainingEvents.begin() + i);
     }
   }
-  // Create the centroid circles.
+  
+  vector<int> neighborhoodNumRange = data->getNeighborhoodEventsNumRange();
+  fontCentroids = new ofxSosoTrueTypeFont();
+  fontCentroids->loadFont("Arial.ttf", 12, true,  true, false, true);
+	fontCentroids->setKerningPair('T', 'y', -2);
+
+  // Create the centroid circles & labels.
 	for (int i = 0; i < neighborhoodsContainingEvents.size(); i++) {
-    ofxCircleObject *centerCircle = new ofxCircleObject(20, 5);
-    centerCircle->setTrans(2000*(neighborhoodsContainingEvents[i]->getCentroid() - data->getCentroid()));
-//    centerCircle->setAlpha(0);
-    centerCircle->setAlpha(200);
-    centerCircle->setColor(255, 255, 255);
-    centroids.push_back(centerCircle);
-    addChild(centerCircle);
+    // Circle.
+    float radius = ofMap(neighborhoodsContainingEvents[i]->getEventCount(), neighborhoodNumRange[0], neighborhoodNumRange[1], 2, 25);
+    ofVec3f center = 2000*(neighborhoodsContainingEvents[i]->getCentroid() - data->getCentroid());
+    ofxCircleObject *centroid = new ofxCircleObject(20, radius);
+    centroid->setTrans(center);
+    centroid->setAlpha(150);
+    centroid->setColor(255, 255, 255);
+    centroids.push_back(centroid);
+    addChild(centroid);
+    // Label.
+//    string labelText = neighborhoodsContainingEvents[i]->getName() +" : "+ ofToString(neighborhoodsContainingEvents[i]->getEventCount());
+//    ofxTextObject *label = new ofxTextObject(fontCentroids, labelText);
+//    label->setColor(255, 255, 255);
+//		label->setPointSize(12);
+//		label->setTrans(2000*(neighborhoodsContainingEvents[i]->getCentroid() - data->getCentroid()));
+//    centroidLabels.push_back(label);
+//		addChild(label);
+    
+    string labelText = neighborhoodsContainingEvents[i]->getName() +" : "+ ofToString(neighborhoodsContainingEvents[i]->getEventCount());
+    ofxTextObject *label = new ofxTextObject(fontCentroids, labelText);
+    label->setColor(255, 255, 255);
+		label->setPointSize(12);
+		label->setTrans(ofGetWidth()*.65/2, ofGetHeight()*.8/2-20*i, 0);
+    centroidLabels.push_back(label);
+		addChild(label);
+
+    
+    ofxLineSegmentObject* line = new ofxLineSegmentObject();
+    line->addVertex(center.x, center.y, center.z);
+    line->addVertex(label->getX(), label->getY(), label->getZ());
+    centroidLines.push_back(line);
+    addChild(line);
   }
   
+}
+
+void dsHistoricalLayer::showCentroidLabels(bool iVisible){
+  for (auto cl : centroidLabels){
+    (iVisible) ? cl->show() : cl->hide();
+  }
 }
 
 // Pulses a centroid circle for each neighborhood that has events, the rate depending on its activity level.

@@ -9,6 +9,7 @@ void ofApp::setup(){
 
   scene = new ofxScene(ofGetWidth(), ofGetHeight());
   scene->setBackgroundColor(10, 10, 10);
+  ofEnableAntiAliasing();
 	
   // ------------------------------------------------------------
   // Data stuff.
@@ -152,10 +153,12 @@ void ofApp::UIEvent(ofxUIEventArgs &e){
       ofLogNotice() << "SELECTED: " << selected[i]->getName() << endl;
       UIObject->updateDropdown(name, selected[i]->getName());
     }
-  }
-  else if (name == "show latest events"){
+  } else if (name == "show latest events"){
     ofxUIToggle *toggle = (ofxUIToggle *) e.getToggle();
     historicalLayer->showLastFewEvents(toggle->getValue());
+  } else if (name == "show neighborhood labels"){
+    ofxUIToggle *toggle = (ofxUIToggle *) e.getToggle();
+    historicalLayer->showCentroidLabels(toggle->getValue());
   }
   
 }

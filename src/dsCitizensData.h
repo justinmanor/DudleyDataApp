@@ -59,6 +59,7 @@ public:
   dsNeighborhood*				getNeighborhoodByName(string iNeighborhoodName);
   int										getNumEventsForNeighborhood(string iNeighborhoodName, string iCategoryName="");
   vector<string>        getNeighborhoodNames();
+  vector<int>           getNeighborhoodEventsNumRange();
   
   dsCategory*						getCategoryByName(string iCategoryName);
   vector<string>        getCategoryNames();

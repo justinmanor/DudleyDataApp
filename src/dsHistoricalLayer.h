@@ -14,6 +14,9 @@
 #include "dsCitizensData.h"
 #include "dsEvent.h"
 #include "ofxCircleObject.h"
+#include "ofxSosoTrueTypeFont.h"
+#include "ofxTextObject.h"
+#include "ofxLineSegmentObject.h"
 
 class dsHistoricalLayer : public ofxObject {
   
@@ -24,11 +27,12 @@ public:
 
   void                  animateByEventRate(dsCitizensData *data, float iLength);
   void                  showLastFewEvents(bool iVisible);
+  void                  showCentroidLabels(bool iVisible);
   
 private:
 	
   void									idle(float iTime);
-  void                  drawCentroids();
+  void                  drawNeighborhoodCentroids();
   void                  drawLastFewEvents();
 
 public:
@@ -43,7 +47,11 @@ private:
   
   vector<dsNeighborhood*>     neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have
   vector<ofxCircleObject*>		centroids;
+  vector<ofxTextObject*>      centroidLabels;
+  vector<ofxLineSegmentObject*> centroidLines;
   vector<dsEvent*>            lastEvents;
   vector<ofxPolygonObject*>   lastEventShapes;
+  
+  ofxSosoTrueTypeFont						*fontCentroids;
   
 };

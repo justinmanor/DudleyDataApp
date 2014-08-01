@@ -93,7 +93,6 @@ void dsUIObject::setup()
   numNewEventsLabel = NULL;
   numNewEventsLabel = new ofxUILabel("new events from last poll: ", OFX_UI_FONT_SMALL);
   UI->addWidgetDown(numNewEventsLabel);
-  UI->addToggle( "show latest events", true);
   //
   UI->addSpacer();
   //
@@ -166,6 +165,9 @@ void dsUIObject::setup()
   UI->addWidgetDown(categoryWeekLabel);
   //
   UI->addSpacer();
+  // Buttons
+  UI->addToggle("show latest events", true);
+  UI->addToggle("show neighborhood labels", false);
   //
   UI->addLabel("Graph", OFX_UI_FONT_MEDIUM);
 //  for(int i = 0; i < 256; i++)

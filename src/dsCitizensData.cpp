@@ -529,3 +529,17 @@ vector<string> dsCitizensData::getCategoryNames(){
   }
   return names;
 }
+
+// Returns range of the minimum and maximum number of events per neighborhoods.
+vector<int> dsCitizensData::getNeighborhoodEventsNumRange(){
+  float min = 100000000, max = 0;
+  for (auto n : neighborhoods){
+    if (n->getEventCount() < min){ min = n->getEventCount(); }
+    else if (n->getEventCount() > max){ max = n->getEventCount(); }
+  }
+  vector<int> range;
+  range.push_back(min);
+  range.push_back(max);
+  
+  return range;
+}
