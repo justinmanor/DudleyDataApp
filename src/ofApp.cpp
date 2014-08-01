@@ -153,6 +153,10 @@ void ofApp::UIEvent(ofxUIEventArgs &e){
       UIObject->updateDropdown(name, selected[i]->getName());
     }
   }
+  else if (name == "show latest events"){
+    ofxUIToggle *toggle = (ofxUIToggle *) e.getToggle();
+    historicalLayer->showLastFewEvents(toggle->getValue());
+  }
   
 }
 

@@ -23,6 +23,7 @@ public:
 	~dsHistoricalLayer();
 
   void                  animateByEventRate(dsCitizensData *data, float iLength);
+  void                  showLastFewEvents(bool iVisible);
   
 private:
 	

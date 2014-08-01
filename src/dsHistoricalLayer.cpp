@@ -48,6 +48,12 @@ void dsHistoricalLayer::drawLastFewEvents(){
   
 }
 
+void dsHistoricalLayer::showLastFewEvents(bool iVisible){
+  for (auto e : lastEventShapes){
+    (iVisible) ? e->show() : e->hide();
+  }
+}
+
 void dsHistoricalLayer::idle(float iTime){
   
   float freqMultiplier = 20.0;
@@ -63,6 +69,7 @@ void dsHistoricalLayer::idle(float iTime){
   
   
   /*
+   // Redraw centroids only when we hit the interval.
   float timeSinceLastUpdate = ofGetElapsedTimef() - timeOfLastUpdate;
   if (timeSinceLastUpdate > updateInterval){
     cout << "dsHistoricalLayer::idle---------------- UPDATING @ interval: "<< updateInterval << endl;
