@@ -146,6 +146,10 @@ void dsCitizensData::fetchRealtimeEventJson(){
 				if (e->getNeighborhood() != "unknown"){
 					n->addEvent(e);
 				}
+        
+        // Increment count of events for current minute.
+        string eventMinute = e->getTimeString().substr(0, 16);
+        ++eventsPerMinuteMap[eventMinute];
 				
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
@@ -248,6 +252,10 @@ void dsCitizensData::fetchHistoricEventJson(){
 					n->addEvent(e);
 				}
 				
+        // Increment count of events for current minute.
+        string eventMinute = e->getTimeString().substr(0, 16);
+        ++eventsPerMinuteMap[eventMinute];
+        
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
 //				cout << "          id: "<< e->getId() << endl;
@@ -542,4 +550,21 @@ vector<int> dsCitizensData::getNeighborhoodEventsNumRange(){
   range.push_back(max);
   
   return range;
+}
+
+// Takes the map of # of events per minute, and transforms it into a simple vector of # of events per minute.
+// Necessary for drawing graphs in the UI.
+vector<int> dsCitizensData::getEventsPerMinute(){
+  if(!eventsPerMinute.empty()){
+    return eventsPerMinute;
+  } else {
+    for(map<string, int>::const_iterator it = eventsPerMinuteMap.begin(); it != eventsPerMinuteMap.end(); it++){
+      eventsPerMinute.push_back(it->second);
+    }
+    return eventsPerMinute;
+  }
+}
+
+float dsCitizensData::getMaxEventsPerMinute(){
+  return ( *std::max_element(eventsPerMinute.begin(), eventsPerMinute.end()) );
 }

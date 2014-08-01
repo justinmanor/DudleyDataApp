@@ -169,16 +169,14 @@ void dsUIObject::setup()
   UI->addToggle("show latest events", true);
   UI->addToggle("show neighborhood labels", false);
   //
-  UI->addLabel("Graph", OFX_UI_FONT_MEDIUM);
-//  for(int i = 0; i < 256; i++)
-//  {
-//    buffer.push_back(0.0);
-//  }
-    for(int i = 0; i < 256; i++) {
-      buffer.push_back(0.0);
-      buffer[i] = ofNoise(i/100.0, ofGetElapsedTimef());
-    }
-  mg = UI->addMovingGraph("MOVING", buffer, 256, 0.0, 1.0);
+  UI->addSpacer();
+  //
+  UI->addLabel("Events per minute", OFX_UI_FONT_MEDIUM);
+  vector<int> epm = data->getEventsPerMinute();
+  for(int i = 0; i < epm.size(); i++) {
+    graphEpmBuffer.push_back(epm[i]);
+  }
+  graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), 0.0, data->getMaxEventsPerMinute());
 
 }
 
@@ -192,7 +190,7 @@ void dsUIObject::update()
 {
   
   //DEV_jn
-//  mg->addPoint(buffer[0]);
+//  graphEpm->addPoint(buffer[0]);
 //  for(int i = 0; i < 256; i++) { buffer[i] = ofNoise(i/100.0, ofGetElapsedTimef()); }
   
   // Do something to the updating label (so it updates)

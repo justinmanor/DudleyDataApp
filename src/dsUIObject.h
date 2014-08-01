@@ -59,8 +59,8 @@ public:
   ofxUILabel*           categoryTodayLabel;
   ofxUILabel*           categoryWeekLabel;
 
-  ofxUIMovingGraph*     mg;
-  vector<float> buffer;
+  ofxUIMovingGraph*     graphEpm;
+  vector<float>         graphEpmBuffer;
   
 private:
   
