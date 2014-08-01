@@ -28,6 +28,7 @@ private:
 	
   void									idle(float iTime);
   void                  drawCentroids();
+  void                  drawLastFewEvents();
 
 public:
 
@@ -39,7 +40,9 @@ private:
   float timeOfLastUpdate;
   float updateInterval;
   
-  std::vector<dsNeighborhood*> neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have
-  vector <ofxCircleObject *>		centroids;
+  vector<dsNeighborhood*>     neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have
+  vector<ofxCircleObject*>		centroids;
+  vector<dsEvent*>            lastEvents;
+  vector<ofxPolygonObject*>   lastEventShapes;
   
 };

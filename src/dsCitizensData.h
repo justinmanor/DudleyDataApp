@@ -40,18 +40,20 @@ public:
   void fetchHistoricEventJson();
   void fetchRealtimeEventJson();
   
-  bool pollingActivated = false;
+  dsNeighborhoodFactory     getGeoJson(){ return geojsonBoston; }
+  vector<dsEvent*>          getEvents(){ return events; }
+  vector<dsCategory*>       getCategories(){ return categories; }
+  vector<dsNeighborhood*>   getNeighbohoods(){ return neighborhoods; }
   
+  int                   getNumNewEvents();
   int										getNumEvents();
-  dsNeighborhoodFactory getGeoJson(){ return geojsonBoston; }
-
   ofVec3f								getCentroid();
+  int                   getTimeToNextPull();
+  
 	string								getEventCategory(int index);
 	string								getEventTime(int index);
   ofVec3f								getEventCoords(int index);
-  int                   getTimeToNextPull();
-  int                   getNumNewEvents();
-
+  
   int										getNumNeighborhoods() { return geojsonBoston.getNeighborhoodCount(); }
   string								getNeighborhoodName(int index);
   dsNeighborhood*				getNeighborhoodByName(string iNeighborhoodName);
@@ -83,6 +85,7 @@ private:
   
 private:
 	
+  bool pollingActivated = false;
   float                 pollingInterval;
   float									timeOfLastPull;
 	Poco::DateTime				dateTimeOfLastPull;
@@ -103,12 +106,12 @@ private:
   ofxJSONElement													jsonResults;			// Contains the raw Open311 data
   dsNeighborhoodFactory										geojsonBoston;		// Creates neighborhood objects from geojson of Boston.
   
-  vector<dsEvent*>										events;						// Contains the Open311 data transformed into objects.
-  std::vector<dsCategory*>								categories;
-  std::vector<dsNeighborhood*>						neighborhoods;
+  vector<dsEvent*>                        events;						// Contains the Open311 data transformed into objects.
+  vector<dsCategory*>                     categories;
+  vector<dsNeighborhood*>                 neighborhoods;
 
   map<string, int>												categoryCounter;
 
-  std::vector<dsCitizensDataSubscriber*>	eventSubscribers;
+  vector<dsCitizensDataSubscriber*>       eventSubscribers;
   
 };

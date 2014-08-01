@@ -18,9 +18,35 @@ dsHistoricalLayer::dsHistoricalLayer(dsCitizensData* iData) {
   
   // Init drawing.
   drawCentroids();
+  drawLastFewEvents();
 }
 
 dsHistoricalLayer::~dsHistoricalLayer() {}
+
+// Create a small circle on map for the last few events.
+void dsHistoricalLayer::drawLastFewEvents(){
+  
+  // Copy a slice/subvector of main events vector: the last 5 events.
+  int numLastEventsDesired = 10;
+  vector<dsEvent*>::const_iterator first = data->getEvents().end() - numLastEventsDesired;
+  vector<dsEvent*>::const_iterator last = data->getEvents().end();
+  lastEvents.assign(first, last);
+  
+  // Create shapes for them.
+  for (int i = 0 ; i < lastEvents.size() ; i ++){
+    ofxPolygonObject* t = new ofxPolygonObject(3);
+    ofVec3f centerPoint = data->getEventCoords(lastEvents[i]->getId());
+    t->setVertexPos(0, ofVec3f(-6,-6,0));
+    t->setVertexPos(1, ofVec3f(6,-6,0));
+    t->setVertexPos(2, ofVec3f(0,6,0));
+    t->setTrans(2000.0*(centerPoint - data->getCentroid()));
+    t->setColor(ref->getColorByName("lastFewEvents"));
+    t->setAlpha(200);
+    lastEventShapes.push_back(t);
+    addChild(t);
+  }
+  
+}
 
 void dsHistoricalLayer::idle(float iTime){
   
@@ -48,14 +74,8 @@ void dsHistoricalLayer::idle(float iTime){
   */
 }
 
+// Create a pulsing circle at each neighborhood's centroid (only if it has events).
 void dsHistoricalLayer::drawCentroids(){
-  
-  // - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// Create a pulsing circle at each neighborhood's centroid (only if it has events).
-	// - - - - - - - - - - - - - - - - - - - - - - - - - -
-  
-  // range = [0.5, 5] secs
-  // domain = [minNumEventsInNeigh, maxNumEventsInNeigh]
   
   // Copy the full neighborhoods vector, remove neighborhoods that don't have events.
   neighborhoodsContainingEvents = data->getGeoJson().getNeighborhoods();

@@ -26,24 +26,23 @@ void ofApp::setup(){
   // Graphic layers stuff.
   // ------------------------------------------------------------
   
-  realtimeLayer = new dsRealtimeLayer();
-  citizensData->addEventSubscriber(realtimeLayer);
-	scene->getRoot()->addChild(realtimeLayer);
-  
-  //
-  historicalLayer = new dsHistoricalLayer(citizensData);
-  scene->getRoot()->addChild(historicalLayer);         // Required to have its idle loop work.
-  
-  // Draws/animates circles for each event and neighborhood centroids.
-//	eventLayer = new dsEventLayer();
-//  eventLayer->buildEvents(citizensData);
-//  scene->getRoot()->addChild(eventLayer);
-
   // Draws the map of Boston neighborhoods.
   neighborhoodLayer = new dsNeighborhoodLayer();
   neighborhoodLayer->buildNeighborhoods(citizensData);
   scene->getRoot()->addChild(neighborhoodLayer);
+  neighborhoodLayer->setZ(0);
 	
+  //
+  realtimeLayer = new dsRealtimeLayer();
+  citizensData->addEventSubscriber(realtimeLayer);
+	scene->getRoot()->addChild(realtimeLayer);
+  realtimeLayer->setZ(1);
+  
+  //
+  historicalLayer = new dsHistoricalLayer(citizensData);
+  scene->getRoot()->addChild(historicalLayer);         // Required to have its idle loop work.
+  historicalLayer->setZ(2);
+  
   // ------------------------------------------------------------
   // GUI stuff.
   // ------------------------------------------------------------
@@ -89,7 +88,6 @@ void ofApp::keyPressed(int key){
 	if (key == 'a') {
 		eventLayer->animateEvent(citizensData);
 	} else if (key == 's') {
-//		eventLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
     historicalLayer->animateByEventRate(citizensData, 10.0); // Passing Events and Length
 	} else if (key == 'f') {
     ofToggleFullscreen();
