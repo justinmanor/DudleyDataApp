@@ -111,28 +111,23 @@ void dsHistoricalLayer::drawNeighborhoodCentroids(){
     centroids.push_back(centroid);
     addChild(centroid);
     // Label.
+    string labelText = ofToString(neighborhoodsContainingEvents[i]->getEventCount());
+    ofxTextObject *label = new ofxTextObject(fontCentroids, labelText);
+    label->setColor(255, 255, 255);
+		label->setPointSize(12);
+		label->setTrans(center.x-(label->getWidth()/2), center.y, center.z);
+    label->hide();
+    centroidLabels.push_back(label);
+		addChild(label);
+    
 //    string labelText = neighborhoodsContainingEvents[i]->getName() +" : "+ ofToString(neighborhoodsContainingEvents[i]->getEventCount());
 //    ofxTextObject *label = new ofxTextObject(fontCentroids, labelText);
 //    label->setColor(255, 255, 255);
 //		label->setPointSize(12);
-//		label->setTrans(2000*(neighborhoodsContainingEvents[i]->getCentroid() - data->getCentroid()));
+//		label->setTrans(ofGetWidth()*.65/2, ofGetHeight()*.8/2-20*i, 0);
 //    centroidLabels.push_back(label);
 //		addChild(label);
-    
-    string labelText = neighborhoodsContainingEvents[i]->getName() +" : "+ ofToString(neighborhoodsContainingEvents[i]->getEventCount());
-    ofxTextObject *label = new ofxTextObject(fontCentroids, labelText);
-    label->setColor(255, 255, 255);
-		label->setPointSize(12);
-		label->setTrans(ofGetWidth()*.65/2, ofGetHeight()*.8/2-20*i, 0);
-    centroidLabels.push_back(label);
-		addChild(label);
 
-    
-    ofxLineSegmentObject* line = new ofxLineSegmentObject();
-    line->addVertex(center.x, center.y, center.z);
-    line->addVertex(label->getX(), label->getY(), label->getZ());
-    centroidLines.push_back(line);
-    addChild(line);
   }
   
 }

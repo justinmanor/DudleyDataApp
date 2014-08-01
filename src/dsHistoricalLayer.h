@@ -48,7 +48,6 @@ private:
   vector<dsNeighborhood*>     neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have
   vector<ofxCircleObject*>		centroids;
   vector<ofxTextObject*>      centroidLabels;
-  vector<ofxLineSegmentObject*> centroidLines;
   vector<dsEvent*>            lastEvents;
   vector<ofxPolygonObject*>   lastEventShapes;
   
