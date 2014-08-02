@@ -172,9 +172,8 @@ void dsUIObject::setup()
   UI->addSpacer();
   //
   UI->addLabel("Events per minute", OFX_UI_FONT_MEDIUM);
-  vector<int> epm = data->getEventsPerMinute();
-  for(int i = 0; i < epm.size(); i++) {
-    graphEpmBuffer.push_back(epm[i]);
+  for(int i = 0; i < data->getEventsPerMinute().size(); i++) {
+    graphEpmBuffer.push_back(data->getEventsPerMinute()[i]);
   }
   graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), 0.0, data->getMaxEventsPerMinute());
 
