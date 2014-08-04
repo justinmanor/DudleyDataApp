@@ -90,6 +90,7 @@ void dsHistoricalLayer::drawLastFewEvents(){
     categoryLabelsContainer->addChild(labelElement);
 	}
   addChild(categoryLabelsContainer);
+  categoryLabelsContainer->setZ(3);
 
   
   // Copy a slice/subvector of main events vector: the last 5 events.
@@ -99,6 +100,7 @@ void dsHistoricalLayer::drawLastFewEvents(){
   lastEvents.assign(first, last);
   
   // Create triangle shapes for them.
+  lastEventShapesContainer = new ofxObject();
   for (int i = 0 ; i < lastEvents.size() ; i ++){
     ofxPolygonObject* triangle = new ofxPolygonObject(3);
     ofVec3f centerPoint = data->getEventCoords(lastEvents[i]->getId());
@@ -113,8 +115,10 @@ void dsHistoricalLayer::drawLastFewEvents(){
 
     triangle->setAlpha(255);
     lastEventShapes.push_back(triangle);
-    addChild(triangle);
+    lastEventShapesContainer->addChild(triangle);
   }
+  addChild(lastEventShapesContainer);
+  lastEventShapesContainer->setZ(2);
   
 }
 
@@ -137,10 +141,12 @@ void dsHistoricalLayer::drawNeighborhoodCentroids(){
   
   vector<int> neighborhoodNumRange = data->getNeighborhoodEventsNumRange();
   fontCentroids = new ofxSosoTrueTypeFont();
-  fontCentroids->loadFont("Arial.ttf", 12, true,  true, false, true);
+  fontCentroids->loadFont("Arial.ttf", 14, true,  true, false, true);
 	fontCentroids->setKerningPair('T', 'y', -2);
 
   // Create the centroid circles & labels.
+  centroidsContainer = new ofxObject();
+  centroidLabelsContainer = new ofxObject();
 	for (int i = 0; i < neighborhoodsContainingEvents.size(); i++) {
     // Circle.
     float radius = ofMap(neighborhoodsContainingEvents[i]->getEventCount(), neighborhoodNumRange[0], neighborhoodNumRange[1], 2, 25);
@@ -150,16 +156,16 @@ void dsHistoricalLayer::drawNeighborhoodCentroids(){
     centroid->setAlpha(150);
     centroid->setColor(255, 255, 255);
     centroids.push_back(centroid);
-    addChild(centroid);
+    centroidsContainer->addChild(centroid);
     // Label.
     string labelText = ofToString(neighborhoodsContainingEvents[i]->getEventCount());
     ofxTextObject *label = new ofxTextObject(fontCentroids, labelText);
-    label->setColor(255, 255, 255);
-		label->setPointSize(12);
+    label->setColor(ofColor::magenta);
+		label->setPointSize(14);
 		label->setTrans(center.x-(label->getWidth()/2), center.y, center.z);
     label->hide();
     centroidLabels.push_back(label);
-		addChild(label);
+    centroidLabelsContainer->addChild(label);
     
 //    string labelText = neighborhoodsContainingEvents[i]->getName() +" : "+ ofToString(neighborhoodsContainingEvents[i]->getEventCount());
 //    ofxTextObject *label = new ofxTextObject(fontCentroids, labelText);
@@ -170,6 +176,10 @@ void dsHistoricalLayer::drawNeighborhoodCentroids(){
 //		addChild(label);
 
   }
+  addChild(centroidsContainer);
+  centroidsContainer->setZ(1);
+  addChild(centroidLabelsContainer);
+  centroidLabelsContainer->setZ(3);
   
 }
 
