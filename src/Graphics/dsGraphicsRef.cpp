@@ -35,12 +35,13 @@ dsGraphicsRef::dsGraphicsRef()
   categories.push_back("Streetlight");
   categories.push_back("Damaged Sign");
   categories.push_back("Other");
-  colors.push_back(new dsGraphicsRefColor("Sidewalk Patch", 43, 76, 243 ));
-  colors.push_back(new dsGraphicsRefColor("Graffiti", 227, 162, 85 ));
-  colors.push_back(new dsGraphicsRefColor("Pothole", 58, 175, 87 ));
-  colors.push_back(new dsGraphicsRefColor("Streetlight", 222, 121, 92 ));
-  colors.push_back(new dsGraphicsRefColor("Damaged Sign", 204, 112, 170 ));
-  colors.push_back(new dsGraphicsRefColor("Other", 190, 190, 230 ));
+  colors.push_back(new dsGraphicsRefColor("Sidewalk Patch", 43, 76, 243 ));   // blue
+  colors.push_back(new dsGraphicsRefColor("Graffiti", 255, 127, 14 ));        // orange
+  colors.push_back(new dsGraphicsRefColor("Pothole", 58, 175, 87 ));          // green
+  colors.push_back(new dsGraphicsRefColor("Streetlight", 214, 39, 40 ));      // red
+  colors.push_back(new dsGraphicsRefColor("Damaged Sign", 255, 152, 150 ));   // pink
+  colors.push_back(new dsGraphicsRefColor("Other", 255, 255, 0 ));            // yellow
+  //  colors.push_back(new dsGraphicsRefColor("Other", 148, 103, 189 ));          // purple
 	
   // Create other dev colors.
   colors.push_back(new dsGraphicsRefColor("lastFewEvents", 255, 0, 255 ));    //magenta
