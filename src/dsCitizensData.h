@@ -51,6 +51,7 @@ public:
   vector<float>         getEventsPerMinute(int iNumMinutes);
   float                 getMaxEventsPerMinute();
   float                 getMinEventsPerMinute();
+  void                  getMinuteCountsInLastHour();
   
   ofVec3f								getCentroid();
   int                   getTimeToNextPull();

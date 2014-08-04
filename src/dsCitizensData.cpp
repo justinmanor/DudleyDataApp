@@ -163,8 +163,8 @@ void dsCitizensData::fetchRealtimeEventJson(){
 				}
         
         // Increment count of events for current minute.
-        string eventMinute = e->getTimeString().substr(0, 16);
-        ++eventsPerMinuteMap[eventMinute];
+//        string eventMinute = e->getTimeString().substr(0, 16);
+//        ++eventsPerMinuteMap[eventMinute];
 				
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
@@ -227,6 +227,36 @@ void dsCitizensData::fetchRealtimeEventJson(){
   
 }
 
+void dsCitizensData::getMinuteCountsInLastHour(){
+  vector<float> minuteCountsInLastHour;
+  for(int i = 0; i < 60; i++){
+    minuteCountsInLastHour.push_back(0.0);
+  }
+  
+  // Get time 60 minutes (1 hour) before the most recent event.
+  Poco::DateTime startTime = events.front()->getTime();
+  Poco::DateTime endTime = startTime - Poco::Timespan(0,0,60,0,0);       // 60 minutes.
+  
+  ofLogNotice("- - - - - - - - startTime: "+ dateTimeToString(startTime));
+  ofLogNotice("- - - - - - - - endTime: "+ dateTimeToString(endTime));
+  
+  // Find events within the last 60 minutes and increment count for that minute in counter vector.
+  for(int i = 0; i < events.size(); i++){
+    if(events[i]->getTime() > endTime){
+      ofLogNotice("- - - - - - - - - - - - : "+ ofToString(i));
+      ofLogNotice("- - - - e.timeString = "+ events[i]->getTimeString());
+      
+      int index = Poco::Timespan(startTime - events[i]->getTime()).totalMinutes();
+
+      ofLogNotice("- - - - index = "+ ofToString(index));
+      
+      minuteCountsInLastHour[index]++;
+    }
+  }
+  
+//  ofLog();
+}
+
 // Gets the first big fetch of event data for a given timespan in the past.
 void dsCitizensData::fetchHistoricEventJson(){
   
@@ -268,8 +298,8 @@ void dsCitizensData::fetchHistoricEventJson(){
 				}
 				
         // Increment count of events for current minute.
-        string eventMinute = e->getTimeString().substr(0, 16);
-        ++eventsPerMinuteMap[eventMinute];
+//        string eventMinute = e->getTimeString().substr(0, 16);
+//        ++eventsPerMinuteMap[eventMinute];
         
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
