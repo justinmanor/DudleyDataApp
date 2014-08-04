@@ -5,7 +5,14 @@
 //========================================================================
 int main( ){
   
+
+  
   ofAppGlutWindow window;
+  
+  //anti-aliasing setup
+  window.setGlutDisplayString( "rgb double depth alpha samples>=4 ");
+  //    window.setGlutDisplayString("rgba double samples>=4");  //could mess up FBO's
+  
 	ofSetupOpenGL(&window, 1920, 1080, OF_WINDOW);			// <-------- setup the GL context
   
 	// this kicks off the running of my app
