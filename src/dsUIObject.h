@@ -36,6 +36,7 @@ public:
   void        setVisible(bool iIsVisible) { isVisible = iIsVisible; }
   
   void        updateDropdown(string iDropdownName, string iNeighborhoodName);
+  void        updateGraph(string iOptionName);
   
 public:
   

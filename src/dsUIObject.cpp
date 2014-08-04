@@ -171,12 +171,36 @@ void dsUIObject::setup()
   //
   UI->addSpacer();
   //
-  UI->addLabel("Events per minute", OFX_UI_FONT_MEDIUM);
-  for(int i = 0; i < data->getEventsPerMinute().size(); i++) {
-    graphEpmBuffer.push_back(data->getEventsPerMinute()[i]);
-  }
-  graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), 0.0, data->getMaxEventsPerMinute());
+  UI->addLabel("Events timeline", OFX_UI_FONT_MEDIUM);
+//  UI->addLabel("max: "+ ofToString(data->getMaxEventsPerMinute()), OFX_UI_FONT_SMALL);
+  UI->addLabel("min: "+ ofToString(data->getMinEventsPerMinute()) +", max: "+ ofToString(data->getMaxEventsPerMinute()), OFX_UI_FONT_SMALL);
+  vector<string> timelineOptions;
+	timelineOptions.push_back("60 min");
+	if(data->getNumEvents() >= 1440){ timelineOptions.push_back("1440 min"); }
+	timelineOptions.push_back("all ("+ ofToString(data->getNumEvents()) +" min)");
+  ofxUIRadio* timelineRadio = UI->addRadio("eventTimelines", timelineOptions, OFX_UI_ORIENTATION_HORIZONTAL);
+  timelineRadio->activateToggle("60 min");
+  graphEpmBuffer = data->getEventsPerMinute(60);
+  graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), data->getMinEventsPerMinute(), data->getMaxEventsPerMinute());
 
+}
+
+// Clears graph and replaces with specified data.
+void dsUIObject::updateGraph(string iOptionName){
+  if (iOptionName == "60 min"){
+    graphEpmBuffer.clear();
+    graphEpmBuffer = data->getEventsPerMinute(60);
+    graphEpm->init(graphEpm->getRect()->getX(), graphEpm->getRect()->getY(), graphEpm->getRect()->getWidth(), graphEpm->getRect()->getHeight(), graphEpmBuffer, graphEpmBuffer.size(), graphEpm->getMin(), graphEpm->getMax(), graphEpm->getName());
+  } else if (iOptionName == "1440 min"){
+    graphEpmBuffer.clear();
+    graphEpmBuffer = data->getEventsPerMinute(1440);
+    graphEpm->init(graphEpm->getRect()->getX(), graphEpm->getRect()->getY(), graphEpm->getRect()->getWidth(), graphEpm->getRect()->getHeight(), graphEpmBuffer, graphEpmBuffer.size(), graphEpm->getMin(), graphEpm->getMax(), graphEpm->getName());
+  } else if (iOptionName == "all ("+ ofToString(data->getNumEvents()) +" min)"){
+    graphEpmBuffer.clear();
+    graphEpmBuffer = data->getEventsPerMinute();
+    graphEpm->setBuffer(graphEpmBuffer);
+    graphEpm->init(graphEpm->getRect()->getX(), graphEpm->getRect()->getY(), graphEpm->getRect()->getWidth(), graphEpm->getRect()->getHeight(), graphEpmBuffer, graphEpmBuffer.size(), graphEpm->getMin(), graphEpm->getMax(), graphEpm->getName());
+  }
 }
 
 void dsUIObject::idle(float iTime)

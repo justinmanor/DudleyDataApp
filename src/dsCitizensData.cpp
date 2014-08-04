@@ -571,17 +571,43 @@ vector<int> dsCitizensData::getNeighborhoodEventsNumRange(){
 
 // Takes the map of # of events per minute, and transforms it into a simple vector of # of events per minute.
 // Necessary for drawing graphs in the UI.
-vector<int> dsCitizensData::getEventsPerMinute(){
-  if(!eventsPerMinute.empty()){
-    return eventsPerMinute;
-  } else {
+vector<float> dsCitizensData::getEventsPerMinute(){
+  // Construct the vector of minutes for the first time.
+  if(eventsPerMinute.empty()){
     for(map<string, int>::const_iterator it = eventsPerMinuteMap.begin(); it != eventsPerMinuteMap.end(); it++){
       eventsPerMinute.push_back(it->second);
     }
-    return eventsPerMinute;
   }
+  return eventsPerMinute;
+}
+vector<float> dsCitizensData::getEventsPerMinute(int iNumMinutes){
+  
+  // Construct the vector of minutes for the first time.
+  if(eventsPerMinute.empty()){
+    for(map<string, int>::const_iterator it = eventsPerMinuteMap.begin(); it != eventsPerMinuteMap.end(); it++){
+      eventsPerMinute.push_back(it->second);
+    }
+  }
+  
+  // If requested number of minutes is specified, use it, otherwise return all minutes.
+  vector<float>::const_iterator first = eventsPerMinute.end() - iNumMinutes;
+  vector<float>::const_iterator last = eventsPerMinute.end();
+  vector<float> eventsPerMinuteSlice(first, last);
+  return eventsPerMinuteSlice;
 }
 
 float dsCitizensData::getMaxEventsPerMinute(){
+  // If we are calling this func before the vector is built, build it (without storing the returned results, we don't need them).
+  if (eventsPerMinute.empty()){
+    getEventsPerMinute();
+  }
   return ( *std::max_element(eventsPerMinute.begin(), eventsPerMinute.end()) );
+}
+
+float dsCitizensData::getMinEventsPerMinute(){
+  // If we are calling this func before the vector is built, build it (without storing the returned results, we don't need them).
+  if (eventsPerMinute.empty()){
+    getEventsPerMinute();
+  }
+  return ( *std::min_element(eventsPerMinute.begin(), eventsPerMinute.end()) );
 }

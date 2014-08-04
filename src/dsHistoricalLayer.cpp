@@ -123,9 +123,18 @@ void dsHistoricalLayer::drawLastFewEvents(){
 }
 
 void dsHistoricalLayer::showLastFewEvents(bool iVisible){
-  for (auto e : lastEventShapes){
-    (iVisible) ? e->show() : e->hide();
+//  for (auto e : lastEventShapes){
+//    (iVisible) ? e->show() : e->hide();
+//  }
+  if(iVisible){
+    lastEventShapesContainer->show();
+    categoryLabelsContainer->show();
+  } else {
+    lastEventShapesContainer->hide();
+    categoryLabelsContainer->hide();
   }
+  
+  
 }
 
 // Create a pulsing circle at each neighborhood's centroid (only if it has events).

@@ -148,8 +148,7 @@ void ofApp::UIEvent(ofxUIEventArgs &e){
   if (name == "Select neighborhood" || name == "Select category"){
     ofxUIDropDownList *ddlist = (ofxUIDropDownList *) e.widget;
     vector<ofxUIWidget *> &selected = ddlist->getSelected();
-    for(int i = 0; i < selected.size(); i++)
-    {
+    for(int i = 0; i < selected.size(); i++){
       ofLogNotice() << "SELECTED: " << selected[i]->getName() << endl;
       UIObject->updateDropdown(name, selected[i]->getName());
     }
@@ -159,6 +158,10 @@ void ofApp::UIEvent(ofxUIEventArgs &e){
   } else if (name == "show neighborhood labels"){
     ofxUIToggle *toggle = (ofxUIToggle *) e.getToggle();
     historicalLayer->showCentroidLabels(toggle->getValue());
+  } else if (name == "eventTimelines"){
+    ofxUIRadio *radio = (ofxUIRadio *) e.widget;
+//    cout << radio->getName() << " value: " << radio->getValue() << " active name: " << radio->getActiveName() << endl;
+    UIObject->updateGraph(radio->getActiveName());
   }
   
 }
