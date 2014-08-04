@@ -235,11 +235,11 @@ void dsCitizensData::fetchHistoricEventJson(){
 	if (parsingSuccessful) {
 		
     cout  << "---------------- Successfully parsed JSON" << endl;
-    cout << jsonResults.getRawString() << endl;
+//    cout << jsonResults.getRawString() << endl;
     
 		if (jsonResults.size() > 0) {
 			
-			cout << "dsCitizensData::fetchHistoricEventJson- jsonResults.size: " << jsonResults.size() << endl;
+//			cout << "dsCitizensData::fetchHistoricEventJson- jsonResults.size: " << jsonResults.size() << endl;
 			
       
 			// #1) --- Create an event for each piece of data.
