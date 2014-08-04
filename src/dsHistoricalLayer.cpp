@@ -55,13 +55,50 @@ void dsHistoricalLayer::idle(float iTime){
 // Create a small circle on map for the last few events.
 void dsHistoricalLayer::drawLastFewEvents(){
   
+  // Create a legend for category colors.
+	vector <string> labelCategories;
+  labelCategories.push_back("Sidewalk Patch");
+  labelCategories.push_back("Graffiti");
+  labelCategories.push_back("Pothole");
+  labelCategories.push_back("Streetlight");
+  labelCategories.push_back("Damaged Sign");
+  labelCategories.push_back("Other");
+	fontCategoryLabels = new ofxSosoTrueTypeFont();
+  fontCategoryLabels->loadFont("Arial.ttf", 14, true,  true, false, true);
+	fontCategoryLabels->setKerningPair('T', 'y', -2);
+  categoryLabelsContainer = new ofxObject();
+	for (int i = 0; i < labelCategories.size(); i++ ) {
+		ofxObject *labelElement = new ofxObject();
+		
+		ofxTextObject *labelText = new ofxTextObject(fontCategoryLabels, labelCategories[i]);
+		labelText->setColor(255, 255, 255);
+		labelText->setPointSize(16);
+		labelText->setLeading(19);
+		labelText->setColumnWidth(360);
+		labelText->setTrans(20, 0, 0);
+		labelElement->addChild(labelText);
+		
+		ofxRectangleObject *labelColorBox = new ofxRectangleObject(10,10);
+		labelColorBox->setTrans(0, 0, 0);
+		labelColorBox->setColor(ref->getColorByName(labelCategories[i]));
+//		boxes.push_back(b);
+		labelElement->addChild(labelColorBox);
+		
+		labelElement->setTrans(ofGetWidth()*.65/2, ofGetHeight()*.8/2-20*i, 0);
+    categoryLabels.push_back(labelElement);
+//		addChild(labelElement);
+    categoryLabelsContainer->addChild(labelElement);
+	}
+  addChild(categoryLabelsContainer);
+
+  
   // Copy a slice/subvector of main events vector: the last 5 events.
   int numLastEventsDesired = 10;
   vector<dsEvent*>::const_iterator first = data->getEvents().end() - numLastEventsDesired;
   vector<dsEvent*>::const_iterator last = data->getEvents().end();
   lastEvents.assign(first, last);
   
-  // Create shapes for them.
+  // Create triangle shapes for them.
   for (int i = 0 ; i < lastEvents.size() ; i ++){
     ofxPolygonObject* triangle = new ofxPolygonObject(3);
     ofVec3f centerPoint = data->getEventCoords(lastEvents[i]->getId());
@@ -69,8 +106,12 @@ void dsHistoricalLayer::drawLastFewEvents(){
     triangle->setVertexPos(1, ofVec3f(6,-6,0));
     triangle->setVertexPos(2, ofVec3f(0,6,0));
     triangle->setTrans(2000.0*(centerPoint - data->getCentroid()));
-    triangle->setColor(ref->getColorByName("lastFewEvents"));
-    triangle->setAlpha(200);
+
+    //    triangle->setColor(ref->getColorByName("lastFewEvents"));
+    string category = data->getEventCategory(i);
+		triangle->setColor(ref->getColorByName(category));
+
+    triangle->setAlpha(255);
     lastEventShapes.push_back(triangle);
     addChild(triangle);
   }

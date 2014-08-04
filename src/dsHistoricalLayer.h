@@ -17,6 +17,7 @@
 #include "ofxSosoTrueTypeFont.h"
 #include "ofxTextObject.h"
 #include "ofxLineSegmentObject.h"
+#include "ofxRectangleObject.h"
 
 class dsHistoricalLayer : public ofxObject {
   
@@ -50,7 +51,10 @@ private:
   vector<ofxTextObject*>      centroidLabels;
   vector<dsEvent*>            lastEvents;
   vector<ofxPolygonObject*>   lastEventShapes;
+  vector<ofxObject*>          categoryLabels;
+  ofxObject*                  categoryLabelsContainer;
   
-  ofxSosoTrueTypeFont						*fontCentroids;
+  ofxSosoTrueTypeFont*        fontCentroids;
+  ofxSosoTrueTypeFont*        fontCategoryLabels;
   
 };
