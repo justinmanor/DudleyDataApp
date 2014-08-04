@@ -89,6 +89,7 @@ private:
   
 private:
 	
+  string                environmentType;
   bool pollingActivated = false;
   float                 pollingInterval;
   float									timeOfLastPull;
