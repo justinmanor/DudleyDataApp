@@ -162,10 +162,6 @@ void dsCitizensData::fetchRealtimeEventJson(){
 					n->addEvent(e);
 				}
         
-        // Increment count of events for current minute.
-//        string eventMinute = e->getTimeString().substr(0, 16);
-//        ++eventsPerMinuteMap[eventMinute];
-				
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
 //				cout << "          id: "<< e->getId() << endl;
@@ -227,36 +223,6 @@ void dsCitizensData::fetchRealtimeEventJson(){
   
 }
 
-void dsCitizensData::getMinuteCountsInLastHour(){
-  vector<float> minuteCountsInLastHour;
-  for(int i = 0; i < 60; i++){
-    minuteCountsInLastHour.push_back(0.0);
-  }
-  
-  // Get time 60 minutes (1 hour) before the most recent event.
-  Poco::DateTime startTime = events.front()->getTime();
-  Poco::DateTime endTime = startTime - Poco::Timespan(0,0,60,0,0);       // 60 minutes.
-  
-  ofLogNotice("- - - - - - - - startTime: "+ dateTimeToString(startTime));
-  ofLogNotice("- - - - - - - - endTime: "+ dateTimeToString(endTime));
-  
-  // Find events within the last 60 minutes and increment count for that minute in counter vector.
-  for(int i = 0; i < events.size(); i++){
-    if(events[i]->getTime() > endTime){
-      ofLogNotice("- - - - - - - - - - - - : "+ ofToString(i));
-      ofLogNotice("- - - - e.timeString = "+ events[i]->getTimeString());
-      
-      int index = Poco::Timespan(startTime - events[i]->getTime()).totalMinutes();
-
-      ofLogNotice("- - - - index = "+ ofToString(index));
-      
-      minuteCountsInLastHour[index]++;
-    }
-  }
-  
-//  ofLog();
-}
-
 // Gets the first big fetch of event data for a given timespan in the past.
 void dsCitizensData::fetchHistoricEventJson(){
   
@@ -297,10 +263,6 @@ void dsCitizensData::fetchHistoricEventJson(){
 					n->addEvent(e);
 				}
 				
-        // Increment count of events for current minute.
-//        string eventMinute = e->getTimeString().substr(0, 16);
-//        ++eventsPerMinuteMap[eventMinute];
-        
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
 //				cout << "          id: "<< e->getId() << endl;
@@ -599,45 +561,50 @@ vector<int> dsCitizensData::getNeighborhoodEventsNumRange(){
   return range;
 }
 
-// Takes the map of # of events per minute, and transforms it into a simple vector of # of events per minute.
-// Necessary for drawing graphs in the UI.
-vector<float> dsCitizensData::getEventsPerMinute(){
-  // Construct the vector of minutes for the first time.
-  if(eventsPerMinute.empty()){
-    for(map<string, int>::const_iterator it = eventsPerMinuteMap.begin(); it != eventsPerMinuteMap.end(); it++){
-      eventsPerMinute.push_back(it->second);
-    }
-  }
-  return eventsPerMinute;
-}
-vector<float> dsCitizensData::getEventsPerMinute(int iNumMinutes){
+// Compute array of number of events per minute for the last 60 minutes. Index 0 is most recent event minute, index 59 is 60 minutes ago.
+vector<float> dsCitizensData::getEventsPerMinuteInLastHour(){
   
-  // Construct the vector of minutes for the first time.
-  if(eventsPerMinute.empty()){
-    for(map<string, int>::const_iterator it = eventsPerMinuteMap.begin(); it != eventsPerMinuteMap.end(); it++){
-      eventsPerMinute.push_back(it->second);
+  if(eventsPerMinuteInLastHour.empty()){
+    
+    for(int i = 0; i < 60; i++){
+      eventsPerMinuteInLastHour.push_back(0.0);
     }
+    
+    // Get time 60 minutes (1 hour) before the most recent event.
+    Poco::DateTime startTime = events.front()->getTime();
+    Poco::DateTime endTime = startTime - Poco::Timespan(0,0,60,0,0);       // 60 minutes.
+    
+    //  ofLogNotice("- - - - - - - - startTime: "+ dateTimeToString(startTime));
+    //  ofLogNotice("- - - - - - - - endTime: "+ dateTimeToString(endTime));
+    
+    // Find events within the last 60 minutes and increment count for that minute in counter vector.
+    for(int i = 0; i < events.size(); i++){
+      if(events[i]->getTime() > endTime){
+        //      ofLogNotice("- - - - - - - - - - - - : "+ ofToString(i));
+        //      ofLogNotice("- - - - e.timeString = "+ events[i]->getTimeString());
+        
+        int index = Poco::Timespan(startTime - events[i]->getTime()).totalMinutes();
+        
+        //      ofLogNotice("- - - - index = "+ ofToString(index));
+        
+        eventsPerMinuteInLastHour[index] = eventsPerMinuteInLastHour[index]+1;
+      }
+    }
+    
   }
-  
-  // If requested number of minutes is specified, use it, otherwise return all minutes.
-  vector<float>::const_iterator first = eventsPerMinute.end() - iNumMinutes;
-  vector<float>::const_iterator last = eventsPerMinute.end();
-  vector<float> eventsPerMinuteSlice(first, last);
-  return eventsPerMinuteSlice;
+  return eventsPerMinuteInLastHour;
 }
 
 float dsCitizensData::getMaxEventsPerMinute(){
-  // If we are calling this func before the vector is built, build it (without storing the returned results, we don't need them).
-  if (eventsPerMinute.empty()){
-    getEventsPerMinute();
+  if (eventsPerMinuteInLastHour.empty()){
+    getEventsPerMinuteInLastHour();
   }
-  return ( *std::max_element(eventsPerMinute.begin(), eventsPerMinute.end()) );
+  return ( *std::max_element(eventsPerMinuteInLastHour.begin(), eventsPerMinuteInLastHour.end()) );
 }
 
 float dsCitizensData::getMinEventsPerMinute(){
-  // If we are calling this func before the vector is built, build it (without storing the returned results, we don't need them).
-  if (eventsPerMinute.empty()){
-    getEventsPerMinute();
+  if (eventsPerMinuteInLastHour.empty()){
+    getEventsPerMinuteInLastHour();
   }
-  return ( *std::min_element(eventsPerMinute.begin(), eventsPerMinute.end()) );
+  return ( *std::min_element(eventsPerMinuteInLastHour.begin(), eventsPerMinuteInLastHour.end()) );
 }

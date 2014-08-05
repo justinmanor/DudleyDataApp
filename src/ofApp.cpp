@@ -158,10 +158,6 @@ void ofApp::UIEvent(ofxUIEventArgs &e){
   } else if (name == "show neighborhood labels"){
     ofxUIToggle *toggle = (ofxUIToggle *) e.getToggle();
     historicalLayer->showCentroidLabels(toggle->getValue());
-  } else if (name == "eventTimelines"){
-    ofxUIRadio *radio = (ofxUIRadio *) e.widget;
-//    cout << radio->getName() << " value: " << radio->getValue() << " active name: " << radio->getActiveName() << endl;
-    UIObject->updateGraph(radio->getActiveName());
   }
   
 }

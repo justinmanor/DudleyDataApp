@@ -171,45 +171,23 @@ void dsUIObject::setup()
   //
   UI->addSpacer();
   //
-  UI->addLabel("Events timeline", OFX_UI_FONT_MEDIUM);
+  UI->addLabel("Events/minute, last 60 minutes", OFX_UI_FONT_MEDIUM);
+  UI->addLabel("min: "+ ofToString(data->getMinEventsPerMinute()) +", max: "+ ofToString(data->getMaxEventsPerMinute()), OFX_UI_FONT_SMALL);
+  graphEpmBuffer = getGraphData();
+  graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), 0.0, 2.0);
+
+}
+
+vector<float> dsUIObject::getGraphData(){
+  vector<float> graphData = data->getEventsPerMinuteInLastHour();
+  reverse(graphData.begin(), graphData.end());      // Must reverse the data to have first event at the end (to the right).
   
-  //DEV_jn
-  data->getMinuteCountsInLastHour();
-
-//  UI->addLabel("max: "+ ofToString(data->getMaxEventsPerMinute()), OFX_UI_FONT_SMALL);
-//  UI->addLabel("min: "+ ofToString(data->getMinEventsPerMinute()) +", max: "+ ofToString(data->getMaxEventsPerMinute()), OFX_UI_FONT_SMALL);
-//  vector<string> timelineOptions;
-//	timelineOptions.push_back("60 min");
-//	if(data->getNumEvents() >= 1440){ timelineOptions.push_back("1440 min"); }
-//	timelineOptions.push_back("all ("+ ofToString(data->getNumEvents()) +" min)");
-//  ofxUIRadio* timelineRadio = UI->addRadio("eventTimelines", timelineOptions, OFX_UI_ORIENTATION_HORIZONTAL);
-//  timelineRadio->activateToggle("60 min");
-//  graphEpmBuffer = data->getEventsPerMinute(60);
-//  graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), data->getMinEventsPerMinute(), data->getMaxEventsPerMinute());
-
+  return graphData;
 }
 
 void dsUIObject::idle(float iTime)
 {
   
-}
-
-// Clears graph and replaces with specified data.
-void dsUIObject::updateGraph(string iOptionName){
-  if (iOptionName == "60 min"){
-    graphEpmBuffer.clear();
-    graphEpmBuffer = data->getEventsPerMinute(60);
-    graphEpm->init(graphEpm->getRect()->getX(), graphEpm->getRect()->getY(), graphEpm->getRect()->getWidth(), graphEpm->getRect()->getHeight(), graphEpmBuffer, graphEpmBuffer.size(), graphEpm->getMin(), graphEpm->getMax(), graphEpm->getName());
-  } else if (iOptionName == "1440 min"){
-    graphEpmBuffer.clear();
-    graphEpmBuffer = data->getEventsPerMinute(1440);
-    graphEpm->init(graphEpm->getRect()->getX(), graphEpm->getRect()->getY(), graphEpm->getRect()->getWidth(), graphEpm->getRect()->getHeight(), graphEpmBuffer, graphEpmBuffer.size(), graphEpm->getMin(), graphEpm->getMax(), graphEpm->getName());
-  } else if (iOptionName == "all ("+ ofToString(data->getNumEvents()) +" min)"){
-    graphEpmBuffer.clear();
-    graphEpmBuffer = data->getEventsPerMinute();
-    graphEpm->setBuffer(graphEpmBuffer);
-    graphEpm->init(graphEpm->getRect()->getX(), graphEpm->getRect()->getY(), graphEpm->getRect()->getWidth(), graphEpm->getRect()->getHeight(), graphEpmBuffer, graphEpmBuffer.size(), graphEpm->getMin(), graphEpm->getMax(), graphEpm->getName());
-  }
 }
 
 // Continously update the following items.

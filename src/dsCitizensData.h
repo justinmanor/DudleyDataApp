@@ -47,11 +47,9 @@ public:
   
   int                   getNumNewEvents();
   int										getNumEvents();
-  vector<float>         getEventsPerMinute();
-  vector<float>         getEventsPerMinute(int iNumMinutes);
+  vector<float>         getEventsPerMinuteInLastHour();
   float                 getMaxEventsPerMinute();
   float                 getMinEventsPerMinute();
-  void                  getMinuteCountsInLastHour();
   
   ofVec3f								getCentroid();
   int                   getTimeToNextPull();
@@ -119,8 +117,7 @@ private:
   vector<dsNeighborhood*>                 neighborhoods;
 
   map<string, int>												categoryCounter;
-  map<string, int>                        eventsPerMinuteMap;   // Counts number of events per minute, for realtime graph in the UI.
-  vector<float>                             eventsPerMinute;      // Just the counts, without the timestring keys from the map.
+  vector<float>                           eventsPerMinuteInLastHour;    // For UI graph.
 
   vector<dsCitizensDataSubscriber*>       eventSubscribers;
   
