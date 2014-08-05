@@ -171,12 +171,18 @@ void dsUIObject::setup()
   //
   UI->addSpacer();
   //
-  UI->addLabel("Events per minute", OFX_UI_FONT_MEDIUM);
-  for(int i = 0; i < data->getEventsPerMinute().size(); i++) {
-    graphEpmBuffer.push_back(data->getEventsPerMinute()[i]);
-  }
-  graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), 0.0, data->getMaxEventsPerMinute());
+  UI->addLabel("Events/minute, last 60 minutes", OFX_UI_FONT_MEDIUM);
+  UI->addLabel("min: "+ ofToString(data->getMinEventsPerMinute()) +", max: "+ ofToString(data->getMaxEventsPerMinute()), OFX_UI_FONT_SMALL);
+  graphEpmBuffer = getGraphData();
+  graphEpm = UI->addMovingGraph("eventsPerMinute", graphEpmBuffer, graphEpmBuffer.size(), 0.0, 2.0);
 
+}
+
+vector<float> dsUIObject::getGraphData(){
+  vector<float> graphData = data->getEventsPerMinuteInLastHour();
+  reverse(graphData.begin(), graphData.end());      // Must reverse the data to have first event at the end (to the right).
+  
+  return graphData;
 }
 
 void dsUIObject::idle(float iTime)

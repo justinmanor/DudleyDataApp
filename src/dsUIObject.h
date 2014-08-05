@@ -19,23 +19,24 @@ public:
   dsUIObject(dsCitizensData* iData);
   ~dsUIObject();
   
-  void        setup();
-  void        idle(float iTime);
-  void        update();
+  void                setup();
+  void                idle(float iTime);
+  void                update();
   
-  void        render();
+  void                render();
   
-  void        exit();
+  void                exit();
   
-  void        onMouseReleased(ofMouseEventArgs & iArgs);
-  void        onMousePressed(ofMouseEventArgs & iArgs);
-  void        onMouseMoved(ofMouseEventArgs & iArgs);
-  void        onMouseDragged(ofMouseEventArgs & iArgs);
+  void                onMouseReleased(ofMouseEventArgs & iArgs);
+  void                onMousePressed(ofMouseEventArgs & iArgs);
+  void                onMouseMoved(ofMouseEventArgs & iArgs);
+  void                onMouseDragged(ofMouseEventArgs & iArgs);
   
-  void        toggleVisible() { isVisible = !isVisible; }
-  void        setVisible(bool iIsVisible) { isVisible = iIsVisible; }
+  void                toggleVisible() { isVisible = !isVisible; }
+  void                setVisible(bool iIsVisible) { isVisible = iIsVisible; }
   
-  void        updateDropdown(string iDropdownName, string iNeighborhoodName);
+  void                updateDropdown(string iDropdownName, string iNeighborhoodName);
+  vector<float>       getGraphData();
   
 public:
   

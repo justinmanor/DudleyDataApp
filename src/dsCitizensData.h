@@ -47,8 +47,9 @@ public:
   
   int                   getNumNewEvents();
   int										getNumEvents();
-  vector<int>           getEventsPerMinute();
+  vector<float>         getEventsPerMinuteInLastHour();
   float                 getMaxEventsPerMinute();
+  float                 getMinEventsPerMinute();
   
   ofVec3f								getCentroid();
   int                   getTimeToNextPull();
@@ -89,7 +90,8 @@ private:
   
 private:
 	
-  bool pollingActivated = false;
+  string                environmentType;
+  bool                  pollingActivated = false;
   float                 pollingInterval;
   float									timeOfLastPull;
 	Poco::DateTime				dateTimeOfLastPull;
@@ -115,8 +117,7 @@ private:
   vector<dsNeighborhood*>                 neighborhoods;
 
   map<string, int>												categoryCounter;
-  map<string, int>                        eventsPerMinuteMap;   // Counts number of events per minute, for realtime graph in the UI.
-  vector<int>                             eventsPerMinute;      // Just the counts, without the timestring keys from the map.
+  vector<float>                           eventsPerMinuteInLastHour;    // For UI graph.
 
   vector<dsCitizensDataSubscriber*>       eventSubscribers;
   

@@ -17,6 +17,8 @@
 #include "ofxSosoTrueTypeFont.h"
 #include "ofxTextObject.h"
 #include "ofxLineSegmentObject.h"
+#include "ofxRectangleObject.h"
+#include "ofColor.h"
 
 class dsHistoricalLayer : public ofxObject {
   
@@ -47,10 +49,16 @@ private:
   
   vector<dsNeighborhood*>     neighborhoodsContainingEvents;     // Stores copy of data of only neighborhoods that have
   vector<ofxCircleObject*>		centroids;
+  ofxObject*                  centroidsContainer;
   vector<ofxTextObject*>      centroidLabels;
+  ofxObject*                  centroidLabelsContainer;
   vector<dsEvent*>            lastEvents;
   vector<ofxPolygonObject*>   lastEventShapes;
+  ofxObject*                  lastEventShapesContainer;
+  vector<ofxObject*>          categoryLabels;
+  ofxObject*                  categoryLabelsContainer;
   
-  ofxSosoTrueTypeFont						*fontCentroids;
+  ofxSosoTrueTypeFont*        fontCentroids;
+  ofxSosoTrueTypeFont*        fontCategoryLabels;
   
 };

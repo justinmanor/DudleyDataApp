@@ -14,39 +14,54 @@ dsCitizensData::dsCitizensData(){
 }
 
 void dsCitizensData::setEnvironment(string iEnv, Poco::Timespan iTimeSpan){
-	
-  // Set URL for the big historical fetch of event data.
-	baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
-	initialEnd = dateTimeToString(currentDateTime() - iTimeSpan);
-//	cout << "initial End: " << initialEnd << endl;
-	start = "start_date=" + initialEnd + "&end_date=" + dateTimeToString(currentDateTime());
-	histPageNum = "1";
-  rtPageNum = "1";
   
-	if (iEnv == "dev") {
-    cout << "System Environment: dev" <<endl;
-		rtPageSize = "5";
-    histPageSize = "250";
-		envPull = "end_date";
-    pollingInterval = 5.0;
-	} else if (iEnv == "production") {
-		cout << "System Environment: production" <<endl;
-		rtPageSize = "250";
-    histPageSize = "250";
-		envPull = "start_date";
-    pollingInterval = 5.0;
-	} else if (iEnv == "dev_jc_1") {
-		cout << "System Environment: dev_jc_1" <<endl;
-		rtPageSize = "249";
-    histPageSize = "249";
-		envPull = "start_date";
-    pollingInterval = 5.0;
-	} else {
+  environmentType = iEnv;
+	
+  if (environmentType != "dev_static"){
+    // This setting is to use live data from the server.
+    
+    // Set URL for the big historical fetch of event data.
+    baseUrl = "https://mayors24.cityofboston.gov/open311/v2/requests.json";
+    initialEnd = dateTimeToString(currentDateTime() - iTimeSpan);
+    //	cout << "initial End: " << initialEnd << endl;
+    start = "start_date=" + initialEnd + "&end_date=" + dateTimeToString(currentDateTime());
+    histPageNum = "1";
+    rtPageNum = "1";
+    
+    if (environmentType == "dev") {
+      cout << "System Environment: dev" <<endl;
+      rtPageSize = "5";
+      histPageSize = "250";
+      envPull = "end_date";
+      pollingInterval = 5.0;
+    } else if (environmentType == "production") {
+      cout << "System Environment: production" <<endl;
+      rtPageSize = "250";
+      histPageSize = "250";
+      envPull = "start_date";
+      pollingInterval = 5.0;
+    } else if (environmentType == "dev_jc_1") {
+      cout << "System Environment: dev_jc_1" <<endl;
+      rtPageSize = "249";
+      histPageSize = "249";
+      envPull = "start_date";
+      pollingInterval = 5.0;
+    }
+    
+    jsonUrlNoPage = baseUrl + "?" + start + "&page_size=" + histPageSize;
+    jsonUrl = jsonUrlNoPage +"&page="+ histPageNum;
+    
+  } else if (environmentType == "dev_static"){
+    // This setting is to use static local data, useful for production.
+    //TODO: currently, this setting only shows historical data from a single file, ie. and prevents realtime polling.
+    cout << "System Environment: dev_static" <<endl;
+    
+    jsonUrl = "dudley-june23-750results-manuallycollated.json";
+    
+  } else {
 		cout << "***** error with production setup *****" << endl;
 	}
 	
-	jsonUrlNoPage = baseUrl + "?" + start + "&page_size=" + histPageSize;
-  jsonUrl = jsonUrlNoPage +"&page="+ histPageNum;
 //	cout << jsonUrl << endl;
   
 	fetchAllJson();
@@ -147,10 +162,6 @@ void dsCitizensData::fetchRealtimeEventJson(){
 					n->addEvent(e);
 				}
         
-        // Increment count of events for current minute.
-        string eventMinute = e->getTimeString().substr(0, 16);
-        ++eventsPerMinuteMap[eventMinute];
-				
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
 //				cout << "          id: "<< e->getId() << endl;
@@ -219,7 +230,7 @@ void dsCitizensData::fetchHistoricEventJson(){
   
 	if (parsingSuccessful) {
 		
-//    cout  << "---------------- Successfully parsed JSON" << endl;
+    cout  << "---------------- Successfully parsed JSON" << endl;
 //    cout << jsonResults.getRawString() << endl;
     
 		if (jsonResults.size() > 0) {
@@ -252,10 +263,6 @@ void dsCitizensData::fetchHistoricEventJson(){
 					n->addEvent(e);
 				}
 				
-        // Increment count of events for current minute.
-        string eventMinute = e->getTimeString().substr(0, 16);
-        ++eventsPerMinuteMap[eventMinute];
-        
 				// DEV
 //				cout << "---------------------------------------------- events["<< i <<"]" << endl;
 //				cout << "          id: "<< e->getId() << endl;
@@ -286,25 +293,27 @@ void dsCitizensData::fetchHistoricEventJson(){
 //        cout << "example_output_pretty.json written successfully." << endl;
 //			}
 			
-      
-      // #2) --- Paging: if we just hit the maximum 250 results per page (allowed by server), get the next page of data.
-      if (jsonResults.size() >= 250){
-//        cout<< "HISTORICAL FETCH - PAGE "+ histPageNum +" * * * * * * * * * * * * * * * * * * * * * * * * * * *";
-        histPageNum = ofToString(ofToInt(histPageNum) + 1);
-        jsonUrl = jsonUrlNoPage +"&page="+ histPageNum;
-        fetchHistoricEventJson();
-      }
-      // else, we have gotten all the data for the requested timespan, we can begin realtime polling.
-      else {
-        cout << "dsCitizensData::fetchHistoricEventJson- Total Event Size: " << events.size() << endl;
-        cout << "dsCitizensData::fetchHistoricEventJson- jsonUrl: " << jsonUrl << endl;
+      if (environmentType != "dev_static"){
         
-        timeOfLastPull = ofGetElapsedTimef();        // setting the current time for realtime polling.
-        dateTimeOfLastPull = currentDateTime();
-        pollingActivated = true;
+        // #2) --- Paging: if we just hit the maximum 250 results per page (allowed by server), get the next page of data.
+        if (jsonResults.size() >= 250){
+          //        cout<< "HISTORICAL FETCH - PAGE "+ histPageNum +" * * * * * * * * * * * * * * * * * * * * * * * * * * *";
+          histPageNum = ofToString(ofToInt(histPageNum) + 1);
+          jsonUrl = jsonUrlNoPage +"&page="+ histPageNum;
+          fetchHistoricEventJson();
+        }
+        // else, we have gotten all the data for the requested timespan, we can begin realtime polling.
+        else {
+          cout << "dsCitizensData::fetchHistoricEventJson- Total Event Size: " << events.size() << endl;
+          cout << "dsCitizensData::fetchHistoricEventJson- jsonUrl: " << jsonUrl << endl;
+          
+          timeOfLastPull = ofGetElapsedTimef();        // setting the current time for realtime polling.
+          dateTimeOfLastPull = currentDateTime();
+          pollingActivated = true;
+        }
+        
       }
       
-			
 		} else {
 //			cout << "dsCitizensData::fetchHistoricEventJson- No results." << endl;
 		}
@@ -552,19 +561,50 @@ vector<int> dsCitizensData::getNeighborhoodEventsNumRange(){
   return range;
 }
 
-// Takes the map of # of events per minute, and transforms it into a simple vector of # of events per minute.
-// Necessary for drawing graphs in the UI.
-vector<int> dsCitizensData::getEventsPerMinute(){
-  if(!eventsPerMinute.empty()){
-    return eventsPerMinute;
-  } else {
-    for(map<string, int>::const_iterator it = eventsPerMinuteMap.begin(); it != eventsPerMinuteMap.end(); it++){
-      eventsPerMinute.push_back(it->second);
+// Compute array of number of events per minute for the last 60 minutes. Index 0 is most recent event minute, index 59 is 60 minutes ago.
+vector<float> dsCitizensData::getEventsPerMinuteInLastHour(){
+  
+  if(eventsPerMinuteInLastHour.empty()){
+    
+    for(int i = 0; i < 60; i++){
+      eventsPerMinuteInLastHour.push_back(0.0);
     }
-    return eventsPerMinute;
+    
+    // Get time 60 minutes (1 hour) before the most recent event.
+    Poco::DateTime startTime = events.front()->getTime();
+    Poco::DateTime endTime = startTime - Poco::Timespan(0,0,60,0,0);       // 60 minutes.
+    
+    //  ofLogNotice("- - - - - - - - startTime: "+ dateTimeToString(startTime));
+    //  ofLogNotice("- - - - - - - - endTime: "+ dateTimeToString(endTime));
+    
+    // Find events within the last 60 minutes and increment count for that minute in counter vector.
+    for(int i = 0; i < events.size(); i++){
+      if(events[i]->getTime() > endTime){
+        //      ofLogNotice("- - - - - - - - - - - - : "+ ofToString(i));
+        //      ofLogNotice("- - - - e.timeString = "+ events[i]->getTimeString());
+        
+        int index = Poco::Timespan(startTime - events[i]->getTime()).totalMinutes();
+        
+        //      ofLogNotice("- - - - index = "+ ofToString(index));
+        
+        eventsPerMinuteInLastHour[index] = eventsPerMinuteInLastHour[index]+1;
+      }
+    }
+    
   }
+  return eventsPerMinuteInLastHour;
 }
 
 float dsCitizensData::getMaxEventsPerMinute(){
-  return ( *std::max_element(eventsPerMinute.begin(), eventsPerMinute.end()) );
+  if (eventsPerMinuteInLastHour.empty()){
+    getEventsPerMinuteInLastHour();
+  }
+  return ( *std::max_element(eventsPerMinuteInLastHour.begin(), eventsPerMinuteInLastHour.end()) );
+}
+
+float dsCitizensData::getMinEventsPerMinute(){
+  if (eventsPerMinuteInLastHour.empty()){
+    getEventsPerMinuteInLastHour();
+  }
+  return ( *std::min_element(eventsPerMinuteInLastHour.begin(), eventsPerMinuteInLastHour.end()) );
 }

@@ -19,7 +19,7 @@ void ofApp::setup(){
 	scene->getRoot()->addChild(citizensData);         // Required to have its idle loop work.
   
 	// ---- Dev or Production ----
-	env = "dev_jc_1"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
+	env = "dev_static"; // set to "dev" or "production" -- dev pull 5 events every 5 seconds.
 	initialGrab = Poco::Timespan(7,0,0,0,0); // Initial pull amount days,hr,min,sec,milsec
 	setupEnv(env, initialGrab);
   
@@ -148,8 +148,7 @@ void ofApp::UIEvent(ofxUIEventArgs &e){
   if (name == "Select neighborhood" || name == "Select category"){
     ofxUIDropDownList *ddlist = (ofxUIDropDownList *) e.widget;
     vector<ofxUIWidget *> &selected = ddlist->getSelected();
-    for(int i = 0; i < selected.size(); i++)
-    {
+    for(int i = 0; i < selected.size(); i++){
       ofLogNotice() << "SELECTED: " << selected[i]->getName() << endl;
       UIObject->updateDropdown(name, selected[i]->getName());
     }
